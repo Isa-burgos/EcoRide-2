@@ -1,0 +1,15 @@
+{
+    "name": "root/app",
+    "autoload": {
+        "psr-4": {
+            "Root\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Isabelle Burgos",
+            "email": "i.burgos.sabelle@gmail.com"
+        }
+    ],
+    "require": {}
+}
