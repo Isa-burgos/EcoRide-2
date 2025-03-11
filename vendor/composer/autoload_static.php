@@ -4,32 +4,33 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4c2aa890c38a78e14c6902d6ef7a6927
+class ComposerStaticInit5e0a4f516f2860e1beddfa45123c5bd4
 {
     public static $prefixLengthsPsr4 = array (
-        'R' => 
+        'I' => 
         array (
-            'Root\\App\\' => 9,
+            'IsaB\\Ecoride\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Root\\App\\' => 
+        'IsaB\\Ecoride\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
     public static $classMap = array (
+        'AltoRouter' => __DIR__ . '/..' . '/altorouter/altorouter/AltoRouter.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4c2aa890c38a78e14c6902d6ef7a6927::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4c2aa890c38a78e14c6902d6ef7a6927::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit4c2aa890c38a78e14c6902d6ef7a6927::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5e0a4f516f2860e1beddfa45123c5bd4::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5e0a4f516f2860e1beddfa45123c5bd4::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit5e0a4f516f2860e1beddfa45123c5bd4::$classMap;
 
         }, null, ClassLoader::class);
     }

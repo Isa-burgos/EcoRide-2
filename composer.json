@@ -1,8 +1,8 @@
 {
-    "name": "root/app",
+    "name": "isa-b/ecoride",
     "autoload": {
         "psr-4": {
-            "Root\\App\\": "src/"
+            "IsaB\\Ecoride\\": "src/"
         }
     },
     "authors": [
@@ -11,5 +11,7 @@
             "email": "i.burgos.sabelle@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "altorouter/altorouter": "^2.0"
+    }
 }
