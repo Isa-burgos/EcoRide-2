@@ -21,14 +21,12 @@ abstract class Model{
 
     protected function hydrate(array $data): self
     {
-        $class = get_called_class();
-        $object = new $class($this->db);
         foreach ($data as $key => $value) {
-            if (property_exists($object, $key)) {
-                $object->$key = $value;
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
             }
         }
-        return $object;
+        return $this;
     }
 
     public function query(string $sql, array $params = []): ?self

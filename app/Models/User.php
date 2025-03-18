@@ -14,14 +14,10 @@ class User extends Model{
     public $pseudo;
     public $photo;
 
-    public function getByEmail(string $email): User
+    public function getByEmail(string $email): ?User
     {
-        $user = $this->query("SELECT * FROM {$this->table} WHERE email = :email", [":email" => $email], true);
+        return $this->query("SELECT * FROM {$this->table} WHERE email = :email", [":email" => $email], true);
 
-        var_dump($user); // 🔍 Vérifie ce que la requête retourne
-    exit();
-
-        return $user;
     }
 
 }

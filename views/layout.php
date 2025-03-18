@@ -71,7 +71,7 @@
                                 <li><a class="dropdown-item" href="/dashboard.php">Mon compte</a></li>
                                 <li><a class="dropdown-item" href="#">Mon historique</a></li>
                                 <li><a class="dropdown-item" href="#">Mes avis</a></li>
-                                <li><a class="dropdown-item" href="/logout.php">Déconnexion</a></li>
+                                <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
                             </ul>
                         </li>
                         <?php else : ?>

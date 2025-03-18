@@ -9,13 +9,14 @@ require_once __DIR__ . '/../config/config.php';
 
 use Router\Router;
 
-$router = new Router($_GET['url'] ?? '');
+$router = new Router($_SERVER['REQUEST_URI'] ?? '');
 
 $router->get('/', 'App\Controllers\AppController@home');
 $router->get('/dashboard', 'App\Controllers\AppController@dashboard', 'tableau de bord');
 
 $router->get('/login', 'App\Controllers\UserController@login', 'connexion');
 $router->post('/login', 'App\Controllers\UserController@loginPost', 'connexion');
+$router->get('/logout', 'App\Controllers\UserController@logout', 'deconnexion');
 
 $router->get('/posts/:id', 'App\Controllers\AppController@show');
 
