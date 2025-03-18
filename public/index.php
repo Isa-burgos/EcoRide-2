@@ -2,24 +2,21 @@
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../config/config.php';
 
-$uri = $_SERVER['REQUEST_URI'];
-$router = new AltoRouter();
+use Router\Router;
 
-require_once __DIR__ . '/../config/routes.php';
+$router = new Router($_GET['url'] ?? '');
 
-$match = $router->match();
-if(is_array($match)){
-    if (is_callable($match['target'])){
-        call_user_func_array($match['target'], $match['params']);
-    } else{
-        $params = $match['params'];
-        ob_start();
-        require_once __DIR__ . '/../templates/' . $match['target'] . '.php';
-        $pageContent = ob_get_clean();
-    }
-    require_once __DIR__ . '/../elements/layout.php';
-} else{
-    echo '404';
-}
+$router->get('/', 'App\Controllers\AppController@home');
+$router->get('/dashboard', 'App\Controllers\AppController@dashboard', 'tableau de bord');
+
+$router->get('/login', 'App\Controllers\UserController@login', 'connexion');
+$router->post('/login', 'App\Controllers\UserController@loginPost', 'connexion');
+
+$router->get('/posts/:id', 'App\Controllers\AppController@show');
+
+$router->run();

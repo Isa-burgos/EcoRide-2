@@ -2,7 +2,9 @@
     "name": "isa-b/ecoride",
     "autoload": {
         "psr-4": {
-            "IsaB\\Ecoride\\": "src/"
+            "Router\\": "routes/",
+            "App\\": "app/",
+            "Database\\": "database/"
         }
     },
     "authors": [

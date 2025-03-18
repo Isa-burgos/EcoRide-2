@@ -6,5 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'IsaB\\Ecoride\\' => array($baseDir . '/src'),
+    'Router\\' => array($baseDir . '/routes'),
+    'Database\\' => array($baseDir . '/database'),
+    'App\\' => array($baseDir . '/app'),
 );
