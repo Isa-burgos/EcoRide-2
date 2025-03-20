@@ -16,6 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/main.min.css">
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     
@@ -31,7 +32,7 @@
     <script src="/js/addTrip.js" defer></script>
     <script src="/js/register.js" defer></script>
     <script src="/js/login.js" defer></script>
-    <title>EcoRide</title>
+    <title>EcoRide v2</title>
 </head>
 <body>
 
@@ -79,7 +80,7 @@
                                 <a class="nav-link" href="/login">Se connecter</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/register.php">Créer un compte</a>
+                                <a class="nav-link" href="/register">Créer un compte</a>
                             </li>
                     <?php endif ?>
                 </ul>

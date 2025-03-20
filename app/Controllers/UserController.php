@@ -16,12 +16,12 @@ class UserController extends Controller{
     {
         $validator = new Validator($_POST);
         $errors = $validator->validate([
-            'email' => ['required', 'min:3'],
+            'email' => ['required'],
             'password' => ['required']
         ]);
 
         if($errors){
-            $_SESSION['errors'][] = $errors;
+            $_SESSION['errors'] = $errors;
             header('location: /login');
             exit;
         }
@@ -41,9 +41,9 @@ class UserController extends Controller{
             header('location: /dashboard');
             exit();
         } else {
-            return $this->view('auth.login',[
-                'error' => 'Identifiant ou mot de passe incorrect'
-            ]);
+            $_SESSION['error'] = 'Identifiant ou mot de passe incorrect';
+            header('location: /login');
+            exit();
         }
     }
 
@@ -53,5 +53,59 @@ class UserController extends Controller{
 
         header('location: /');
         exit();
+    }
+
+    public function register()
+    {
+        return $this->view('auth.register');
+    }
+
+    public function registerPost()
+    {
+        $validator = new Validator($_POST);
+        $errors = $validator->validate([
+            'gender' => ['required'],
+            'name' => ['required', 'min:3'],
+            'firstname' => ['required', 'min:3'],
+            'birth_date' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'password'],
+            'passwordValidate' => ['required']
+        ]);
+
+        if($_POST['password'] !== $_POST['passwordValidate']){
+            $errors['passwordValidate'] = 'Les mots de passe ne correspondent pas';
+        }
+
+        $userModel = new User($this->getDB());
+
+        if($userModel->emailExists($_POST['email'])){
+            $errors['email'] = "Cet e-mail est déjà utilisé";
+        }
+
+        if(!empty($errors)){
+            $_SESSION['errors'] = $errors;
+            $_SESSION['old'] = $_POST;
+            header('location: /register');
+            exit();
+        }
+
+        $userModel->createUser([
+            'name' => $_POST['name'],
+            'firstname' => $_POST['firstname'],
+            'pseudo' => $_POST['pseudo'] ?? '',
+            'email' => $_POST['email'],
+            'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+            'phone' => $_POST['phone'] ?? 0,
+            'adress' => $_POST['adress'] ?? '',
+            'birth_date' => $_POST['birth_date'],
+            'photo' => '/public/assets/img/default-profile.png',
+            'gender' => $_POST['gender'],
+            'possess' => 1
+        ]);
+
+        header('location: /login', true, 303);
+        exit();
+
     }
 }

@@ -9,18 +9,29 @@
     <section class="conteneur">
         <form class="conteneur-content" method="post" action="/login">
             <div>
-                <label for="email"></label>
                 <input class="input form-control" type="email" name="email" id="emailInput" placeholder="Email">
+                <?php if(!empty($_SESSION['errors']['email'])): ?>
+                    <div class="alert alert-danger">
+                        <?= htmlspecialchars($_SESSION['errors']['email'][0]) ?>
+                    </div>
+                <?php endif; ?>
             </div>
             <div>
-                <label for="password"></label>
                 <input class="input password form-control" type="password" name="password" id="passwordInput" placeholder="Mot de passe">
+                    <?php if(!empty($_SESSION['errors']['password'])): ?>
+                        <div class="alert alert-danger">
+                            <?= htmlspecialchars($_SESSION['errors']['password'][0]) ?>
+                        </div>
+                    <?php endif; ?>
             </div>
 
-            <?php if(isset($error)):  ?>
-                <div class="alert alert-danger" role="alert">
-                    <?= $error ?>
+            <?php unset($_SESSION['errors']); ?>
+
+            <?php if(!empty($_SESSION['error'])) : ?>
+                <div class="alert alert-danger">
+                    <?= htmlspecialchars($_SESSION['error']) ?>
                 </div>
+                <?php unset($_SESSION['error']); ?>
             <?php endif ?>
 
             <div>

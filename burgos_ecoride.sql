@@ -136,3 +136,7 @@ ALTER TABLE preferences
 ADD COLUMN vehicle_id INT(11) NOT NULL;
 
 SELECT password FROM user;
+
+DESCRIBE user;
+
+SELECT * FROM role;

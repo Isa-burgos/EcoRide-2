@@ -16,7 +16,9 @@ $router->get('/dashboard', 'App\Controllers\AppController@dashboard', 'tableau d
 
 $router->get('/login', 'App\Controllers\UserController@login', 'connexion');
 $router->post('/login', 'App\Controllers\UserController@loginPost', 'connexion');
-$router->get('/logout', 'App\Controllers\UserController@logout', 'deconnexion');
+$router->get('/logout', 'App\Controllers\UserController@logout', 'déconnexion');
+$router->get('/register', 'App\Controllers\UserController@register', 'créer un compte');
+$router->post('/register', 'App\Controllers\UserController@registerPost', 'créer un compte');
 
 $router->get('/posts/:id', 'App\Controllers\AppController@show');
 
