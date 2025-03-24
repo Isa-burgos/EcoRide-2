@@ -29,14 +29,14 @@ abstract class Model{
         return $this;
     }
 
-    public function query(string $sql, array $params = []): ?self
+    public function query(string $sql, array $params = [], bool $fetchOne = false): ?self
     {
         $stmt = $this->getPDO()->prepare($sql);
         foreach($params as $key => $value){
             $stmt->bindValue($key, $value);
         }
         $stmt->execute();
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        $data = $fetchOne ? $stmt->fetch(PDO::FETCH_ASSOC) : $stmt->fetchAll(PDO::FETCH_ASSOC);
         if($data){
             return $this->hydrate($data);
         }

@@ -39,7 +39,7 @@ class AppController extends Controller{
         return $this->view('app.index');
     }
 
-    public function show(int $id)
+    public function show(int $userId)
     {
         return $this->view('app.show', compact('id'));
     }

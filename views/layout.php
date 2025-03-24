@@ -26,12 +26,12 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
-    <script src="/js/account.js" defer></script>
-    <script src="/js/geolocation.js" defer></script>
-    <script src="/js/quantity.js" defer></script>
-    <script src="/js/addTrip.js" defer></script>
-    <script src="/js/register.js" defer></script>
-    <script src="/js/login.js" defer></script>
+    <script src="/assets/js/account.js" defer></script>
+    <script src="/assets/js/geolocation.js" defer></script>
+    <script src="/assets/js/quantity.js" defer></script>
+    <script src="/assets/js/addTrip.js" defer></script>
+    <script src="/assets/js/register.js" defer></script>
+    <script src="/assets/js/login.js" defer></script>
     <title>EcoRide v2</title>
 </head>
 <body>
@@ -61,27 +61,28 @@
                     </li>
                     <?php if(isset($_SESSION['user'])) : ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $_SESSION['user']['pseudo'] ?>
-                            <?php if (isset($_SESSION['user']) && !empty($_SESSION['user']['photo'])): ?>
-                                <img src="<?= htmlspecialchars($_SESSION['user']['photo']) ?>" alt="avatar">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center py-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?= htmlspecialchars($_SESSION['user']['pseudo']) ?>
+                            <?php if (!empty($_SESSION['user']['photo'])): ?>
+                                <img src="/<?= htmlspecialchars($_SESSION['user']['photo']) ?>" alt="avatar" class="rounded-circle ms-2" width="32" height="32">
                             <?php else: ?>
-                                <img src="/public/assets/img/default-profile.png" alt="Profil">
+                                <img src="/assets/img/default-profile.png" alt="Profil" class="rounded-circle ms-2" width="32" height="32">
                             <?php endif; ?>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/dashboard.php">Mon compte</a></li>
-                                <li><a class="dropdown-item" href="#">Mon historique</a></li>
-                                <li><a class="dropdown-item" href="#">Mes avis</a></li>
-                                <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
-                            </ul>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/dashboard">Mon compte</a></li>
+                            <li><a class="dropdown-item" href="#">Mon historique</a></li>
+                            <li><a class="dropdown-item" href="#">Mes avis</a></li>
+                            <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
+                        </ul>
                         </li>
-                        <?php else : ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/login">Se connecter</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/register">Créer un compte</a>
-                            </li>
+                    <?php else : ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Se connecter</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">Créer un compte</a>
+                        </li>
                     <?php endif ?>
                 </ul>
             </div>
