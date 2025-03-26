@@ -11,9 +11,9 @@ class ComposerStaticInit5e0a4f516f2860e1beddfa45123c5bd4
         array (
             'Router\\' => 7,
         ),
-        'D' => 
+        'C' => 
         array (
-            'Database\\' => 9,
+            'Config\\' => 7,
         ),
         'A' => 
         array (
@@ -26,9 +26,9 @@ class ComposerStaticInit5e0a4f516f2860e1beddfa45123c5bd4
         array (
             0 => __DIR__ . '/../..' . '/routes',
         ),
-        'Database\\' => 
+        'Config\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/database',
+            0 => __DIR__ . '/../..' . '/config',
         ),
         'App\\' => 
         array (
@@ -37,7 +37,6 @@ class ComposerStaticInit5e0a4f516f2860e1beddfa45123c5bd4
     );
 
     public static $classMap = array (
-        'AltoRouter' => __DIR__ . '/..' . '/altorouter/altorouter/AltoRouter.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 

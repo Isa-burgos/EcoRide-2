@@ -1,6 +1,6 @@
 <?php
 
-namespace Database;
+namespace Config;
 
 use PDO;
 
@@ -14,7 +14,7 @@ class DbConnect{
 
     public function __construct(string $dbHost, string $dbName, string $dbUser, string $dbPassword )
     {
-        $this->dbHost = getenv($dbHost);
+        $this->dbHost = getenv($dbHost) ?: $dbHost;
         $this->dbName = getenv($dbName);
         $this->dbUser = getenv($dbUser);
         $this->dbPassword = getenv($dbPassword);

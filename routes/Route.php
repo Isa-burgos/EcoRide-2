@@ -2,7 +2,7 @@
 
 namespace Router;
 
-use Database\DbConnect;
+use Config\DbConnect;
 
 class Route{
 

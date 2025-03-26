@@ -4,7 +4,7 @@
         "psr-4": {
             "Router\\": "routes/",
             "App\\": "app/",
-            "Database\\": "database/"
+            "Config\\": "config/"
         }
     },
     "authors": [
@@ -12,8 +12,5 @@
             "name": "Isabelle Burgos",
             "email": "i.burgos.sabelle@gmail.com"
         }
-    ],
-    "require": {
-        "altorouter/altorouter": "^2.0"
-    }
+    ]
 }

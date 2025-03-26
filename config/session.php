@@ -17,7 +17,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 if (!headers_sent() && isset($_SESSION['user'])) {
     setcookie(session_name(), session_id(), [
-        'expires' => time() + $session_lifetime, 
+        'expires' => time() + $session_lifetime,
         'path' => "/",
         'httponly' => true,
         'samesite' => 'Strict'

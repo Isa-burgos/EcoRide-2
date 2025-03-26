@@ -20,9 +20,8 @@ $router->post('/login', 'App\Controllers\UserController@loginPost', 'connexion')
 $router->get('/logout', 'App\Controllers\UserController@logout', 'déconnexion');
 $router->get('/register', 'App\Controllers\UserController@register', 'créer un compte');
 $router->post('/register', 'App\Controllers\UserController@registerPost', 'créer un compte');
-$router->get('/account', 'App\Controllers\UserController@account', 'mon compte');
-$router->post('/account', 'App\Controllers\UserController@accountPost', 'mon compte');
-$router->post('/update-account', 'App\Controllers\UserController@updateAccount', 'mon compte');
+$router->get('/account', 'App\Controllers\AccountController@show', 'mon compte');
+$router->post('/update-account', 'App\Controllers\AccountController@update', 'mon compte');
 
 $router->get('/posts/:id', 'App\Controllers\AppController@show');
 

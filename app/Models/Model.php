@@ -3,45 +3,22 @@
 namespace App\Models;
 
 use PDO;
-use Database\DbConnect;
+use Config\DbConnect;
 
 abstract class Model{
 
-    protected $db;
-
-    public function __construct(DbConnect $db)
-    {
-        $this->db = $db;
-    }
-
-    public function getPDO(): \PDO
-    {
-        return $this->db->getPDO();
-    }
-
-    protected function hydrate(array $data): self
+    public function hydrate(array $data): self
     {
         foreach ($data as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->$key = $value;
+            $camelCase = str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
+
+            $method = 'set' . $camelCase;
+
+            if (method_exists($this, $method)) {
+                $this->$method($value);
             }
         }
         return $this;
     }
-
-    public function query(string $sql, array $params = [], bool $fetchOne = false): ?self
-    {
-        $stmt = $this->getPDO()->prepare($sql);
-        foreach($params as $key => $value){
-            $stmt->bindValue($key, $value);
-        }
-        $stmt->execute();
-        $data = $fetchOne ? $stmt->fetch(PDO::FETCH_ASSOC) : $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if($data){
-            return $this->hydrate($data);
-        }
-        return null;
-    }
-
     
 }

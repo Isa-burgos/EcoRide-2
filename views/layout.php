@@ -91,8 +91,10 @@
     </header>
 
     <!-- END HEADER -->
-
-    <?= $pageContent ?>
+    <?= $content ?>
+    <pre>
+<?php var_dump($content); ?>
+</pre>
     
     <!-- START FOOTER -->
 
@@ -114,5 +116,6 @@
     </footer>
 
     <!-- END FOOTER -->
+    
 </body>
 </html>

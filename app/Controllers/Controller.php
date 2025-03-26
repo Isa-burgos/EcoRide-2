@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Database\DbConnect;
+use Config\DbConnect;
 
 abstract class Controller{
 
@@ -22,6 +22,7 @@ abstract class Controller{
         $path = str_replace('.', DIRECTORY_SEPARATOR, $path);
         require_once VIEWS . $path . '.php';
         $pageContent = ob_get_clean();
+        extract(['content'=> $pageContent]);
         require VIEWS . 'layout.php';
     }
 

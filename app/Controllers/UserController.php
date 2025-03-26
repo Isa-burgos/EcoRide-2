@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Models\User;
-use App\Models\Vehicle;
+use App\Models\UserModel;
+use App\Models\VehicleModel;
+use App\Repositories\UserRepository;
+use App\Services\AuthService;
 use App\Validation\Validator;
 
 class UserController extends Controller{
@@ -25,21 +27,16 @@ class UserController extends Controller{
         if($errors){
             $_SESSION['errors'] = $errors;
             header('location: ' . ROUTE_LOGIN);
-            exit;
+            exit();
         }
 
-        $user = (new User($this->getDB()))->getByEmail($_POST['email']);
+        $userRepo = new UserRepository($this->getDB());
+        $user = $userRepo->findByEmail($_POST['email']);
 
-        if($user && password_verify($_POST['password'], $user->password)){
-            $_SESSION['user'] = [
-                'id' => $user->user_id ?? 0,
-                'email' => $user->email,
-                'pseudo' => $user->pseudo,
-                'photo' => $user->photo ?? '/public/assets/img/default-profile.png'
-            ];
 
-            
-            session_write_close();
+
+        if($user && password_verify($_POST['password'], $user->getPassword())){
+            (new AuthService())->login($user);
 
             header('location: ' . ROUTE_DASHBOARD);
             exit();
@@ -50,9 +47,10 @@ class UserController extends Controller{
         }
     }
 
-    public function logout()
+    public function logout(): void
     {
-        session_destroy();
+        $auth = new AuthService();
+        $auth->logout();
 
         header('location: ' . ROUTE_HOME);
         exit();
@@ -76,16 +74,18 @@ class UserController extends Controller{
             'passwordValidate' => ['required']
         ]);
 
+        // Vérifie que les deux mots de passe correspondent
         if($_POST['password'] !== $_POST['passwordValidate']){
             $errors['passwordValidate'] = 'Les mots de passe ne correspondent pas';
         }
 
-        $userModel = new User($this->getDB());
-
-        if($userModel->emailExists($_POST['email'])){
+        // Vérifie que l'e-mail n'existe pas déjà
+        $userRepo = new UserRepository($this->getDb());
+        if($userRepo->emailExists($_POST['email'])){
             $errors['email'] = "Cet e-mail est déjà utilisé";
         }
 
+        // Redirige si erreurs
         if(!empty($errors)){
             $_SESSION['errors'] = $errors;
             $_SESSION['old'] = $_POST;
@@ -93,127 +93,35 @@ class UserController extends Controller{
             exit();
         }
 
-        $userModel->createUser([
-            'name' => $_POST['name'],
-            'firstname' => $_POST['firstname'],
-            'pseudo' => $_POST['pseudo'] ?? '',
-            'email' => $_POST['email'],
-            'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
-            'phone' => $_POST['phone'] ?? 0,
-            'adress' => $_POST['adress'] ?? '',
-            'birth_date' => $_POST['birth_date'],
-            'photo' => '/public/assets/img/default-profile.png',
-            'gender' => $_POST['gender'],
-            'role' => 'user'
-        ]);
+        
+        // Création du UserModel
+        $user = new UserModel();
+        $user->setName($_POST['name']);
+        $user->setFirstname($_POST['firstname']);
+        $user->setPseudo($_POST['pseudo'] ?? '');
+        $user->setEmail($_POST['email']);
+        $user->setPassword($_POST['password']);
+        $user->setPhone($_POST['phone'] ?? '');
+        $user->setAdress($_POST['adress'] ?? '');
+        $user->setBirthDate($_POST['birth_date']);
+        $user->setPhoto('/public/assets/img/default-profile.png');
+        $user->setGender($_POST['gender']);
+        $user->setRole($_POST['role'] ?? 'user');
+        
+        // Enregistrement
+        $userRepo->createUser($user);
 
-        header('location: ' . ROUTE_LOGIN, true, 303);
-        exit();
+        //Récupération de l'utilisateur enregistré
+        $createdUser = $userRepo->findByEmail($user->getEmail());
 
-    }
+        // Connexion automatique
+        (new AuthService())->login($createdUser);
 
-    public function account()
-    {
-        $userId = $_SESSION['user']['id'];
+        // Message d'information
+        $_SESSION['info'] = "Veuillez compléter votre profil";
 
-        $vehicleModel = new Vehicle($this->getDB());
-        $vehicles = $vehicleModel->getAllByUser($userId);
-
-        $userModel = new User($this->getDB());
-        $user = $userModel->getById($userId);
-
-        $statuts = $userModel->getStatuts($user->user_id);
-
-        return $this->view('app.account', [
-            'user' => $user,
-            'vehicles' => $vehicles,
-            'statuts' => $statuts
-        ]);
-    }
-
-    public function updateAccount()
-    {
-        $userModel = new User($this->getDB());
-        $vehicleModel = new Vehicle($this->getDB());
-
-        $userId = $_SESSION['user']['id'];
-
-        $userModel->updateUser($userId, [
-            'name' => $_POST['name'],
-            'firstname' => $_POST['firstname'],
-            'pseudo' => $_POST['pseudo'],
-            'birth_date' => $_POST['birth_date'],
-            'email' => $_POST['email'],
-            'phone' => $_POST['phone'],
-            'gender' => $_POST['gender']
-        ]);
-
-        if(isset($_POST['statuts'])){
-            $stmt = $this->getDB()->getPDO()->prepare("DELETE FROM user_statut WHERE user_id = :user_id");
-            $stmt->bindValue(':user_id', $userId);
-            $stmt->execute();
-        }
-
-        foreach($_POST['statuts'] as $statutName){
-            $stmt = $this->getDB()->getPDO()->prepare("
-                INSERT INTO user_statut (user_id, statut_id)
-                SELECT :user_id, statut_id FROM statut WHERE name = :name
-            ");
-            $stmt->execute([
-                'user_id' => $userId,
-                'name' => $statutName
-            ]);
-        }
-
-        $isDriver = in_array('Conducteur', $_POST['statuts'] ?? []);
-        $hasVehicle = count($vehicleModel->getAllByUser($userId)) > 0;
-        $wantsToAddVehicle = !empty($_POST['registration']);
-
-        if($isDriver){
-            if(!$hasVehicle && !$wantsToAddVehicle){
-                $_SESSION['error'] = "Vous devez enregistrer un véhicule si vous êtes conducteur";
-                header('location:' . ROUTE_ACCOUNT);
-                exit();
-            }
-
-
-            if($wantsToAddVehicle){
-                if(
-                    !empty($_POST['registration']) &&
-                    !empty($_POST['first_registration_date']) &&
-                    !empty($_POST['brand']) &&
-                    !empty($_POST['model']) &&
-                    !empty($_POST['color']) &&
-                    isset($_POST['energy'])
-                    ){
-                        $vehicleData = [
-                            'registration' => $_POST['registration'],
-                            'first_registration_date' => $_POST['first_registration_date'],
-                            'brand' => $_POST['brand'],
-                            'model' => $_POST['model'],
-                            'color' => $_POST['color'],
-                            'energy' => (int)$_POST['energy'],
-                            'belong' => $userId
-                        ];
-                        
-                        $success = $vehicleModel->createVehicle($vehicleData);
-                        
-                        if(!$success){
-                            $_SESSION['error'] = "Erreur lors de l'enregistrement du véhicule";
-                            header(('location:' . ROUTE_ACCOUNT));
-                            exit();
-                        }
-
-                    } else{
-                        $_SESSION['error'] = "Veuillez remplir tous les champs du véhicule pour l'enregistrer";
-                        header('location: ' . ROUTE_ACCOUNT);
-                        exit();
-                    }
-                }
-
-            }
-        $_SESSION['success'] = "Votre compte a bien été mis à jour.";
-        header('location:' . ROUTE_ACCOUNT);
+        // Redirection
+        header('location: ' . ROUTE_ACCOUNT);
         exit();
     }
 }

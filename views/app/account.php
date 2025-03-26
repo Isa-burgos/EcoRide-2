@@ -1,6 +1,14 @@
 <?php
-    $birthDate = isset($user->birth_date) ? substr($user->birth_date, 0, 10) : '';
-    $photo = !empty($user->photo) ? '/' . htmlspecialchars($user->photo) : '/public/assets/img/default-profile.png';
+
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
+    $statuts = $statuts ?? [];
+    $vehicles = $vehicles ?? [];
+    $user = $user ?? null;
+
+    $birthDate = ($user && method_exists($user, 'getBirthDate')) ? substr($user->getBirthDate(), 0, 10) : '';
+    $photo = ($user && method_exists($user, 'getPhoto')) ? '/' . htmlspecialchars($user->getPhoto()) : '/public/assets/img/default-profile.png';
 
 ?>
 <main>
@@ -17,6 +25,12 @@
                     <div class="card shadow">
                         <div class="card-header bg-dark text-light text-center">
                             <h4>Modifier mon compte</h4>
+                            <?php if(isset($_SESSION['info'])): ?>
+                                <div class="alert alert-info">
+                                    <?= htmlspecialchars($_SESSION['info']) ?>
+                                </div>
+                                <?php unset($_SESSION['info']) ?>
+                            <?php endif ?>
                         </div>
                         <div class="card-body">
                             <form method="POST" action="/update-account" enctype="multipart/form-data">
@@ -33,11 +47,11 @@
                                     <label class="form-label">Genre</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input type="radio" id="homme" name="gender" value="homme"<?= ($user->gender ?? '') === 'homme' ? 'checked' : '' ?>>
+                                            <input type="radio" id="homme" name="gender" value="homme"<?= ($user?->getGender() ?? '') === 'homme' ? 'checked' : '' ?>>
                                             <label for="homme">Homme</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input type="radio" id="femme" name="gender" value="femme"<?= ($user->gender ?? '') === 'femme' ? 'checked' : '' ?>>
+                                            <input type="radio" id="femme" name="gender" value="femme"<?= ($user?->getGender() ?? '') === 'femme' ? 'checked' : '' ?>>
                                             <label for="femme">Femme</label>
                                         </div>
                                     </div>
@@ -45,22 +59,22 @@
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nom</label>
-                                    <input class="input form-control" type="text" name="name" id="name" placeholder="Nom" value="<?= htmlspecialchars($user->name ?? '')?>">
+                                    <input class="input form-control" type="text" name="name" id="name" placeholder="Nom" value="<?= htmlspecialchars($user?->getName() ?? '')?>">
                                 </div>
                                 <div class="mb-3">
                                     <label for="firstname" class="form-label">Prénom</label>
-                                    <input class="input form-control" type="text" name="firstname" id="firstname" placeholder="Prénom" value="<?= htmlspecialchars($user->firstname ?? '')?>">
+                                    <input class="input form-control" type="text" name="firstname" id="firstname" placeholder="Prénom" value="<?= htmlspecialchars($user?->getFirstname() ?? '')?>">
                                 </div>
                                 <div class="mb-3">
                                     <label for="pseudo" class="form-label">Pseudo</label>
-                                    <input class="input form-control" name="pseudo" type="text" id="pseudo" placeholder="Pseudo" value="<?= htmlspecialchars($user->pseudo ?? '')?>" required>
+                                    <input class="input form-control" name="pseudo" type="text" id="pseudo" placeholder="Pseudo" value="<?= htmlspecialchars($user?->getPseudo() ?? '')?>" required>
                                     <div class="invalid-feedback">
                                         Le pseudo est requis
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="phoneNumber" class="form-label">Téléphone</label>
-                                    <input class="input form-control" type="text" name="phone" id="phone" placeholder="0606060606" value="<?= htmlspecialchars($user->phone ?? '')?>">
+                                    <input class="input form-control" type="text" name="phone" id="phone" placeholder="0606060606" value="<?= htmlspecialchars($user?->getPhone() ?? '')?>">
                                 </div>
                                 <div class="mb-3">
                                     <label for="birth_date" class="form-label">Date de naissance</label>
@@ -68,7 +82,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">E-mail</label>
-                                    <input class="input form-control" type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($user->email ?? '')?>">
+                                    <input class="input form-control" type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($user?->getEmail() ?? '')?>">
                                 </div>
 
                                 <hr class="my-4">
@@ -97,9 +111,9 @@
                                                 <ul class="list-group mb-3">
                                                     <?php foreach ($vehicles as $vehicle): ?>
                                                         <li class="card mb-3">
-                                                            <strong><?= htmlspecialchars($vehicle['brand']) . " " . htmlspecialchars($vehicle['model']) ?></strong> 
-                                                            (<?= htmlspecialchars($vehicle['color']) ?>)
-                                                            <br><small>Immatriculation : <?= htmlspecialchars($vehicle['registration']) ?></small>
+                                                            <strong><?= htmlspecialchars($vehicle?->getBrand()) . " " . htmlspecialchars($vehicle?->getModel()) ?></strong> 
+                                                            (<?= htmlspecialchars($vehicle?->getColor()) ?>)
+                                                            <br><small>Immatriculation : <?= htmlspecialchars($vehicle?->getRegistration()) ?></small>
                                                         </li>
                                                     <?php endforeach; ?>
                                                 </ul>
