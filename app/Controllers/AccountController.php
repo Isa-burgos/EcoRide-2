@@ -40,6 +40,19 @@ class AccountController extends Controller{
 
     public function update()
     {
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = "Méthode non autorisée.";
+            header('Location: ' . ROUTE_ACCOUNT . '#alerts');
+            exit();
+        }
+
+        if (empty($_POST)) {
+            $_SESSION['error'] = "Aucune donnée reçue.";
+            header('Location: ' . ROUTE_ACCOUNT . '#alerts');
+            exit();
+        }
+
         AuthMiddleware::requireAuth();
 
         $userRepo = new UserRepository($this->getDB());
@@ -62,16 +75,24 @@ class AccountController extends Controller{
             exit;
         }
 
-        $user->setName($_POST['name']);
-        $user->setFirstname($_POST['firstname']);
-        $user->setPseudo($_POST['pseudo'] ?? '');
-        $user->setBirthDate($_POST['birth_date']);
-        $user->setEmail($_POST['email']);
-        $user->setPhone($_POST['phone'] ?? '');
-        $user->setGender($_POST['gender']);
+        try {
+            $user->setName($_POST['name']);
+            $user->setFirstname($_POST['firstname']);
+            $user->setPseudo($_POST['pseudo'] ?? '');
+            $user->setBirthDate($_POST['birth_date']);
+            $user->setEmail($_POST['email']);
+            $user->setPhone($_POST['phone'] ?? '');
+            $user->setGender($_POST['gender']);
 
-
-        $userRepo->updateUser($user);
+            $userRepo->updateUser($user);
+            $_SESSION['success'] = "Votre profil a bien été mis à jour.";
+            header('Location: ' . ROUTE_ACCOUNT . '#alerts');
+            exit();
+        } catch (\Throwable $e) {
+            $_SESSION['error'] = "Erreur lors de la mise à jour : " . $e->getMessage();
+            header('Location: ' . ROUTE_ACCOUNT . '#alerts');
+            exit();
+        }
 
         // Supprime tous les anciens statuts pour éviter les doublons
         $stmt = $this->getDB()->getPDO()->prepare("DELETE FROM user_statut WHERE user_id = :user_id");
@@ -140,4 +161,5 @@ class AccountController extends Controller{
         header('location:' . ROUTE_ACCOUNT);
         exit();
     }
+
 }

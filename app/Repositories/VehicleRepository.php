@@ -63,4 +63,54 @@ class VehicleRepository extends Repository{
         return $vehicles;
     }
 
+    public function updateVehicle(int $vehicleId, array $data): bool
+    {
+        if (empty($data['model'])) {
+            $_SESSION['error'] = "Le champ modèle est requis.";
+            header('location: /vehicle/edit/' . $vehicleId);
+            exit();
+        }
+
+        $energyIcon = $data['energy'] == 1 ? '/assets/icons/electric-icon.svg' : '/assts/icons/thermal-icon.svg';
+
+        $sql = "UPDATE {$this->table}
+                SET registration = :registration,
+                    first_registration_date = :first_registration_date,
+                    brand = :brand,
+                    model = :model,
+                    color = :color,
+                    energy = :energy,
+                    energy_icon = :energy_icon
+                WHERE vehicle_id = :vehicle_id";
+
+        return $this->execute($sql, [
+            ':registration' => $data['registration'],
+            ':first_registration_date' => $data['first_registration_date'],
+            ':brand' => $data['brand'],
+            ':model' => $data['model'],
+            ':color' => $data['color'],
+            ':energy' => $data['energy'],
+            ':energy_icon' => $energyIcon,
+            ':vehicle_id' => $vehicleId
+        ]);
+    }
+
+    public function deleteVehicle(int $vehicleId, int $userId): bool
+    {
+        $sql = "DELETE FROM {$this->table} WHERE vehicle_id = :vehicle_id AND belong = :user_id";
+
+        return $this->execute($sql, [
+            ':vehicle_id' => $vehicleId,
+            'user_id' => $userId
+        ]);
+    }
+
+    public function isUsedInCarshare(int $vehicleId): bool
+    {
+        $sql = "SELECT COUNT(*) FROM carshare WHERE used_vehicle = :used_vehicle";
+        $stmt = $this->getPDO()->prepare($sql);
+        $stmt->execute([':used_vehicle' => $vehicleId]);
+        return $stmt->fetchColumn() > 0;
+    }
+
 }

@@ -92,9 +92,6 @@
 
     <!-- END HEADER -->
     <?= $content ?>
-    <pre>
-<?php var_dump($content); ?>
-</pre>
     
     <!-- START FOOTER -->
 
