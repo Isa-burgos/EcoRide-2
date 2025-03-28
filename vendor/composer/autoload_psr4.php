@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Router\\' => array($baseDir . '/routes'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
+    'MongoDB\\' => array($vendorDir . '/mongodb/mongodb/src'),
     'Config\\' => array($baseDir . '/config'),
     'App\\' => array($baseDir . '/app'),
 );

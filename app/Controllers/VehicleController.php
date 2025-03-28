@@ -17,6 +17,25 @@ class VehicleController extends Controller{
         $auth = new AuthService();
         $userId = $auth->getCurrentUserId();
 
+        if (!$userId) {
+            $_SESSION['error'] = "Veuillez vous reconnecter";
+            header('location: ' . ROUTE_LOGIN);
+            exit();
+        }
+
+        if (
+            empty($_POST['registration']) ||
+            empty($_POST['first_registration_date']) ||
+            empty($_POST['brand']) ||
+            empty($_POST['model']) ||
+            empty($_POST['color']) ||
+            !isset($_POST['energy'])
+        ) {
+            $_SESSION['error'] = "Tous les champs du véhicule sont requis";
+            header('location: ' . ROUTE_ACCOUNT);
+            exit();
+        }
+
         $vehicleRepo = new VehicleRepository($this->getDb());
 
         $vehicleData = [
@@ -26,10 +45,16 @@ class VehicleController extends Controller{
             'model' => $_POST['model'],
             'color' => $_POST['color'],
             'energy' => (int) $_POST['energy'],
-            'user_id' => $userId
+            'belong' => $userId
         ];
 
-        $vehicleRepo->createVehicle($vehicleData);
+        $success = $vehicleRepo->createVehicle($vehicleData);
+
+        if ($success) {
+            $_SESSION['success'] = "Véhicule ajouté avec succès";
+        } else {
+            $_SESSION['error'] = "Erreur lors de l'ajout du véhicule";
+        }
 
         header('location:' . ROUTE_ACCOUNT);
         exit();

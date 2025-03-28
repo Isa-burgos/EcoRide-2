@@ -23,9 +23,8 @@ $router->get('/register', 'App\Controllers\UserController@register', 'créer un 
 $router->post('/register', 'App\Controllers\UserController@registerPost', 'créer un compte');
 $router->get('/account', 'App\Controllers\AccountController@show', 'mon compte');
 $router->post('/update-account', 'App\Controllers\AccountController@update', 'mon compte');
-$router->post('/debug-form', 'App\Controllers\AccountController@debugForm');
 
-
+$router->post('/vehicle/create', 'App\Controllers\VehicleController@store');
 $router->get('/vehicle/:id/edit', 'App\Controllers\VehicleController@edit');
 $router->post('/vehicle/:id/update', 'App\Controllers\VehicleController@update');
 

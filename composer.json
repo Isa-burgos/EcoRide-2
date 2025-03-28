@@ -12,5 +12,8 @@
             "name": "Isabelle Burgos",
             "email": "i.burgos.sabelle@gmail.com"
         }
-    ]
+    ],
+    "require": {
+        "mongodb/mongodb": "^1.21"
+    }
 }
