@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Repositories\VehicleRepository;
+use Throwable;
 use App\Services\AuthService;
+use App\Services\PreferenceService;
+use App\Repositories\VehicleRepository;
 
 class VehicleController extends Controller{
 
@@ -23,6 +25,8 @@ class VehicleController extends Controller{
             exit();
         }
 
+        // Validation des champs
+
         if (
             empty($_POST['registration']) ||
             empty($_POST['first_registration_date']) ||
@@ -36,6 +40,8 @@ class VehicleController extends Controller{
             exit();
         }
 
+        // Création du véhicule dans MySQL
+
         $vehicleRepo = new VehicleRepository($this->getDb());
 
         $vehicleData = [
@@ -48,13 +54,29 @@ class VehicleController extends Controller{
             'belong' => $userId
         ];
 
-        $success = $vehicleRepo->createVehicle($vehicleData);
+        $vehicleId = $vehicleRepo->createVehicle($vehicleData);
 
-        if ($success) {
-            $_SESSION['success'] = "Véhicule ajouté avec succès";
-        } else {
+        if (!$vehicleId) {
             $_SESSION['error'] = "Erreur lors de l'ajout du véhicule";
+            header('location:' . ROUTE_ACCOUNT);
+            exit();
         }
+
+        // Préférences à stocker dans MongoDB
+
+        $preferences = [
+            'smoking' => isset($_POST['smoking']) ? (bool) $_POST['smoking'] : false,
+            'pets' => isset($_POST['pets']) ? (bool) $_POST['pets'] : false,
+            'custom' => $_POST['custom_preferences'] ?? ''
+        ];
+
+        // Insertion dans MongoDB
+
+
+            $prefService = new PreferenceService();
+            $prefService->savePreferences((int)$vehicleId, $preferences);
+
+        // Message de confirmation
 
         header('location:' . ROUTE_ACCOUNT);
         exit();
@@ -97,6 +119,15 @@ class VehicleController extends Controller{
             'color' => $_POST['color'],
             'energy' => (int) $_POST['energy']
         ]);
+        
+        $preferences = [
+            'smoking' => isset($_POST['smoking']) ? (bool) $_POST['smoking'] : false,
+            'pets' => isset($_POST['pets']) ? (bool) $_POST['pets'] : false,
+            'custom' => $_POST['custom_preferences'] ?? ''
+        ];
+
+        $prefService = new PreferenceService();
+        $prefService->savePreferences($vehicleId, $preferences);
 
         $_SESSION['success'] = ["Véhicule mis à jour avec succès"];
         header('Location: ' . ROUTE_ACCOUNT);

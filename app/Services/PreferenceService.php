@@ -28,20 +28,38 @@ class PreferenceService{
             return null;
         }
 
-        return $document['preferences'] ?? [];
+        if (isset($document['preferences'])) {
+            return (array) $document['preferences'];
+        }
+
+        return [];
     }
 
     /**
      * Save preferences in MongoDB
      */
 
-    public function saveCollection(int $vehicleId, array $prefs): void
+    public function savePreferences(int $vehicleId, array $prefs): void
     {
-        $this->collection->insertOne([
-            'vehicle_id' => $vehicleId,
-            'preferences' => $prefs,
-            'created_at' => new UTCDateTime()
-        ]);
+        $existing = $this->collection->findOne(['vehicle_id' => $vehicleId]);
+
+        if($existing){
+            $this->collection->updateOne(
+                ['vehicle_id' => $vehicleId],
+                [
+                    '$set' => [
+                        'preferences' => $prefs,
+                        'updated_at' => new UTCDateTime()
+                    ]
+                ]
+            );
+        } else {
+            $this->collection->insertOne([
+                'vehicle_id' => $vehicleId,
+                'preferences' => $prefs,
+                'created_at' => new UTCDateTime()
+            ]);
+        }
     }
 
 }

@@ -1,10 +1,16 @@
 <?php
+
+use App\Services\PreferenceService;
+
     $vehicle = $vehicle ?? null;
 
     if (!$vehicle) {
         echo "<p class='text-danger text-center mt-5'>Véhicule introuvable</p>";
         return;
     }
+
+    $prefService = new PreferenceService();
+    $preferences = $prefService->getPreferencesByVehicle($vehicle->getVehicleId()) ?? [];
 ?>
 
 <main class="container mt-5 mb-5">
@@ -73,6 +79,35 @@
                                 <label for="electric_no" class="form-check-label">Non</label>
                             </div>
                         </div>
+
+                        <h5 class="mb-3">Préférences</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">Fumeur</label>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" id="smoking_yes" name="smoking" value="1" <?= !empty($preferences['smoking']) ? 'checked' : '' ?>>
+                                        <label for="smoking_yes" class="form-check-label">Oui</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" id="smoking_no" name="smoking" value="0" <?= isset($preferences['smoking']) && !$preferences['smoking'] ? 'checked' : '' ?>>
+                                        <label for="smoking_no" class="form-check-label">Non</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Animaux acceptés</label>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" id="pets_yes" name="pets" value="1" <?= !empty($preferences['pets']) ? 'checked' : '' ?>>
+                                        <label for="pets_yes" class="form-check-label">Oui</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" id="pets_no" name="pets" value="0" <?= isset($preferences['pets']) && !$preferences['pets'] ? 'checked' : '' ?>>
+                                        <label for="pets_no" class="form-check-label">Non</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="custom_preferences" class="form-label">Autres préférences</label>
+                                    <textarea name="custom_preferences" class="form-control" rows="2"><?= htmlspecialchars($preferences['custom']) ?? '' ?></textarea>
+                                </div>
                 
                         <div class="text-center mt-4">
                             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>

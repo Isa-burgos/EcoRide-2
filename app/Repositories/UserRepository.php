@@ -138,5 +138,28 @@ class UserRepository extends Repository{
         ]);
     }
 
+    /**
+     * Update user statuts
+     */
+
+    public function updateUserStatuts(int $userId, array $statuts): void
+    {
+        // Supprime tous les anciens statuts pour éviter les doublons
+        $stmt = $this->getPDO()->prepare("DELETE FROM user_statut WHERE user_id = :user_id");
+        $stmt->execute([':user_id' => $userId]);
+
+        if(!empty($_POST['statuts'])){
+            foreach($statuts as $statutName){
+                $stmt = $this->getPDO()->prepare("
+                    INSERT INTO user_statut (user_id, statut_id)
+                    SELECT :user_id, statut_id FROM statut WHERE name = :name
+                ");
+                $stmt->execute([
+                    'user_id' => $userId,
+                    'name' => $statutName
+                ]);
+            }
+        }
+    }
     
 }

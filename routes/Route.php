@@ -19,7 +19,7 @@ class Route{
     public function matches(string $url)
     {
         $path = preg_replace('#:([\w]+)#', '([^/]+)', $this->path);
-        $pathToMatch = "#^$path$#";
+        $pathToMatch = "#^$path/?$#";
 
         if(preg_match($pathToMatch, $url, $matches)){
             $this->matches = $matches;

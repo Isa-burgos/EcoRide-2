@@ -35,13 +35,14 @@ class Router{
         return;
         }
 
-        foreach ($this->routes[$method]as $route){
-            if($route->matches($this->url)){
+        foreach ($this->routes[$method] as $route) {
+            if ($route->matches($this->url)) {
+                file_put_contents('/tmp/route_matched.txt', "Route matchée : " . $this->url . "\n", FILE_APPEND);
                 $route->execute();
                 return;
             }
         }
-
+        file_put_contents('/tmp/route_matched.txt', "Aucune route matchée pour : " . $this->url . "\n", FILE_APPEND);
         
     }
 

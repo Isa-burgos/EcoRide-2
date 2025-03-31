@@ -40,7 +40,6 @@ class AccountController extends Controller{
 
     public function update()
     {
-
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $_SESSION['error'] = "Méthode non autorisée.";
             header('Location: ' . ROUTE_ACCOUNT . '#alerts');
@@ -75,41 +74,22 @@ class AccountController extends Controller{
             exit;
         }
 
-        try {
-            $user->setName($_POST['name']);
-            $user->setFirstname($_POST['firstname']);
-            $user->setPseudo($_POST['pseudo'] ?? '');
-            $user->setBirthDate($_POST['birth_date']);
-            $user->setEmail($_POST['email']);
-            $user->setPhone($_POST['phone'] ?? '');
-            $user->setGender($_POST['gender']);
 
-            $userRepo->updateUser($user);
-            $_SESSION['success'] = "Votre profil a bien été mis à jour.";
-            header('Location: ' . ROUTE_ACCOUNT . '#alerts');
-            exit();
-        } catch (\Throwable $e) {
-            $_SESSION['error'] = "Erreur lors de la mise à jour : " . $e->getMessage();
-            header('Location: ' . ROUTE_ACCOUNT . '#alerts');
-            exit();
-        }
+        $user->setName($_POST['name']);
+        $user->setFirstname($_POST['firstname']);
+        $user->setPseudo($_POST['pseudo'] ?? '');
+        $user->setBirthDate($_POST['birth_date']);
+        $user->setEmail($_POST['email']);
+        $user->setPhone($_POST['phone'] ?? '');
+        $user->setGender($_POST['gender']);
 
-        // Supprime tous les anciens statuts pour éviter les doublons
-        $stmt = $this->getDB()->getPDO()->prepare("DELETE FROM user_statut WHERE user_id = :user_id");
-        $stmt->execute([':user_id' => $userId]);
-
-        if(!empty($_POST['statuts'])){
-            foreach($_POST['statuts'] as $statutName){
-                $stmt = $this->getDB()->getPDO()->prepare("
-                    INSERT INTO user_statut (user_id, statut_id)
-                    SELECT :user_id, statut_id FROM statut WHERE name = :name
-                ");
-                $stmt->execute([
-                    'user_id' => $userId,
-                    'name' => $statutName
-                ]);
-            }
-        }
+        $userRepo->updateUser($user);
+        
+        $userRepo->updateUserStatuts($userId, $_POST['statuts'] ?? []);
+        
+        $_SESSION['success'] = "Votre profil a bien été mis à jour.";
+        header('Location: ' . ROUTE_ACCOUNT . '#alerts');
+        exit();
 
         $isDriver = in_array('Conducteur', $_POST['statuts'] ?? []);
         $hasVehicle = count($vehicleRepo->getAllByUser($userId)) > 0;

@@ -135,6 +135,27 @@
                                                     (<?= htmlspecialchars($vehicle?->getColor()) ?>)
                                                     <br><small>Immatriculation : <?= htmlspecialchars($vehicle?->getRegistration()) ?></small>
                                                 </div>
+                                                <?php
+                                                    $prefService = new \App\Services\PreferenceService();
+                                                    $preferences = $prefService->getPreferencesByVehicle($vehicle->getVehicleId());
+                                                ?>
+                                                <div class="mt-2">
+                                                    <?php if (!empty($preferences)): ?>
+                                                        <ul class="list-unstyled">
+                                                            <?php if (isset($preferences['smoking'])): ?>
+                                                                <li>Fumeur : <?= $preferences['smoking'] ? 'oui' : 'non' ?></li>
+                                                            <?php endif; ?>
+                                                            <?php if (isset($preferences['pets'])): ?>
+                                                                <li>Animaux acceptés : <?= $preferences['pets'] ? 'oui' : 'non' ?></li>
+                                                            <?php endif; ?>
+                                                            <?php if (!empty($preferences['custom'])): ?>
+                                                                <li><em><?= htmlspecialchars($preferences['custom']) ?></em></li>
+                                                            <?php endif; ?>
+                                                        </ul>
+                                                    <?php else: ?>
+                                                        <p><em>Aucune préférence enregistrée</em></p>
+                                                    <?php endif; ?>
+                                                </div>
                                                 <div class="card-footer text-end">
                                                     <a href="/vehicle/<?= $vehicle->getVehicleId() ?>/edit" class="btn btn-sm">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -166,29 +187,29 @@
                             <form method="POST" action="/vehicle/create">
                                 <div class="col-md-6 mb-3">
                                     <label for="registration" class="form-label">Plaque d'immatriculation</label>
-                                    <input class="input form-control" type="text" name="registration" id="registration" placeholder="XX-111-XX" value="" disabled>
+                                    <input class="input form-control" type="text" name="registration" id="registration" placeholder="XX-111-XX" value="" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="first_registration_date" class="form-label">Date de la première immatriculation</label>
-                                    <input class="input form-control" type="date" name="first_registration_date" id="first_registration_date" placeholder="01/01/2020" value="" disabled>
+                                    <input class="input form-control" type="date" name="first_registration_date" id="first_registration_date" placeholder="01/01/2020" value="" required>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
                                         <label for="brand" class="form-label">Marque</label>
-                                        <select class="form-select input" aria-label="select marque voiture" id="carBrand" name="brand" disabled>
+                                        <select class="form-select input" aria-label="select marque voiture" id="carBrand" name="brand" required>
                                             <option value="">Sélectionner une marque</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="model" class="form-label">Modèle</label>
-                                        <select class="form-select input" aria-label="select modele voiture" id="carModel" name="model" disabled>
+                                        <select class="form-select input" aria-label="select modele voiture" id="carModel" name="model" required>
                                             <option value="">Sélectionner un modèle</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="color" class="form-label">Couleur</label>
-                                        <select class="form-select input" aria-label="select couleur voiture" id="carColor" name="color" disabled>
+                                        <select class="form-select input" aria-label="select couleur voiture" id="carColor" name="color" required>
                                             <option value="">Sélectionnez une couleur</option>
                                             <option value="blanc">Blanc</option>
                                             <option value="noir">Noir</option>
@@ -244,10 +265,10 @@
 
                                 <div class="mb-3">
                                     <label for="other_preferences" class="form-label">Autres préférences</label>
-                                    <textarea name="other_preferences" class="form-control" rows="2"></textarea>
+                                    <textarea name="custom_preferences" class="form-control" rows="2"></textarea>
                                 </div>
 
-                                <button class="btn btn-primary">Ajouter le véhicule</button>
+                                <button type="submit" class="btn btn-primary">Ajouter le véhicule</button>
                             </form>
                         </div>
                     </div>

@@ -28,7 +28,7 @@ class VehicleRepository extends Repository{
         return $vehicle->hydrate($data);
     }
 
-    public function createVehicle(array $data): bool
+    public function createVehicle(array $data): int|false
     {
         $energyIcon = $data['energy'] == 1 ? '/assets/icons/electric-icon.svg' : '/assts/icons/thermal-icon.svg';
 
@@ -37,7 +37,7 @@ class VehicleRepository extends Repository{
                 VALUES
                 (:registration, :first_registration_date, :brand, :model, :color, :energy, :energy_icon, :belong)
                 ";
-        return $this->execute($sql, [
+        $this->execute($sql, [
             ':registration' => $data['registration'],
             ':first_registration_date' => $data['first_registration_date'],
             ':brand' => $data['brand'],
@@ -47,6 +47,7 @@ class VehicleRepository extends Repository{
             ':energy_icon' => $energyIcon,
             ':belong' => $data['belong'],
         ]);
+        return $this->pdo->lastInsertId();
     }
 
     public function getAllByUser(int $userId): array
