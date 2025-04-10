@@ -1,0 +1,29 @@
+.dashboard__options{
+    @include border;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    padding: 1rem;
+    background-color: $light;
+    .dashboard__options-content{
+        text-align: center;
+        text-decoration: none;
+        .dashboard__options-picto{
+            display: block;
+            width: 55px;
+            height: 55px;
+            margin: auto;
+        }
+        .picto-profile{
+            background: url(/public/assets/icons/picto-profile.svg) no-repeat 0 0;
+        }
+        .picto-review{
+            background: url(/assets/icons/picto-avis.svg) no-repeat 0 0;
+        }
+        .picto-historique{
+            background: url(/assets/icons/picto-historique.svg) no-repeat 0 0;
+        }
+        .dashboard__options-title{
+            color: $black;
+        }
+    }
+}

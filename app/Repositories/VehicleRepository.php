@@ -33,9 +33,9 @@ class VehicleRepository extends Repository{
         $energyIcon = $data['energy'] == 1 ? '/assets/icons/electric-icon.svg' : '/assts/icons/thermal-icon.svg';
 
         $sql = "INSERT INTO vehicle
-                (registration, first_registration_date, brand, model, color, energy, energy_icon, belong)
+                (registration, first_registration_date, brand, model, color, nb_place, energy, energy_icon, belong)
                 VALUES
-                (:registration, :first_registration_date, :brand, :model, :color, :energy, :energy_icon, :belong)
+                (:registration, :first_registration_date, :brand, :model, :color, :nb_place, :energy, :energy_icon, :belong)
                 ";
         $this->execute($sql, [
             ':registration' => $data['registration'],
@@ -43,6 +43,7 @@ class VehicleRepository extends Repository{
             ':brand' => $data['brand'],
             ':model' => $data['model'],
             ':color' => $data['color'],
+            ':nb_place' => $data['nb_place'],
             ':energy' => $data['energy'],
             ':energy_icon' => $energyIcon,
             ':belong' => $data['belong'],
@@ -80,6 +81,7 @@ class VehicleRepository extends Repository{
                     brand = :brand,
                     model = :model,
                     color = :color,
+                    nb_place = :nb_place,
                     energy = :energy,
                     energy_icon = :energy_icon
                 WHERE vehicle_id = :vehicle_id";
@@ -90,6 +92,7 @@ class VehicleRepository extends Repository{
             ':brand' => $data['brand'],
             ':model' => $data['model'],
             ':color' => $data['color'],
+            ':nb_place' => $data['nb_place'],
             ':energy' => $data['energy'],
             ':energy_icon' => $energyIcon,
             ':vehicle_id' => $vehicleId

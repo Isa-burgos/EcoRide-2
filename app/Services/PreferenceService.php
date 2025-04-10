@@ -12,8 +12,17 @@ class PreferenceService{
 
     public function __construct()
     {
-        $client = new Client('mongodb://mongo_ecoride:Is%40bel1410@mongodb:27017/?authSource=admin');
-        $this->collection = $client->ecoride->preferences;
+        $host = $_ENV['MONGO_HOST'];
+        $port = $_ENV['MONGO_PORT'];
+        $user = $_ENV['MONGO_USER'];
+        $pass = urlencode($_ENV['MONGO_PASS']);
+        $auth = $_ENV['MONGO_AUTH_SOURCE'];
+        $db = $_ENV['MONGO_DB'];
+
+        $uri = "mongodb://$user:$pass@$host:$port/?authSource=$auth";
+
+        $client = new Client($uri);
+        $this->collection = $client->$db->preferences;
     }
 
     /**

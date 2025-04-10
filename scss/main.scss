@@ -1,13 +1,18 @@
-@import 'custom';
+@import 'abstracts/custom';
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import 'abstracts/mixins';
 
 @import 'base/reset-meyer';
 @import 'base/body';
 
 @import 'pages/home';
 @import 'pages/account';
+@import 'pages/dashboard';
 
 @import 'layout/header';
 @import 'layout/footer';
 @import 'layout/layout';
 
 @import 'components/button';
+@import 'components/form';
+@import 'components/hero';

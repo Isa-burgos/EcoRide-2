@@ -26,7 +26,6 @@ class VehicleController extends Controller{
         }
 
         // Validation des champs
-
         if (
             empty($_POST['registration']) ||
             empty($_POST['first_registration_date']) ||
@@ -50,6 +49,7 @@ class VehicleController extends Controller{
             'brand' => $_POST['brand'],
             'model' => $_POST['model'],
             'color' => $_POST['color'],
+            'nb_place' => $_POST['nb_place'],
             'energy' => (int) $_POST['energy'],
             'belong' => $userId
         ];
@@ -63,7 +63,6 @@ class VehicleController extends Controller{
         }
 
         // Préférences à stocker dans MongoDB
-
         $preferences = [
             'smoking' => isset($_POST['smoking']) ? (bool) $_POST['smoking'] : false,
             'pets' => isset($_POST['pets']) ? (bool) $_POST['pets'] : false,
@@ -71,16 +70,14 @@ class VehicleController extends Controller{
         ];
 
         // Insertion dans MongoDB
-
-
             $prefService = new PreferenceService();
             $prefService->savePreferences((int)$vehicleId, $preferences);
 
         // Message de confirmation
-
         header('location:' . ROUTE_ACCOUNT);
         exit();
     }
+
 
     public function edit(int $vehicleId)
     {
@@ -94,6 +91,7 @@ class VehicleController extends Controller{
         header('location: ' . ROUTE_ACCOUNT);
         exit();
     }
+
 
     public function update(int $vehicleId)
     {
@@ -117,6 +115,7 @@ class VehicleController extends Controller{
             'brand' => $_POST['brand'],
             'model' => $_POST['model'],
             'color' => $_POST['color'],
+            'nb_place' => $_POST['nb_place'],
             'energy' => (int) $_POST['energy']
         ]);
         
@@ -133,6 +132,7 @@ class VehicleController extends Controller{
         header('Location: ' . ROUTE_ACCOUNT);
         exit();
     }
+
 
     public function delete(int $vehicleId)
     {
@@ -159,6 +159,5 @@ class VehicleController extends Controller{
         header('location: ' . ROUTE_ACCOUNT);
         exit();
     }
-
 
 }

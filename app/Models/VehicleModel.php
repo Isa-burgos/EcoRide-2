@@ -15,97 +15,210 @@ class VehicleModel extends Model{
     private string $brand;
     private string $model;
     private string $color;
+    private int $nbPlace = 1;
     private string $energy;
     private string $energy_icon;
     private int $belong;
 
-    public function getVehicleId(): int
+
+
+    /**
+     * Get the value of vehicle_id
+     */ 
+    public function getVehicleId()
     {
         return $this->vehicle_id;
     }
 
-    public function getRegistration(): string
+    /**
+     * Set the value of vehicle_id
+     *
+     * @return  self
+     */ 
+    public function setVehicleId($vehicle_id)
+    {
+        $this->vehicle_id = $vehicle_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of registration
+     */ 
+    public function getRegistration()
     {
         return $this->registration;
     }
 
-    public function getFirstRegistrationDate(): string
+    /**
+     * Set the value of registration
+     *
+     * @return  self
+     */ 
+    public function setRegistration($registration)
+    {
+        $this->registration = $registration;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of first_registration_date
+     */ 
+    public function getFirstRegistrationDate()
     {
         return $this->first_registration_date;
     }
 
-    public function getBrand(): string
+    /**
+     * Set the value of first_registration_date
+     *
+     * @return  self
+     */ 
+    public function setFirstRegistrationDate($first_registration_date)
+    {
+        $this->first_registration_date = $first_registration_date;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of brand
+     */ 
+    public function getBrand()
     {
         return $this->brand;
     }
 
-    public function getModel(): string
+    /**
+     * Set the value of brand
+     *
+     * @return  self
+     */ 
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of model
+     */ 
+    public function getModel()
     {
         return $this->model;
     }
 
-    public function getColor(): string
+    /**
+     * Set the value of model
+     *
+     * @return  self
+     */ 
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of color
+     */ 
+    public function getColor()
     {
         return $this->color;
     }
 
-    public function getEnergy(): string
+    /**
+     * Set the value of color
+     *
+     * @return  self
+     */ 
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of nbPlace
+     */ 
+    public function getNbPlace(): int
+    {
+        return $this->nbPlace;
+    }
+
+    /**
+     * Set the value of nbPlace
+     *
+     * @return  self
+     */ 
+    public function setNbPlace($nbPlace)
+    {
+        $this->nbPlace = $nbPlace;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of energy
+     */ 
+    public function getEnergy()
     {
         return $this->energy;
     }
 
-    public function getEnergyIcon(): string
+    /**
+     * Set the value of energy
+     *
+     * @return  self
+     */ 
+    public function setEnergy($energy)
+    {
+        $this->energy = $energy;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of energy_icon
+     */ 
+    public function getEnergyIcon()
     {
         return $this->energy_icon;
     }
-    
-    public function getUserId(): int
+
+    /**
+     * Set the value of energy_icon
+     *
+     * @return  self
+     */ 
+    public function setEnergyIcon($energy_icon)
+    {
+        $this->energy_icon = $energy_icon;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of belong
+     */ 
+    public function getBelong()
     {
         return $this->belong;
     }
 
-    public function setVehicleId(int $vehicleId): void
+    /**
+     * Set the value of belong
+     *
+     * @return  self
+     */ 
+    public function setBelong($belong)
     {
-        $this->vehicle_id = $vehicleId;
-    }
+        $this->belong = $belong;
 
-    public function setRegistration(string $registration): void
-    {
-        $this->registration = $registration;
-    }
-
-    public function setFirstRegistrationDate(string $firstRegistrationDate): void
-    {
-        $this->first_registration_date = $firstRegistrationDate;
-    }
-
-    public function setBrand(string $brand): void
-    {
-        $this->brand = $brand;
-    }
-
-    public function setModel(string $model): void
-    {
-        $this->model = $model;
-    }
-
-    public function setColor(string $color): void
-    {
-        $this->color = $color;
-    }
-
-    public function setEnergy(string $energy): void
-    {
-        $this->energy = $energy;
-    }
-
-    public function setEnergyIcon(string $energyIcon): void
-    {
-        $this->energy_icon = $energyIcon;
-    }
-
-    public function setUserId(int $userId): void
-    {
-        $this->belong = $userId;
+        return $this;
     }
 }

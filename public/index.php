@@ -4,7 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-file_put_contents('/tmp/last_url.txt', print_r($_SERVER, true), FILE_APPEND);
 
 
 require_once __DIR__ . '/../config/session.php';
@@ -12,9 +11,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/helper.php';
 
+
+use Dotenv\Dotenv;
 use Router\Router;
 
-file_put_contents('/tmp/before_run.txt', "avant run\n", FILE_APPEND);
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
 $uri = explode('?', $_SERVER['REQUEST_URI'])[0];
 $uri = rtrim($uri, '/'); // supprime slash final s’il existe
@@ -44,6 +46,5 @@ $router->post('/test-update', 'App\Controllers\AccountController@testUpdate');
 
 
 $router->run();
-file_put_contents('/tmp/after_run.txt', "après run\n", FILE_APPEND);
 
 

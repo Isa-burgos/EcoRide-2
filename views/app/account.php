@@ -8,7 +8,7 @@
     $user = $user ?? null;
 
     $birthDate = ($user && method_exists($user, 'getBirthDate')) ? substr($user->getBirthDate(), 0, 10) : '';
-    $photo = ($user && method_exists($user, 'getPhoto')) ? '/' . htmlspecialchars($user->getPhoto()) : '/public/assets/img/default-profile.png';
+    $photo = ($user && method_exists($user, 'getPhoto')) ? '/' . htmlspecialchars($user->getPhoto()) : '/public/assets/img/default-profile.svg';
 
 ?>
 <main>
@@ -134,12 +134,15 @@
                                                     <strong><?= htmlspecialchars($vehicle?->getBrand()) . " " . htmlspecialchars($vehicle?->getModel()) ?></strong> 
                                                     (<?= htmlspecialchars($vehicle?->getColor()) ?>)
                                                     <br><small>Immatriculation : <?= htmlspecialchars($vehicle?->getRegistration()) ?></small>
+                                                    <?php if($vehicle->getNbPlace()): ?>
+                                                        <br><?= $vehicle?->getNbPlace() . " place" . ($vehicle->getNbPlace() > 1 ? 's' : "") ?> disponible<?= $vehicle->getNbPlace() > 1 ? 's' : "" ?>
+                                                    <?php endif ?>
                                                 </div>
                                                 <?php
                                                     $prefService = new \App\Services\PreferenceService();
                                                     $preferences = $prefService->getPreferencesByVehicle($vehicle->getVehicleId());
                                                 ?>
-                                                <div class="mt-2">
+                                                <div class="mt-2 px-2">
                                                     <?php if (!empty($preferences)): ?>
                                                         <ul class="list-unstyled">
                                                             <?php if (isset($preferences['smoking'])): ?>
@@ -183,6 +186,8 @@
 
                         <?php renderPartial('alert'); ?>
 
+                        <!-- Ajouter un véhicule -->
+                        
                         <div class="d-none" id="addVehicleSection">
                             <form method="POST" action="/vehicle/create">
                                 <div class="col-md-6 mb-3">
@@ -223,6 +228,15 @@
                                             <option value="violet">Violet</option>
                                             <option value="rose">Rose</option>
                                             <option value="beige">Beige</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="nb_place">Places disponibles</label>
+                                        <select class="form-select input" aria-label="select places disponibles" id="nb_place" name="nb_place" required>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
                                         </select>
                                     </div>
                                 </div>

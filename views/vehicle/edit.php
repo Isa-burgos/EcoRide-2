@@ -65,6 +65,16 @@ use App\Services\PreferenceService;
                                 <option value="beige">Beige</option>
                             </select>
                         </div>
+                        <div>
+                            <label for="nb_place">Places disponibles</label>
+                            <select class="form-select input" aria-label="select places disponibles" id="nb_place" name="nb_place" required>
+                                <option value="<?= $vehicle->getNbPlace() ?>"><?= $vehicle->getNbPlace() ?></option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
                 
                         <div class="mb-3">
                             <label class="form-label">Véhicule électrique</label>
@@ -103,10 +113,10 @@ use App\Services\PreferenceService;
                                         <label for="pets_no" class="form-check-label">Non</label>
                                     </div>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="custom_preferences" class="form-label">Autres préférences</label>
-                                    <textarea name="custom_preferences" class="form-control" rows="2"><?= htmlspecialchars($preferences['custom']) ?? '' ?></textarea>
+
+                                    <textarea name="custom_preferences" class="form-control" rows="2"><?= htmlspecialchars(trim((string)($preferences['custom'])), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?? '' ?></textarea>
                                 </div>
                 
                         <div class="text-center mt-4">

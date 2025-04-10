@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use PDO;
-use Config\DbConnect;
-
 abstract class Model{
 
     public function hydrate(array $data): self

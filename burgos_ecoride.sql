@@ -8,15 +8,14 @@ CREATE TABLE user(
     name VARCHAR(50) NOT NULL,
     firstname VARCHAR(50) NOT NULL,
     pseudo VARCHAR(50) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(50) NOT NULL,
     phone INT(10) NOT NULL,
     adress VARCHAR(255) NOT NULL,
     birth_date DATETIME NOT NULL,
     photo BLOB,
     gender VARCHAR(50) NOT NULL,
-    possess INT(11) NOT NULL,
-    FOREIGN KEY (possess) REFERENCES role(role_id)
+    role ENUM('user', 'admin', 'employe') DEFAULT 'user'
 );
 
 CREATE TABLE vehicle(
@@ -140,3 +139,7 @@ SELECT password FROM user;
 DESCRIBE user;
 
 SELECT * FROM role;
+
+ALTER TABLE carshare DROP COLUMN nb_place;
+
+ALTER TABLE vehicle ADD nb_place INT NOT NULL DEFAULT 1;

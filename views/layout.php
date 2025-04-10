@@ -66,7 +66,7 @@
                             <?php if (!empty($_SESSION['user']['photo'])): ?>
                                 <img src="/<?= htmlspecialchars($_SESSION['user']['photo']) ?>" alt="avatar" class="rounded-circle ms-2" width="32" height="32">
                             <?php else: ?>
-                                <img src="/assets/img/default-profile.png" alt="Profil" class="rounded-circle ms-2" width="32" height="32">
+                                <img src="/assets/img/default-profile.svg" alt="Profil" class="rounded-circle ms-2" width="32" height="32">
                             <?php endif; ?>
                         </a>
                         <ul class="dropdown-menu">

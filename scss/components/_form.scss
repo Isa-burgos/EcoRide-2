@@ -1,0 +1,47 @@
+.input{
+    @include input-style;
+    color: $secondary;
+}
+
+.startAdress{
+    background: 10px 5px no-repeat;
+    background-image: url(/assets/img/startAdress.svg);
+}
+.endAdress{
+    background: 10px 5px no-repeat;
+    background-image: url(/assets/img/endAdress.svg);
+}
+.date-depart{
+    background: 10px 5px no-repeat;
+    background-image: url(/assets/img/calendar.svg);
+}
+.passenger{
+    background: 10px 5px no-repeat;
+    background-image: url(/assets/img/passager.svg);
+}
+
+.input-container {
+    position: relative;
+
+    input {
+        padding-right: 40px;
+    }
+}
+
+.btn-geoloc {
+    position: absolute;
+    right: 1rem;
+    top: 2.6rem;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background: url('/assets/icons/geoloc.svg') no-repeat center;
+    border: none;
+    cursor: pointer;
+    text-indent: -9999px;
+    outline: none;
+
+    &:hover {
+        filter: brightness(1.2);
+    }
+}
