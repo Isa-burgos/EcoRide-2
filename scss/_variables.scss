@@ -1,0 +1,61 @@
+$link-color: #A3A847;
+$link-shade-percentage: 30%;
+
+
+$theme-colors: (
+    "primary": #A3A847,
+    "secondary": #59642F,
+    "success": #558776,
+    "dark": #444832,
+    "info": #0dcaf0,
+    "warning": #ffc107,
+    "danger": #BC2E0A,
+    "light": #EAE2B6,
+);
+
+$custom-theme-colors: (
+    "black": #101206,
+    "white": #fff,
+);
+
+$theme-colors: map-merge(
+  (
+    "primary": #A3A847,
+    "secondary": #59642F,
+    "success": #558776,
+    "danger": #BC2E0A,
+    "warning": #ffc107,
+    "info": #0dcaf0,
+    "light": #EAE2B6,
+    "dark": #444832,
+  ),
+  $custom-theme-colors
+);
+
+$body-bg: map-get($theme-colors, "black");
+$body-color: map-get($theme-colors, "white");
+
+
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 425px,
+    md: 768px,
+    lg: 1024px,
+    xl: 1200px,
+    xxl: 1400px
+);
+
+$h1-font-size: 3rem;
+$h2-font-size: 2.25rem;
+$h3-font-size: 1.5rem;
+$h4-font-size: 1.3rem ;
+$h5-font-size: 1.15rem;
+$h6-font-size: 1rem;
+
+$input-bg: map-get($theme-colors, "light");
+$input-border-color: map-get($theme-colors , 'black');
+$input-border-radius: 3px;
+$input-focus-bg: map-get($theme-colors, "light");
+$input-placeholder-color: map-get($theme-colors, "secondary");
+$input-plaintext-color: map-get($theme-colors, "dark");

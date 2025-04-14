@@ -28,7 +28,7 @@
                             <h4>Modifier mon compte</h4>
                             <?php renderPartial('alert'); ?>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body bg-white text-black">
                             <form method="POST" action="/update-account" enctype="multipart/form-data">
 
                                 <div class="mb-4 text-center">

@@ -1,0 +1,25 @@
+$primary: #A3A847;
+$secondary: #59642F;
+$dark: #444832;
+$light: #EAE2B6;
+$black: #101206;
+$success: #558776;
+$danger: #BC2E0A;
+$white: #fff;
+
+$link-hover-color: tint-color($link-color, $link-shade-percentage);
+
+input.form-control {
+    background-color: $input-bg;
+    border-color: $input-border-color;
+    border-radius: $input-border-radius;
+    color: $input-plaintext-color;
+
+    &::placeholder {
+        color: $input-placeholder-color;
+    }
+
+    &:focus {
+        background-color: $input-focus-bg;
+    }
+}

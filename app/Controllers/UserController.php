@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
-use App\Models\VehicleModel;
 use App\Repositories\UserRepository;
 use App\Services\AuthService;
 use App\Validation\Validator;
@@ -38,7 +37,10 @@ class UserController extends Controller{
         if($user && password_verify($_POST['password'], $user->getPassword())){
             (new AuthService())->login($user);
 
-            header('location: ' . ROUTE_DASHBOARD);
+            $redirectTo = $_SESSION['redirect_after_login']?? ROUTE_DASHBOARD;
+            unset($_SESSION['redirect_after_login']);
+
+            header('location: ' . $redirectTo);
             exit();
         } else {
             $_SESSION['error'] = 'Identifiant ou mot de passe incorrect';

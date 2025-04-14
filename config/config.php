@@ -7,3 +7,4 @@ define('ROUTE_REGISTER', '/register');
 define('ROUTE_DASHBOARD', '/dashboard');
 define('ROUTE_LOGOUT', '/logout');
 define('ROUTE_ACCOUNT', '/account');
+define('ROUTE_CARSHARE', '/carshare/edit');

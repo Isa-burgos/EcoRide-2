@@ -4,8 +4,6 @@ html{
 }
 
 body{
-    background-color: $black;
-    color: $white;
     h1, h2, h3{
         font-family: 'Poppins', sans-serif;
         color: $white;
@@ -27,9 +25,8 @@ body{
         line-height: 1.5rem;
     }
 
-    a{
+    a {
         font-family: 'Roboto', sans-serif;
-        color: $primary;
         text-decoration: none;
     }
 }

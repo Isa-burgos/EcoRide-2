@@ -21,6 +21,9 @@ use App\Services\PreferenceService;
                     <h1 class="text-center">Modifier le véhicule</h1>
                 
                     <form method="POST" action="/vehicle/<?= $vehicle->getVehicleId() ?>/update" class="mb-5 px-3">
+                        <?php if (!empty($_GET['redirect'])): ?>
+                            <input type="hidden" name="redirect" value="<?= htmlspecialchars($_GET['redirect']) ?>">
+                        <?php endif; ?>
                         <div class="mb-3">
                             <label for="registration" class="form-label">Immatriculation</label>
                             <input type="text" name="registration" id="registration" class="form-control"

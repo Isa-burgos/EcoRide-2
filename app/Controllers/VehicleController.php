@@ -84,8 +84,11 @@ class VehicleController extends Controller{
         $vehicleRepo = new VehicleRepository($this->getDB());
         $vehicle = $vehicleRepo->getVehicle($vehicleId);
 
+        $redirect = $_GET['redirect'] ?? null;
+
         return $this->view('vehicle.edit', [
-            'vehicle' => $vehicle
+            'vehicle' => $vehicle,
+            'redirect' => $redirect
         ]);
 
         header('location: ' . ROUTE_ACCOUNT);
@@ -129,8 +132,16 @@ class VehicleController extends Controller{
         $prefService->savePreferences($vehicleId, $preferences);
 
         $_SESSION['success'] = ["Véhicule mis à jour avec succès"];
-        header('Location: ' . ROUTE_ACCOUNT);
-        exit();
+
+        if(!empty($_POST['redirect'])){
+            $redirectTo = '/' . trim($_POST['redirect'], '/');
+            header('Location: ' . $redirectTo);
+            exit();
+        } else {
+            header('location:' . ROUTE_ACCOUNT);
+            exit();
+        }
+            
     }
 
 

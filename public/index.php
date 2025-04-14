@@ -34,15 +34,17 @@ $router->get('/account', 'App\Controllers\AccountController@show', 'mon compte')
 $router->post('/update-account', 'App\Controllers\AccountController@update', 'mon compte');
 
 $router->post('/vehicle/create', 'App\Controllers\VehicleController@store');
-
 $router->get('/vehicle/:id/edit', 'App\Controllers\VehicleController@edit');
 $router->post('/vehicle/:id/update', 'App\Controllers\VehicleController@update');
-
 $router->post('/vehicle/:id/delete', 'App\Controllers\VehicleController@delete');
+
+$router->get('/carshare/create', 'App\Controllers\CarshareController@create', 'proposer un trajet');
+$router->post('carshare/create', 'App\Controllers\CarshareController@store', 'proposer un trajet');
+$router->get('/history', 'App\Controllers\HistoryController@index', 'historique');
+
 
 $router->get('/posts/:id', 'App\Controllers\AppController@show');
 
-$router->post('/test-update', 'App\Controllers\AccountController@testUpdate');
 
 
 $router->run();
