@@ -25,7 +25,7 @@ use App\Services\AuthService;
 
     <?php if ($userId) : ?>
     <section class="conteneur">
-        <form class="conteneur-content" method="POST" action="/carshare/store">
+        <form class="conteneur-content" method="POST" action="/carshare/create">
 
             <!-- START STEP 1 -->
                 <div id="step1" class="step active">
@@ -93,7 +93,7 @@ use App\Services\AuthService;
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio"
                                                             name="used_vehicle"
-                                                            value="<?= $v->getVehicleId?>"
+                                                            value="<?= $v->getVehicleId()?>"
                                                             id="vehicle_<?= $v->getVehicleId()?>"
                                                             data-label="<?= $v->getBrand() . ' ' . $v->getModel() ?>"
                                                             data-place="<?= $v->getNbPlace() ?>"

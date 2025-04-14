@@ -47,5 +47,33 @@ class CarshareRepository extends Repository{
         return $this->pdo->lastInsertId();
     }
 
+    public function getByDriver( int $userId): array
+    {
+        $sql = "SELECT cs.*, v.nb_place, v.energy_icon, v.brand
+                FROM {$this->table} cs
+                JOIN vehicle v ON cs.used_vehicle = v.vehicle_id
+                WHERE v.belong = :user_id
+                ORDER BY cs.depart_date DESC, cs.depart_time DESC
+        ";
+
+        return $this->fetch($sql,[
+            'user_id' => $userId
+        ]);
+    }
+
+    public function getByPassenger($userId): array
+    {
+        $sql = "SELECT cs.*
+                FROM {$this->table} cs
+                JOIN user_carshare uc ON uc.carshare_id = cs.carshare_id
+                WHERE uc.user_id = :user_id
+                ORDER BY cs.depart_date DESC, cs.depart_time DESC
+        ";
+
+        return $this->fetch($sql, [
+            'user_id' => $userId
+        ]);
+    }
+
 
 }

@@ -43,9 +43,6 @@ $router->post('carshare/create', 'App\Controllers\CarshareController@store', 'pr
 $router->get('/history', 'App\Controllers\HistoryController@index', 'historique');
 
 
-$router->get('/posts/:id', 'App\Controllers\AppController@show');
-
-
 
 $router->run();
 

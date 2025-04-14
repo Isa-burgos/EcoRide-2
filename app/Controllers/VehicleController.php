@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use Throwable;
 use App\Services\AuthService;
 use App\Services\PreferenceService;
 use App\Repositories\VehicleRepository;

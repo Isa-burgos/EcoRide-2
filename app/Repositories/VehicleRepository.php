@@ -30,7 +30,7 @@ class VehicleRepository extends Repository{
 
     public function createVehicle(array $data): int|false
     {
-        $energyIcon = $data['energy'] == 1 ? '/assets/icons/electric-icon.svg' : '/assts/icons/thermal-icon.svg';
+        $energyIcon = $data['energy'] == 1 ? '/assets/icons/electric-icon.svg' : '/assets/icons/thermal-icon.svg';
 
         $sql = "INSERT INTO vehicle
                 (registration, first_registration_date, brand, model, color, nb_place, energy, energy_icon, belong)
@@ -73,7 +73,7 @@ class VehicleRepository extends Repository{
             exit();
         }
 
-        $energyIcon = $data['energy'] == 1 ? '/assets/icons/electric-icon.svg' : '/assts/icons/thermal-icon.svg';
+        $energyIcon = $data['energy'] == 1 ? '/assets/icons/electric-icon.svg' : '/assets/icons/thermal-icon.svg';
 
         $sql = "UPDATE {$this->table}
                 SET registration = :registration,
