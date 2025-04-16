@@ -13,7 +13,7 @@ input.form-control {
     background-color: $input-bg;
     border-color: $input-border-color;
     border-radius: $input-border-radius;
-    color: $input-plaintext-color;
+    color: $input-color;
 
     &::placeholder {
         color: $input-placeholder-color;
@@ -21,5 +21,6 @@ input.form-control {
 
     &:focus {
         background-color: $input-focus-bg;
+        color: $input-focus-color;
     }
 }

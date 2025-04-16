@@ -13,6 +13,8 @@ class CarshareModel extends Model{
     private string $arrivalTime;
     private string $statut;
     private int $usedVehicle;
+    protected int $conducteurId;
+
 
 
 
@@ -192,6 +194,26 @@ class CarshareModel extends Model{
     public function setUsedVehicle($usedVehicle)
     {
         $this->usedVehicle = $usedVehicle;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of conducteur_id
+     */ 
+    public function getConducteurId()
+    {
+        return $this->conducteurId;
+    }
+
+    /**
+     * Set the value of conducteur_id
+     *
+     * @return  self
+     */ 
+    public function setConducteurId($conducteurId)
+    {
+        $this->conducteurId = $conducteurId;
 
         return $this;
     }

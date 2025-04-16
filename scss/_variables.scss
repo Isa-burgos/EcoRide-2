@@ -54,8 +54,10 @@ $h5-font-size: 1.15rem;
 $h6-font-size: 1rem;
 
 $input-bg: map-get($theme-colors, "light");
+$input-color: map-get($theme-colors, "dark");
 $input-border-color: map-get($theme-colors , 'black');
 $input-border-radius: 3px;
 $input-focus-bg: map-get($theme-colors, "light");
 $input-placeholder-color: map-get($theme-colors, "secondary");
 $input-plaintext-color: map-get($theme-colors, "dark");
+$input-focus-color: map-get($theme-colors, "dark");

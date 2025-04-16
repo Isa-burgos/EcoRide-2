@@ -105,7 +105,7 @@ class VehicleRepository extends Repository{
 
         return $this->execute($sql, [
             ':vehicle_id' => $vehicleId,
-            'user_id' => $userId
+            ':user_id' => $userId
         ]);
     }
 

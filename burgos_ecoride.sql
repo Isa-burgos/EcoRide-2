@@ -143,3 +143,7 @@ SELECT * FROM role;
 ALTER TABLE carshare DROP COLUMN nb_place;
 
 ALTER TABLE vehicle ADD nb_place INT NOT NULL DEFAULT 1;
+
+ALTER TABLE user_carshare
+ADD COLUMN role ENUM('conducteur', 'passager') NOT NULL DEFAULT 'passager';
+DESCRIBE user_carshare;

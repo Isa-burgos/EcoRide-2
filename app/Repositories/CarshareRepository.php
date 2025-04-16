@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\CarshareModel;
+use App\Services\PreferenceService;
 use Config\DbConnect;
 
 class CarshareRepository extends Repository{
@@ -16,8 +17,10 @@ class CarshareRepository extends Repository{
 
     public function getCarshare(int $carshareId): ?CarshareModel
     {
-        $sql = "SELECT * FROM {$this->table} WHERE carshare_id = :carshare_id";
-        $data = $this->fetch($sql, ['carshare_id' => $carshareId]);
+        $sql = "SELECT *, (SELECT belong FROM vehicle WHERE vehicle_id = cs.used_vehicle) AS conducteur_id
+                FROM {$this->table} cs
+                WHERE carshare_id = :carshare_id";
+        $data = $this->fetch($sql, ['carshare_id' => $carshareId], true);
 
         if(!$data){
             return null;
@@ -72,6 +75,80 @@ class CarshareRepository extends Repository{
 
         return $this->fetch($sql, [
             'user_id' => $userId
+        ]);
+    }
+
+    public function getCarshareDetails(int $carshareId): ?array
+    {
+        $sql = "SELECT cs.*, v.brand, v.model, v.color, v.nb_place, v.energy, v.energy_icon, v.belong as user_id
+                FROM carshare cs
+                JOIN vehicle v ON cs.used_vehicle = v.vehicle_id
+                WHERE cs.carshare_id = :carshare_id
+        ";
+
+        $data = $this->fetch($sql, [
+            'carshare_id' => $carshareId
+        ], true);
+        return $data ?: null;
+    }
+
+    public function updateStatut(int $carshareId, string $newStatut): bool
+    {
+        $sql = "UPDATE carshare SET statut = :statut WHERE carshare_id = :carshare_id";
+        return $this->execute($sql, [
+            ':carshare_id' => $carshareId,
+            ':statut' => $newStatut
+        ]);
+    }
+
+    public function getPassengers(int $carshareId): array
+    {
+        $sql = "SELECT u.user_id, u.name, u.firstname, u.email, u.photo
+                FROM user_carshare uc
+                JOIN user u ON u.user_id = uc.user_id
+                WHERE uc.carshare_id = :carshare_id
+        ";
+
+        return $this->fetch($sql, [
+            'carshare_id' => $carshareId
+        ]);
+    }
+
+    public function updateCarshare(int $carshareId, array $data): bool
+    {
+        $sql = "UPDATE {$this->table}
+                SET price_person = :price_person,
+                    depart_adress = :depart_adress,
+                    arrival_adress = :arrival_adress,
+                    depart_time = :depart_time,
+                    arrival_time = :arrival_time,
+                    used_vehicle = :used_vehicle
+                WHERE carshare_id = :carshare_id
+                ";
+
+                return $this->execute($sql, [
+                    ':price_person' => $data['price_person'],
+                    ':depart_adress' => $data['depart_adress'],
+                    ':arrival_adress' => $data['arrival_adress'],
+                    ':depart_time' => $data['depart_time'],
+                    ':arrival_time' => $data['arrival_time'],
+                    ':used_vehicle' => $data['used_vehicle'],
+                    ':carshare_id' => $carshareId
+                ]);
+    }
+
+    public function deleteCarshare(int $carshareId, int $userId): bool
+    {
+        $sql1 = "DELETE FROM user_carshare WHERE carshare_id = :carshare_id";
+        $this->execute($sql1, [':carshare_id' => $carshareId]);
+
+        $sql2 = "DELETE FROM {$this->table}
+                WHERE carshare_id = :carshare_id AND used_vehicle IN (
+                SELECT vehicle_id FROM vehicle WHERE belong = :user_id)" ;
+
+        return $this->execute($sql2, [
+            ':carshare_id' => $carshareId,
+            ':user_id' => $userId
         ]);
     }
 

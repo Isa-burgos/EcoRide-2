@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
-use App\middleware\AuthMiddleware;
-use App\Repositories\CarshareRepository;
 use App\Services\AuthService;
+use App\middleware\AuthMiddleware;
+use App\Services\PreferenceService;
+use App\Repositories\CarshareRepository;
 
 class HistoryController extends Controller{
 
@@ -23,6 +24,44 @@ class HistoryController extends Controller{
 
         $myTrips = $carshareRepo->getByDriver($userId);
         $joinedTrips = $carshareRepo->getByPassenger($userId);
+
+        $prefService = new PreferenceService();
+
+        foreach($myTrips as &$trip){
+            $preferences = $prefService->getPreferencesByVehicle($trip['used_vehicle']);
+
+            $smoking = $preferences['smoking'] ?? false;
+            $pets = $preferences['pets'] ?? false;
+            $custom = $preferences['custom'] ?? '';
+
+            $trip['smoking_icon'] = $smoking
+                ? '/assets/icons/smoke.svg'
+                : '/assets/icons/no-smoking.svg';
+
+            $trip['pets_icon'] = $pets
+                ? '/assets/icons/pets.svg'
+                : '/assets/icons/no-pets.svg';
+
+            $trip['custom_preferences'] = $custom;
+        }
+
+        foreach($joinedTrips as &$trip){
+            $preferences = $prefService->getPreferencesByVehicle($trip['used_vehicle']);
+
+            $smoking = $preferences['smoking'] ?? false;
+            $pets = $preferences['pets'] ?? false;
+            $custom = $preferences['custom'] ?? '';
+
+            $trip['smoking_icon'] = $smoking
+                ? '/assets/icons/smoke.svg'
+                : '/assets/icons/no-smoking.svg';
+
+            $trip['pets_icon'] = $pets
+                ? '/assets/icons/pets.svg'
+                : '/assets/icons/no-pets.svg';
+
+            $trip['custom_preferences'] = $custom;
+        }
 
         return $this->view('history.index', [
             'myTrips' => $myTrips,
