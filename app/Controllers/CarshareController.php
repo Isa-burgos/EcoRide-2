@@ -83,9 +83,9 @@ class CarshareController extends Controller{
             'used_vehicle' => $_POST['used_vehicle'],
         ];
 
-        $carshareId = $carshareRepo->createCarshare($carshareData);
+        $carshare = $carshareRepo->createCarshare($carshareData);
 
-        if (!$carshareId) {
+        if (!$carshare) {
             $_SESSION['error'] = "Erreur lors de l'enregistrement du trajet";
             header('location: ' . ROUTE_CARSHARE);
             exit();
@@ -95,7 +95,7 @@ class CarshareController extends Controller{
         $stmt = $this->getDB()->getPDO()->prepare($sql);
         $stmt->execute([
             ':user_id' => $userId,
-            ':carshare_id' => $carshareId,
+            ':carshare_id' => $carshare->getCarshareId(),
             ':role' => 'conducteur'
         ]);
 
@@ -119,7 +119,7 @@ class CarshareController extends Controller{
             exit();
         }
 
-        $passengers = $carshareRepo->getPassengers($userId);
+        $passengers = $carshareRepo->getPassengers($carshareId);
 
         return $this->view('carshare.show', [
             'trip' => $trip,
@@ -244,20 +244,48 @@ class CarshareController extends Controller{
 
     public function search()
     {
-        $carshareRepo = new CarshareRepository($this->getDB());
-
         $depart = $_GET['depart_adress'] ?? null;
         $arrival = $_GET['arrival_adress'] ?? null;
         $date = $_GET['depart_date'] ?? null;
-        $passenger = $_GET['nb_place'] ?? '1';
+        $passenger = (int) ($_GET['nb_place'] ?? 1);
 
-        $results[];
+        if($depart && $arrival && $date){
+            $query = http_build_query([
+                'depart_adress' => $depart,
+                'arrival_adress' => $arrival,
+                'depart_date' => $date,
+                'nb_place' => $passenger
+            ]) ;
 
-        if($depart && $arrival && $date && $passenger){
-            $results = $carshareRepo->searchCarshares($depart, $arrival, $date, $passenger);
+            header('location: ' . ROUTE_CARSHARE_RESULTS . '?' . $query);
+            exit();
         }
 
         return $this->view('carshare.search',[
+            'depart_adress' => $depart,
+            'arrival_adress' => $arrival,
+            'depart_date' => $date,
+            'nb_place' => $passenger
+        ]);
+    }
+
+    public function results()
+    {
+        $depart = $_GET['depart_adress'] ?? null;
+        $arrival = $_GET['arrival_adress'] ?? null;
+        $date = $_GET['depart_date'] ?? null;
+        $passenger = (int)($_GET['nb_place'] ?? 1);
+        
+        if(!$depart || !$arrival || !$date){
+            $_SESSION['error'] = "Aucun trajet correspondant à votre recherche";
+            header('location: ' . ROUTE_CARSHARE_SEARCH);
+            exit();
+        }
+        
+        $carshareRepo = new CarshareRepository($this->getDB());
+        $results = $carshareRepo->searchCarshares($depart, $arrival, $date, $passenger);
+
+        return $this->view('carshare.results', [
             'results' => $results,
             'depart_adress' => $depart,
             'arrival_adress' => $arrival,

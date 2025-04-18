@@ -13,7 +13,7 @@ $pageDescription = 'Site de covoiturage écoresponsable';
         <h1>Trouvez <br><strong>un covoiturage</strong></h1>
         <h2>La solution accessible et durable pour tous</h2>
         <div class="search container w-100">
-            <form class="row row-cols-1 row-cols-lg-4 my-2" action="">
+            <form class="row row-cols-1 row-cols-lg-4 my-2" method="GET" action="/carshare/results">
                 <div class="input-container gx-1">
                     <input class="startAdress input" type="text" value="" name="depart_adress" id="departAdress" placeholder="Adresse de départ" required>
                     <div id="suggestionsDepart" class="suggestions-container"></div>

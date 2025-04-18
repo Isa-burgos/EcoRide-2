@@ -1,0 +1,201 @@
+
+.search-trip{
+    display: flex;
+    width: 90%;
+    height: auto;
+    background-color: $light;
+    border-radius: 3px;
+    border: 0.5px solid $black;
+    padding: 0;
+    .search-trip-btn{
+        width: 80%;
+        border: none;
+        background-color: transparent;
+        .search-trip-container{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 0.3rem;
+            .search-trip-direction{
+                color: $black;
+                padding: 0 0.5rem;
+            }
+        }
+    }
+    .filter-btn{
+        width: 20%;
+        border: none;
+        background-color: transparent;
+        color: $success;
+    }
+}
+
+.form-check {
+        margin: 0.3rem 0;
+    }
+
+.covoiturages-dashboard{
+    background-color: $secondary;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 0 2rem 0;
+    .covoiturages-dashboard-content{
+        width: 90%;
+        margin: auto;
+        .arrow{
+            fill: $primary;
+        }
+        .trip-card{
+            @include border;
+            padding: 0.3rem 1rem;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+
+            background-color: $light;
+            color: $black;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .trip-details-top{
+                display: flex;
+                .trip-details-left{
+                    display: flex;
+                    align-items: center;
+                    flex-grow: 1;
+                    align-self: stretch;
+                    height: 100%;
+                    .trip-hour{
+                        display: flex;
+                        flex-direction: column;
+                        margin: auto 0;
+                        .trip-depart, .trip-arrival{
+                            font-weight: 700;
+                        }
+                        .trip-duration{
+                            color: $secondary;
+                        }
+                    }
+                    .trip-picto{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        margin: 0.5rem;
+                        .dot{
+                            width: 0.8rem;
+                            height: 0.8rem;
+                            background-color: $white;
+                            border: 3px solid $black;
+                            border-radius: 100%;
+                        }
+                        .line {
+                            width: 3px;
+                            height: 100%;
+                            background-color: $black;
+                            flex-grow: 1;
+                            opacity: 1;
+                            min-height: 2.5rem;
+                            margin: 0;
+                        }
+                    }
+                    .trip-place{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        margin: auto 0;
+                        height: 4.5rem;
+                        .trip-depart, .trip-arrival{
+                            font-weight: 700;
+                        }
+                    }
+                }
+                .trip-details-right{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    flex-shrink: 0;
+                    min-width: 120px;
+                    align-self: center;
+                    height: 100%;
+                    .trip-price,
+                    .trip-passenger{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+
+                    }
+                    .trip-price{
+                        margin-bottom: 0.5rem;
+                        p{
+                            color: $black;
+                        }
+                    }
+                    .trip-passenger{
+                        margin-top: 1rem;
+                        p{
+                            color: $black;
+                        }
+                    }
+                }
+            }
+            
+            hr{
+                width: 100%;
+                height: 1px;
+                margin: 0;
+            }
+            .trip-details-bottom{
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 0.5rem;
+                .profile-photo{
+                    img{
+                        width: 3rem;
+                        height: 3rem;
+                        border-radius: 100%;
+                        background-size: cover;
+                    }
+                }
+                .name-container{
+                    display: flex;
+                    flex-direction: column;
+                    .rating{
+                        display: flex;
+                    }
+                }
+            }
+        }
+    } 
+}
+
+.filter{
+    visibility: hidden;
+    background-color: $secondary;
+    width: 30%;
+    margin: 2rem auto;
+    .input{
+        margin: 0.3rem 0;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .search-trip-direction{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .filter-btn{
+        display: none;
+    }
+    .covoiturages-results{
+        display: flex;
+        flex-direction: row-reverse;
+        .covoiturages-dashboard{
+            width: 60%;
+            margin: 2rem auto;
+        }
+        .filter{
+            visibility: visible; 
+        }
+    }
+}

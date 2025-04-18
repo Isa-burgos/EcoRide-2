@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\CarshareModel;
+use App\Models\UserModel;
 use App\Services\PreferenceService;
 use Config\DbConnect;
 
@@ -20,17 +21,18 @@ class CarshareRepository extends Repository{
         $sql = "SELECT *, (SELECT belong FROM vehicle WHERE vehicle_id = cs.used_vehicle) AS conducteur_id
                 FROM {$this->table} cs
                 WHERE carshare_id = :carshare_id";
-        $data = $this->fetch($sql, ['carshare_id' => $carshareId], true);
-
-        if(!$data){
-            return null;
-        }
-
-        $carshare = new CarshareModel();
-        return $carshare->hydrate($data);
+        return $this->fetch($sql, ['carshare_id' => $carshareId], true, CarshareModel::class);
     }
 
-    public function createCarshare(array $data): int|false
+    public function getAllCarshares(): array
+    {
+        $sql = "SELECT * FROM {$this->table}";
+        return $this->fetch($sql, [], false, CarshareModel::class);
+
+
+    }
+
+    public function createCarshare(array $data): CarshareModel|false
     {
         $sql = "INSERT INTO {$this->table}
                 (price_person, depart_adress, arrival_adress, depart_date, depart_time, arrival_time, statut, used_vehicle)
@@ -47,7 +49,9 @@ class CarshareRepository extends Repository{
             ':statut' => $data['statut'],
             ':used_vehicle' => $data['used_vehicle']
         ]);
-        return $this->pdo->lastInsertId();
+
+        $lastId = $this->pdo->lastInsertId();
+        return $this->getCarshare((int) $lastId);
     }
 
     public function getByDriver( int $userId): array
@@ -61,7 +65,10 @@ class CarshareRepository extends Repository{
 
         return $this->fetch($sql,[
             'user_id' => $userId
-        ]);
+            ],
+            false,
+            CarshareModel::class
+        );
     }
 
     public function getByPassenger($userId): array
@@ -75,7 +82,10 @@ class CarshareRepository extends Repository{
 
         return $this->fetch($sql, [
             'user_id' => $userId
-        ]);
+            ],
+            false,
+            CarshareModel::class
+        );
     }
 
     public function getCarshareDetails(int $carshareId): ?array
@@ -111,7 +121,10 @@ class CarshareRepository extends Repository{
 
         return $this->fetch($sql, [
             'carshare_id' => $carshareId
-        ]);
+            ],
+            false,
+            UserModel::class
+        );
     }
 
     public function updateCarshare(int $carshareId, array $data): bool
@@ -152,5 +165,45 @@ class CarshareRepository extends Repository{
         ]);
     }
 
+    public function searchCarshares(string $depart, string $arrival, string $date, int $passenger): array
+    {
+        $sql = "SELECT cs.*,
+                        v.nb_place, v.brand, v.model, v.color, v.energy, v.vehicle_id, v.belong AS driver_id
+                FROM {$this->table} cs
+                JOIN vehicle v ON cs.used_vehicle = v.vehicle_id
+                WHERE cs.depart_adress LIKE CONCAT('%',:depart, '%')
+                AND cs.arrival_adress LIKE CONCAT('%',:arrival, '%')
+                AND cs.depart_date = :date
+                AND cs.statut = 'créé'
+                AND v.nb_place >= :passenger
+                ";
 
+        $data = $this->fetch($sql, [
+            ':depart' => '%' . $depart . '%',
+            ':arrival' => '%' . $arrival . '%',
+            ':date' => $date,
+            ':passenger' => $passenger
+        ]);
+
+        $carshares = [];
+
+        $userRepo = new UserRepository($this->db);
+
+        foreach ($data as $row) {
+            $carshare = new \App\Models\CarshareModel();
+            $carshare->hydrate($row);
+
+
+            if (isset($row['driver_id'])) {
+                $driver = $userRepo->getById($row['driver_id']);
+                if ($driver) {
+                    $carshare->setDriver($driver);
+                }
+            }
+
+            $carshares[] = $carshare;
+        }
+
+        return $carshares;
+    }
 }

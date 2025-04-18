@@ -52,7 +52,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/covoiturages.php">Covoiturages</a>
+                        <a class="nav-link" href="/carshare/search">Covoiturages</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/contact.php">Contact</a>
@@ -72,7 +72,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/dashboard">Mon compte</a></li>
-                            <li><a class="dropdown-item" href="#">Mon historique</a></li>
+                            <li><a class="dropdown-item" href="/history/index">Mon historique</a></li>
                             <li><a class="dropdown-item" href="#">Mes avis</a></li>
                             <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
                         </ul>

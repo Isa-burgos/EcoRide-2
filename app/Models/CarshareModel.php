@@ -14,6 +14,8 @@ class CarshareModel extends Model{
     private string $statut;
     private int $usedVehicle;
     protected int $conducteurId;
+    private int $nbPlace;
+    protected ?UserModel $driver = null;
 
 
 
@@ -214,6 +216,47 @@ class CarshareModel extends Model{
     public function setConducteurId($conducteurId)
     {
         $this->conducteurId = $conducteurId;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of nbPlace
+     */ 
+    public function getNbPlace()
+    {
+        return $this->nbPlace;
+    }
+
+    /**
+     * Set the value of nbPlace
+     *
+     * @return  self
+     */ 
+    public function setNbPlace($nbPlace)
+    {
+        $this->nbPlace = $nbPlace;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of driver
+     */ 
+    public function getDriver(): ?UserModel
+    {
+        return $this->driver;
+    }
+
+    /**
+     * Set the value of driver
+     *
+     * @return  self
+     */ 
+    public function setDriver(UserModel $driver): self
+    {
+        $this->driver = $driver;
 
         return $this;
     }

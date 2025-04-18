@@ -1,7 +1,7 @@
 FROM php:8.3.17-apache
 
 RUN apt-get update && apt-get upgrade -y \
-     && apt-get install -y curl unzip libssl-dev pkg-config git
+     && apt-get install -y curl unzip libssl-dev pkg-config git libicu-dev && docker-php-ext-install intl
 RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable mysqli pdo_mysql
 RUN pecl install mongodb || true && docker-php-ext-enable mongodb
 

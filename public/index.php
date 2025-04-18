@@ -40,6 +40,8 @@ $router->post('/vehicle/:id/delete', 'App\Controllers\VehicleController@delete')
 
 $router->get('/carshare/create', 'App\Controllers\CarshareController@create', 'proposer un trajet');
 $router->post('/carshare/create', 'App\Controllers\CarshareController@store', 'proposer un trajet');
+$router->get('/carshare/search', 'App\Controllers\CarshareController@search', 'chercher un covoiturage');
+$router->get('/carshare/results', 'App\Controllers\CarshareController@results', 'afficher les trajets');
 $router->get('/carshare/:id', 'App\Controllers\CarshareController@show', 'voir le trajet');
 $router->post('/carshare/:id/start', 'App\Controllers\CarshareController@start', 'démarrer un trajet');
 $router->post('/carshare/:id/end', 'App\Controllers\CarshareController@end', 'terminer un trajet');
@@ -48,7 +50,6 @@ $router->get('/carshare/:id/edit', 'App\Controllers\CarshareController@edit', '�
 $router->post('/carshare/:id/update', 'App\Controllers\CarshareController@update', 'mettre à jour un trajet');
 $router->post('/carshare/:id/delete', 'App\Controllers\CarshareController@delete', 'supprimer un trajet');
 
-$router->get('/carshare/search', 'App\Controllers\CarshareController@search', 'chercher un covoiturage');
 
 $router->get('/history', 'App\Controllers\HistoryController@index', 'historique');
 
