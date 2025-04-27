@@ -17,6 +17,13 @@ class CarshareModel extends Model{
     private int $nbPlace;
     protected ?UserModel $driver = null;
 
+    protected ?VehicleModel $vehicle = null;
+
+
+    public string $smoking_icon;
+    public string $pets_icon;
+    public string $custom_preferences;
+
 
 
 
@@ -257,6 +264,26 @@ class CarshareModel extends Model{
     public function setDriver(UserModel $driver): self
     {
         $this->driver = $driver;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of vehicle
+     */ 
+    public function getVehicle()
+    {
+        return $this->vehicle;
+    }
+
+    /**
+     * Set the value of vehicle
+     *
+     * @return  self
+     */ 
+    public function setVehicle($vehicle)
+    {
+        $this->vehicle = $vehicle;
 
         return $this;
     }

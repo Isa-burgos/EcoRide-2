@@ -32,6 +32,8 @@ $theme-colors: map-merge(
   $custom-theme-colors
 );
 
+$component-active-color: map-get($theme-colors, "primary") !default;
+
 $body-bg: map-get($theme-colors, "black");
 $body-color: map-get($theme-colors, "white");
 
@@ -61,3 +63,5 @@ $input-focus-bg: map-get($theme-colors, "light");
 $input-placeholder-color: map-get($theme-colors, "secondary");
 $input-plaintext-color: map-get($theme-colors, "dark");
 $input-focus-color: map-get($theme-colors, "dark");
+
+$form-check-input-border: var(--bs-border-width) solid map-get($theme-colors, "dark");

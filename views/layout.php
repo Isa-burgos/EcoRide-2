@@ -96,22 +96,24 @@
     
     <!-- START FOOTER -->
 
-<footer class="footer bg-dark text-primary text-center">
-        <div class="info row align-items-center mx-auto">
-            <div class="contact col-sm-12 col-md-4">
-                <h3>Contact</h3>
-                <p>contact@ecoride.com</p>
+<footer class="footer bg-dark text-primary py-3">
+    <div class="container">
+        <div class="info row align-items-center justify-content-between mx-auto">
+            <div class="contact col-12 col-md-4 text-md-start text-center mb-3 mb-md-0">
+                <h3 class="h6 text-uppercase">Contact</h3>
+                <p class="text-primary">contact@ecoride.com</p>
             </div>
-            <div class="contact col-sm-6 col-md-4">
-                <a href="#">Mentions légales</a>
-            </div>
-            <div class="contact col-sm-6 col-lg-4">
-                <a href="#"><img src="/assets/icons/facebook.svg" alt="Logo facebook"></a>
-                <a href="#"><img src="/assets/icons/instagram.svg" alt="Logo instagram"></a>
-                <a href="#"><img src="/assets/icons/linkedin.svg" alt="Logo linkedin"></a>
+            <div class="contact col-12 col-md-8 d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-end">
+                <a href="#" class="mb-2 mb-md-0">Mentions légales</a>
+                <div class="contact col-sm-6 col-lg-4 text-center mb-3 mb-md-0">
+                    <a href="#" class="me-2"><img src="/assets/icons/facebook.svg" alt="Logo facebook"></a>
+                    <a href="#" class="me-2"><img src="/assets/icons/instagram.svg" alt="Logo instagram"></a>
+                    <a href="#"><img src="/assets/icons/linkedin.svg" alt="Logo linkedin"></a>
+                </div>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
     <!-- END FOOTER -->
     

@@ -58,10 +58,12 @@ class CarshareRepository extends Repository{
     {
         $sql = "SELECT cs.*, v.nb_place, v.energy_icon, v.brand
                 FROM {$this->table} cs
-                JOIN vehicle v ON cs.used_vehicle = v.vehicle_id
-                WHERE v.belong = :user_id
+                INNER JOIN user_carshare uc ON cs.carshare_id = uc.carshare_id
+                INNER JOIN vehicle v ON cs.used_vehicle = v.vehicle_id
+                WHERE uc.user_id = :user_id
+                AND uc.role = 'conducteur'
                 ORDER BY cs.depart_date DESC, cs.depart_time DESC
-        ";
+                ";
 
         return $this->fetch($sql,[
             'user_id' => $userId
@@ -73,10 +75,12 @@ class CarshareRepository extends Repository{
 
     public function getByPassenger($userId): array
     {
-        $sql = "SELECT cs.*
+        $sql = "SELECT cs.*, v.nb_place, v.energy_icon, v.brand
                 FROM {$this->table} cs
-                JOIN user_carshare uc ON uc.carshare_id = cs.carshare_id
+                INNER JOIN user_carshare uc ON cs.carshare_id = uc.carshare_id
+                INNER JOIN vehicle v ON cs.used_vehicle = v.vehicle_id
                 WHERE uc.user_id = :user_id
+                AND uc.role = 'passager'
                 ORDER BY cs.depart_date DESC, cs.depart_time DESC
         ";
 

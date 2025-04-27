@@ -89,7 +89,7 @@ use App\Services\AuthService;
                                                 $custom = $prefs['custom'] ?? '';
                                                 $selectedVehicleId = $_POST['used_vehicle'] ?? null;
                                             ?>
-                                            <div class="card bg-dark mb-3">
+                                            <div class="card bg-light text-dark mb-3">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio"
                                                             name="used_vehicle"
@@ -101,13 +101,13 @@ use App\Services\AuthService;
                                                             data-pets="<?= $pets ?>"
                                                             data-custom="<?= htmlspecialchars($custom) ?>">
                                                             <?=count($userVehicles) === 1 ? 'checked' : '' ?>>
-                                                    <label class="form-check-label text-white" for="vehicle_<?= $v->getVehicleId(); ?>">
+                                                    <label class="form-check-label text-dark" for="vehicle_<?= $v->getVehicleId(); ?>">
                                                     <?= htmlspecialchars($v->getBrand() . " " . $v->getModel()); ?>
                                                     </label>
-                                                    <p>Nombre de places disponibles : <?= $v->getNbPlace() ?></p>
-                                                    <p>Fumeur : <?= $smoking ? 'oui' : 'non' ?></p>
-                                                    <p>Animaux acceptés : <?= $pets ? 'oui' : 'non' ?></p>
-                                                    <p>Préférences : <?= $custom  ?: '' ?></p>
+                                                    <p class="text-dark">Nombre de places disponibles : <?= $v->getNbPlace() ?></p>
+                                                    <p class="text-dark">Fumeur : <?= $smoking ? 'oui' : 'non' ?></p>
+                                                    <p class="text-dark">Animaux acceptés : <?= $pets ? 'oui' : 'non' ?></p>
+                                                    <p class="text-dark">Préférences : <?= $custom  ?: '' ?></p>
                                                     <a href="/vehicle/<?= $v->getVehicleId() ?>/edit?redirect=/carshare/create" class="btn btn-primary">Modifier</a>
                                                 </div>
                                             </div>
@@ -199,9 +199,9 @@ use App\Services\AuthService;
                                         </div>
                                         <div class="passenger-quantity-and-price p-2">
                                             <div class="quantity-credit-selector btn-quantity-selector">
-                                                <button type="button" class="btn btn-quantity decrease">-</button>
+                                                <button type="button" class="btn-quantity decrease">-</button>
                                                 <input type="text" class="creditCount quantity-input" value="<?= isset($carshare) ? $carshare->getPricePerson() : 2 ?>" readonly>
-                                                <button type="button" class="btn btn-quantity increase">+</button>
+                                                <button type="button" class="btn-quantity increase">+</button>
                                             </div>
                                             <input type="hidden" name="price_person" id="creditInput" value="<?= isset($carshare) ? $carshare->getPricePerson() : 2 ?>">
                                         </div>
@@ -225,44 +225,40 @@ use App\Services\AuthService;
                         <div class="step-content">
                             <fieldset class="mb-5">
                                 <legend>Mon trajet</legend>
-                                <div>
+                                <div class="bg-light p-2 mt-2">
                                     <div>
-                                        <p>Départ : <span id="recap_depart_adress"></span></p>
-                                        <p>Arrivée : <span id="recap_arrival_adress"></span></p>
+                                        <p class="text-dark">Départ : <span id="recap_depart_adress"></span></p>
+                                        <p class="text-dark">Arrivée : <span id="recap_arrival_adress"></span></p>
                                     </div>
                                     <div>
-                                        <p>Distance : <span id="tripDistanceRecap">-- km</span></p>
-                                        <p>Durée théorique : <span id="tripDurationRecap">-- min</span></p>
+                                        <p class="text-dark">Distance : <span id="tripDistanceRecap">-- km</span></p>
+                                        <p class="text-dark">Durée théorique : <span id="tripDurationRecap">-- min</span></p>
                                     </div>
-                                    <a href="#step1">Modifier</a>
                                 </div>
                             </fieldset>
                             <fieldset class="mb-5">
                                 <legend>Mon véhicule</legend>
-                                <div>
+                                <div class="bg-light p-2 mt-2">
                                     <div>
-                                        <p>Véhicule sélectionné : <span id="recap_vehicle"></span></p>
-                                        <p>Places disponibles : <span id="recap_place"></span></p>
-                                        <p>Fumeur : <span id="recap_smoking"></span></p>
-                                        <p>Animaux de compagnie : <span id="recap_pets"></span></p>
-                                        <p>Autres commentaires : <span id="recap_custom"></span></p>
+                                        <p class="text-dark">Véhicule sélectionné : <span id="recap_vehicle"></span></p>
+                                        <p class="text-dark">Places disponibles : <span id="recap_place"></span></p>
+                                        <p class="text-dark">Fumeur : <span id="recap_smoking"></span></p>
+                                        <p class="text-dark">Animaux de compagnie : <span id="recap_pets"></span></p>
+                                        <p class="text-dark">Autres commentaires : <span id="recap_custom"></span></p>
                                     </div>
-                                    <a href="#">Modifier</a>
                                 </div>
                             </fieldset>
                             <fieldset class="mb-5">
                                 <legend>Date et heure</legend>
-                                <div>
-                                    <p>Départ le <span id="recap_depart_date">--</span> à <span id="recap_depart_time">--</span></p>
+                                <div class="bg-light p-2 mt-2">
+                                    <p class="text-dark">Départ le <span id="recap_depart_date">--</span> à <span id="recap_depart_time">--</span></p>
                                 </div>
-                                <a href="#">Modifier</a>
                             </fieldset>
                             <fieldset class="mb-5">
                                 <legend>Prix</legend>
-                                <div>
-                                    <p>Prix par passager : <span id="recap_price"></span><span> crédits</span></p>
+                                <div class="bg-light p-2 mt-2">
+                                    <p class="text-dark">Prix par passager : <span id="recap_price"></span><span> crédits</span></p>
                                 </div>
-                                <a href="#">Modifier</a>
                             </fieldset>
                             <p>En publiant une annonce en tant que conducteur, vous attestez être en possession d'un permis de conduire en cours de validité et d'un véhicule correctement assuré dont le contrôle technique est à jour.</p>
                         </div>

@@ -40,3 +40,56 @@
         border: 1px solid $danger;
     }
 }
+
+.passenger-quantity-and-price {
+    background-color: map-get($theme-colors, "light");
+    border: 1px solid map-get($theme-colors, "dark");
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; // espace entre les éléments
+}
+
+.btn-quantity {
+    background-color: map-get($theme-colors, "primary");
+    border: none;
+    color: white;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: darken(map-get($theme-colors, "primary"), 10%);
+    }
+
+    &:active {
+        background-color: darken(map-get($theme-colors, "primary"), 20%);
+    }
+}
+
+.quantity-input {
+    background-color: transparent;
+    border: none;
+    width: 3rem;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: map-get($theme-colors, "dark");
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+}
