@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\CarshareModel;
-use App\Models\UserModel;
-use App\Services\PreferenceService;
 use Config\DbConnect;
+use App\Models\UserModel;
+use App\Models\VehicleModel;
+use App\Models\CarshareModel;
+use App\Services\PreferenceService;
 
 class CarshareRepository extends Repository{
 
@@ -92,7 +93,7 @@ class CarshareRepository extends Repository{
         );
     }
 
-    public function getCarshareDetails(int $carshareId): ?array
+    public function getCarshareDetails(int $carshareId): ?CarshareModel
     {
         $sql = "SELECT cs.*, v.brand, v.model, v.color, v.nb_place, v.energy, v.energy_icon, v.belong as user_id
                 FROM carshare cs
@@ -100,10 +101,27 @@ class CarshareRepository extends Repository{
                 WHERE cs.carshare_id = :carshare_id
         ";
 
-        $data = $this->fetch($sql, [
+        $trip = $this->fetch($sql, [
             'carshare_id' => $carshareId
-        ], true);
-        return $data ?: null;
+            ],
+            true,
+            CarshareModel::class
+        );
+
+        if ($trip) {
+            $vehicle = new VehicleModel();
+            $vehicle->setBrand($trip->getBrand())
+                    ->setModel($trip->getModel())
+                    ->setColor($trip->getColor())
+                    ->setNbPlace($trip->getNbPlace())
+                    ->setEnergy($trip->getEnergy())
+                    ->setEnergyIcon($trip->getEnergyIcon());
+        
+            $trip->setVehicle($vehicle);
+        }
+        
+        return $trip;
+
     }
 
     public function updateStatut(int $carshareId, string $newStatut): bool
@@ -117,10 +135,11 @@ class CarshareRepository extends Repository{
 
     public function getPassengers(int $carshareId): array
     {
-        $sql = "SELECT u.user_id, u.name, u.firstname, u.email, u.photo
+        $sql = "SELECT u.*
                 FROM user_carshare uc
-                JOIN user u ON u.user_id = uc.user_id
+                INNER JOIN user u ON uc.user_id = u.user_id
                 WHERE uc.carshare_id = :carshare_id
+                AND uc.role = 'passager'
         ";
 
         return $this->fetch($sql, [

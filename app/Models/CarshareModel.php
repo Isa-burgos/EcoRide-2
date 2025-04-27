@@ -19,6 +19,16 @@ class CarshareModel extends Model{
 
     protected ?VehicleModel $vehicle = null;
 
+    private int $userId;
+
+    private ?string $brand = null;
+    private ?string $model = null;
+    private ?string $color = null;
+    private ?int $nb_place = null;
+    private ?int $energy = null;
+    private ?string $energyIcon = null;
+
+
 
     public string $smoking_icon;
     public string $pets_icon;
@@ -284,6 +294,146 @@ class CarshareModel extends Model{
     public function setVehicle($vehicle)
     {
         $this->vehicle = $vehicle;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of userId
+     */ 
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set the value of userId
+     *
+     * @return  self
+     */ 
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of brand
+     */ 
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    /**
+     * Set the value of brand
+     *
+     * @return  self
+     */ 
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of model
+     */ 
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Set the value of model
+     *
+     * @return  self
+     */ 
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of color
+     */ 
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set the value of color
+     *
+     * @return  self
+     */ 
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of nb_place
+     */ 
+    public function getNb_place()
+    {
+        return $this->nb_place;
+    }
+
+    /**
+     * Set the value of nb_place
+     *
+     * @return  self
+     */ 
+    public function setNb_place($nb_place)
+    {
+        $this->nb_place = $nb_place;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of energy
+     */ 
+    public function getEnergy()
+    {
+        return $this->energy;
+    }
+
+    /**
+     * Set the value of energy
+     *
+     * @return  self
+     */ 
+    public function setEnergy($energy)
+    {
+        $this->energy = $energy;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of energy_icon
+     */ 
+    public function getEnergyIcon()
+    {
+        return $this->energyIcon;
+    }
+
+    /**
+     * Set the value of energy_icon
+     *
+     * @return  self
+     */ 
+    public function setEnergyIcon($energy_icon)
+    {
+        $this->energyIcon = $energy_icon;
 
         return $this;
     }

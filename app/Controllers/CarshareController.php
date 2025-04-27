@@ -113,7 +113,7 @@ class CarshareController extends Controller{
         $carshareRepo = new CarshareRepository($this->getDB());
         $trip = $carshareRepo->getCarshareDetails($carshareId);
 
-        if(!$trip || $trip['user_id'] !== $userId){
+        if(!$trip || $trip->getUserId() !== $userId){
             $_SESSION['error'] = "Trajet introuvable ou accès non autorisé";
             header('location: ' . ROUTE_HISTORY);
             exit();

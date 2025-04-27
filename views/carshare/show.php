@@ -1,5 +1,5 @@
 <?php
-    $statut = $trip['statut'];
+    $statut = $trip->getStatut();
     $badgeClass = match($statut) {
         'créé' => 'badge bg-light text-dark',
         'en cours' => 'badge bg-warning text-dark',
@@ -19,31 +19,31 @@
     <section class="conteneur w-100">
         <div class="row conteneur-content">
 
-            <h2>Trajet du <?= date('d/m/Y', strtotime($trip['depart_date'])) ?> à <?= substr($trip['depart_time'], 0, 5) ?></h2>
-            <p>Départ : <?= $trip['depart_adress'] ?></p>
-            <p>Arrivée : <?= $trip['arrival_adress'] ?></p>
-            <p>Véhicule : <?= $trip['brand'] ?> <?= $trip['model'] ?> (<?= $trip['color'] ?>)</p>
-            <p>Énergie : <?= $trip['energy'] ? 'électrique' : "thermique" ?><img src="<?= $trip['energy_icon'] ?>" alt="" width="25"></p>
-            <p>Places dispo : <?= $trip['nb_place'] ?></p>
-            <p class="<?= $badgeClass ?> my-3 w-25"><?= ucfirst($trip['statut']) ?></p>
+            <h2>Trajet du <?= date('d/m/Y', strtotime($trip->getDepartDate())) ?> à <?= substr($trip->getDepartTime(), 0, 5) ?></h2>
+            <p>Départ : <?= $trip->getDepartAdress() ?></p>
+            <p>Arrivée : <?= $trip->getArrivalAdress() ?></p>
+            <p>Véhicule : <?= $trip->getVehicle()->getBrand() ?> <?= $trip->getVehicle()->getModel() ?> (<?= $trip->getVehicle()->getColor() ?>)</p>
+            <p>Énergie : <?= $trip->getVehicle()->getEnergy() ? 'électrique' : "thermique" ?><img src="<?= $trip->getVehicle()->getEnergyIcon() ?>" alt="" width="25"></p>
+            <p>Places dispo : <?= $trip->getVehicle()->getNbPlace() ?></p>
+            <p class="<?= $badgeClass ?> my-3 w-25"><?= ucfirst($trip->getStatut()) ?></p>
 
-            <?php if ($trip['statut'] === 'créé'): ?>
+            <?php if ($trip->getStatut() === 'créé'): ?>
                 <div class="d-flex align-items-center">
-                <a href="/carshare/<?= $trip['carshare_id'] ?>/edit" class="btn btn-light text-dark me-3">
+                <a href="/carshare/<?= $trip->getCarshareId() ?>/edit" class="btn btn-light text-dark me-3">
                     Modifier le trajet
                 </a>
-                    <form method="POST" action="/carshare/<?= $trip['carshare_id'] ?>/start">
+                    <form method="POST" action="/carshare/<?= $trip->getCarshareId() ?>/start">
                         <button class="btn btn-warning me-3">Démarrer le trajet</button>
                     </form>
-                    <form method="POST" action="/carshare/<?= $trip['carshare_id'] ?>/cancel">
+                    <form method="POST" action="/carshare/<?= $trip->getCarshareId() ?>/cancel">
                         <button class="btn bg-danger text-white border-danger me-3">Annuler le trajet</button>
                     </form>
                     <div>
                         <button type="button" class="btn btn-danger me-3" data-bs-toggle="modal" data-bs-target="#suppressionCarshareModal">Supprimer le trajet</button>
                     </div>
                 </div>
-            <?php elseif ($trip['statut'] === 'en cours'): ?>
-                <form method="POST" action="/carshare/<?= $trip['carshare_id'] ?>/end">
+            <?php elseif ($trip->getStatut() === 'en cours'): ?>
+                <form method="POST" action="/carshare/<?= $trip->getCarshareId() ?>/end">
                     <button class="btn btn-success">Terminer le trajet</button>
                 </form>
             <?php endif; ?>
@@ -53,11 +53,11 @@
             <?php if(!empty($passengers)): ?>
                 <ul>
                     <?php foreach($passengers as $passenger): ?>
-                        <li><?= $passenger['firstname'] ?> <?= $passenger['name'] ?> (<?= $passenger['email'] ?>)</li>
+                        <li><?= htmlspecialchars($passenger->getFirstName()) ?> <?= htmlspecialchars($passenger->getName()) ?> (<?= htmlspecialchars($passenger->getEmail()) ?>)</li>
                     <?php endforeach; ?>
+                </ul>
                 <?php else :?>
                     <p>Personne n'a réservé de trajet</p>
-                </ul>
             <?php endif ?>
         </div>
     </section>
@@ -75,7 +75,7 @@
                     <p>Voulez-vous vraiment supprimer ce trajet ?</p>
                     <div class="container d-flex justify-content-center">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
-                        <form method="POST" action="/carshare/<?= $trip['carshare_id'] ?>/delete">
+                        <form method="POST" action="/carshare/<?= $trip->getCarshareId() ?>/delete">
                             <button type="submit" class="btn btn-secondary">Confirmer la suppression</button>
                         </form>
                     </div>
