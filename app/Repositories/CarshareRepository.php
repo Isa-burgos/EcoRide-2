@@ -118,6 +118,20 @@ class CarshareRepository extends Repository{
                     ->setEnergyIcon($trip->getEnergyIcon());
         
             $trip->setVehicle($vehicle);
+
+            $userRepo = new UserRepository($this->db);
+            $driver = $userRepo->getById($trip->getUserId());
+
+            if ($driver){
+                $trip->setDriver($driver);
+            }
+
+            $prefService = new PreferenceService();
+            $preferences = $prefService->getPreferencesByVehicle($trip->getUsedVehicle());
+
+            $trip->smoking_icon = $preferences['smoking_icon'] ?? 'non_fumeur';
+            $trip->pets_icon = $preferences['pets_icon'] ?? 'no';
+            $trip->custom_preferences = $preferences['custom'];
         }
         
         return $trip;

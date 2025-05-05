@@ -39,3 +39,40 @@ function initQuantitySelector(selectorClass, inputClass, hiddenInputId, minValue
         });
     });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const selector = document.querySelector(".btn-quantity-selector");
+    const input = selector.querySelector(".quantity-input");
+    const decreaseBtn = selector.querySelector(".decrease");
+    const increaseBtn = selector.querySelector(".increase");
+    const hiddenPassengerCount = document.getElementById("passengerCountInput");
+    const pricePerson = document.getElementById("pricePerPerson");
+    const totalPriceDisplay = document.getElementById("totalPrice");
+
+    let minValue = 1;
+    let maxValue = maxPassengers;
+
+    const updateDisplay = () => {
+        hiddenPassengerCount.value = input.value;
+        const total = parseInt(input.value) * parseInt(pricePerson.value);
+        totalPriceDisplay.textContent = total;
+    };
+
+    decreaseBtn.addEventListener('click', () => {
+        let currentValue = parseInt(input.value);
+        if (currentValue > minValue){
+            input.value = currentValue -1;
+            updateDisplay();
+        }
+    });
+
+    increaseBtn.addEventListener("click", () => {
+        let currentValue = parseInt(input.value);
+        if (currentValue < maxValue){
+            input.value = currentValue + 1;
+            updateDisplay();
+        }
+    });
+
+    updateDisplay();
+});

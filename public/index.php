@@ -49,6 +49,7 @@ $router->post('/carshare/:id/cancel', 'App\Controllers\CarshareController@cancel
 $router->get('/carshare/:id/edit', 'App\Controllers\CarshareController@edit', 'éditer un trajet');
 $router->post('/carshare/:id/update', 'App\Controllers\CarshareController@update', 'mettre à jour un trajet');
 $router->post('/carshare/:id/delete', 'App\Controllers\CarshareController@delete', 'supprimer un trajet');
+$router->get('/carshare/:id/details', 'App\Controllers\CarshareController@details', 'détails d\'un trajet');
 
 
 $router->get('/history', 'App\Controllers\HistoryController@index', 'historique');

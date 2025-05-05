@@ -146,6 +146,7 @@ class CarshareController extends Controller{
         header('location: /carshare/' . $carshareId);
         exit();
     }
+
     public function cancel(int $carshareId)
     {
         $carshareRepo = new CarshareRepository($this->getDb());
@@ -292,7 +293,23 @@ class CarshareController extends Controller{
             'depart_date' => $date,
             'nb_place' => $passenger
         ]);
+    }
 
+    public function details(int $carshareId)
+    {
+        $carshareRepo = new CarshareRepository($this->getDB());
+
+        $trip = $carshareRepo->getCarshareDetails($carshareId);
+
+        if(!$trip){
+            $_SESSION['error'] = "Ce trajet n'existe pas.";
+            header('location: ' . ROUTE_CARSHARE_SEARCH);
+            exit();
+        }
+
+        return $this->view('carshare.details', [
+            'trip' => $trip
+        ]);
     }
 
 }
