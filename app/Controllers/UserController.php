@@ -109,6 +109,7 @@ class UserController extends Controller{
         $user->setPhoto('/public/assets/img/default-profile.svg');
         $user->setGender($_POST['gender']);
         $user->setRole($_POST['role'] ?? 'user');
+        $user->setCreditBalance(20);
         
         // Enregistrement
         $userRepo->createUser($user);

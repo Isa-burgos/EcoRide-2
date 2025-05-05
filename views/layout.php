@@ -70,6 +70,9 @@
                                 <img src="/assets/img/default-profile.svg" alt="Profil" class="rounded-circle ms-2" width="32" height="32">
                             <?php endif; ?>
                         </a>
+                        <div class="text-primary ps-2">
+                            <?= $_SESSION['user']['credit_balance'] ?> crédits
+                        </div>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/dashboard">Mon compte</a></li>
                             <li><a class="dropdown-item" href="/history/index">Mon historique</a></li>

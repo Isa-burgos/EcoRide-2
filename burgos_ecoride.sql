@@ -15,7 +15,8 @@ CREATE TABLE user(
     birth_date DATETIME NOT NULL,
     photo BLOB,
     gender VARCHAR(50) NOT NULL,
-    role ENUM('user', 'admin', 'employe') DEFAULT 'user'
+    role ENUM('user', 'admin', 'employe') DEFAULT 'user',
+    credit_balance INT(11) NOT NULL
 );
 
 CREATE TABLE vehicle(
@@ -45,12 +46,6 @@ CREATE TABLE carshare(
     Foreign Key (used_vehicle) REFERENCES vehicle(vehicle_id)
 );
 
-CREATE TABLE review(
-    review_id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    score INT(2) NOT NULL,
-    user_comment TEXT(500)
-);
-
 CREATE TABLE statut(
     statut_id INT(11) AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50)
@@ -62,14 +57,6 @@ CREATE TABLE user_carshare(
     Foreign Key (user_id) REFERENCES user(user_id),
     Foreign Key (carshare_id) REFERENCES carshare(carshare_id),
     PRIMARY KEY(user_id, carshare_id)
-);
-
-CREATE TABLE user_review(
-    user_id INT(11),
-    review_id INT(11),
-    Foreign Key (user_id) REFERENCES user(user_id),
-    Foreign Key (review_id) REFERENCES review(review_id),
-    PRIMARY KEY (user_id, review_id)
 );
 
 CREATE TABLE user_statut(
@@ -110,19 +97,6 @@ UPDATE vehicle SET energy_icon = 'thermal-icon.svg' WHERE energy = '0';
 ALTER TABLE user 
 MODIFY COLUMN photo VARCHAR(255) NULL;
 
-UPDATE user SET password = '$2y$10$N00F1.1wZNG.6KkNwof.0.iiZ2URx51jpo8UTWhGg.RNGMTlWmtCO' WHERE email = 'martinpatricia@email.fr';
-
-CREATE TABLE preferences (
-    preference_id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    user_id INT(11) NOT NULL UNIQUE,
-    is_smoker TINYINT(1) NOT NULL DEFAULT 0,
-    smoking_icon VARCHAR(255) DEFAULT 'assets/icons/no-smoking.svg',
-    accept_pets TINYINT(1) NOT NULL DEFAULT 0,
-    pets_icon VARCHAR(255) DEFAULT 'assets/icons/no-pets.svg',
-    otherPreferences TEXT(500) DEFAULT NULL,
-    Foreign Key (user_id) REFERENCES user(user_id) ON DELETE CASCADE
-)
-
 SELECT vehicle_id, brand, model, energy FROM vehicle;
 
 ALTER TABLE preferences
@@ -130,9 +104,6 @@ DROP FOREIGN KEY preferences_ibfk_1,
 DROP COLUMN user_id,
 ADD COLUMN vehicle_id INT NOT NULL,
 ADD CONSTRAINT preferences_vehicle FOREIGN KEY (vehicle_id) REFERENCES vehicle(vehicle_id) ON DELETE CASCADE;
-
-ALTER TABLE preferences
-ADD COLUMN vehicle_id INT(11) NOT NULL;
 
 SELECT password FROM user;
 
@@ -147,3 +118,72 @@ ALTER TABLE vehicle ADD nb_place INT NOT NULL DEFAULT 1;
 ALTER TABLE user_carshare
 ADD COLUMN role ENUM('conducteur', 'passager') NOT NULL DEFAULT 'passager';
 DESCRIBE user_carshare;
+
+CREATE TABLE payment(
+    payment_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    amount FLOAT NOT NULL,
+    type ENUM('payment', 'revenue', 'commission'),
+    created_at TIMESTAMP NOT NULL,
+    user_id INT(11) NOT NULL,
+    carshare_id INT(11) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
+    FOREIGN KEY (carshare_id) REFERENCES carshare(carshare_id)
+);
+
+ALTER TABLE payment DROP COLUMN credit_balance;
+ALTER TABLE user ADD COLUMN credit_balance INT(11) NOT NULL;
+
+INSERT INTO user (name, firstname, pseudo, email, password, gender, role, credit_balance)
+VALUES
+    ('Dupont', 'Alice', 'Alicedupont', 'alicedupont@email.fr', 'Azerty@11', 'femme', 'user', 80),
+    ('Dupont', 'Alain', 'Alaindupont', 'alaindupont@email.fr', 'Azerty@11', 'homme', 'user', 25),
+    ('Durand', 'Michel', 'Micheldurand', 'micheldurand@email.fr', 'Azerty@11', 'homme', 'user', 50),
+    ('Froment', 'Zoé', 'Zoefroment', 'zoefroment@email.fr', 'Azerty@11', 'femme', 'user', 0),
+    ('Rodriguez', 'José', 'admin', 'admin@email.fr', 'Azerty@11', 'homme', 'admin', 80);
+
+INSERT INTO vehicle (registration, first_registration_date, brand, model, color, energy, nb_place, belong)
+VALUES
+    ('EE-000-EE', '2022-02-01', 'Citroen', 'C3', 'rouge', '1', 2, 22),
+    ('EE-111-EE', '2020-02-01', 'Renault', 'captur', 'gris', '0', 1, 24),
+    ('EE-222-EE', '2019-02-01', 'Volkswagen', 'Touran', 'vert', '0', 3, 25);
+
+
+INSERT INTO statut (name)
+VALUES
+    ('passager'),
+    ('conducteur'),
+    ('passager et conducteur');
+
+INSERT INTO user_statut (user_id, statut_id)
+VALUES
+    (22, 3),
+    (23, 4),
+    (24, 5),
+    (25, 3);
+
+INSERT INTO carshare (depart_adress, arrival_adress, depart_date, depart_time, arrival_time, used_vehicle)
+VALUES
+    ('Valence', 'Aubenas', '2025-04-30', '08:00:00', '09:15:00', 29),
+    ('Valence', 'Aubenas', '2025-04-30', '10:00:00', '11:15:00', 30),
+    ('Valence', 'Aubenas', '2025-04-30', '16:30:00', '17:45:00', 31);
+
+UPDATE carshare
+SET price_person =20
+WHERE carshare_id = 29;
+UPDATE carshare
+SET price_person =15
+WHERE carshare_id = 30;
+UPDATE carshare
+SET price_person =16
+WHERE carshare_id = 31;
+
+INSERT INTO user_carshare (user_id, carshare_id)
+VALUES
+    (22, 29),
+    (25, 29);
+
+INSERT INTO payment (user_id, carshare_id, amount, type, created_at)
+VALUES
+    (22, 29, 20, 'payment', CURRENT_TIMESTAMP),
+    (23, 29, 16, 'revenue', CURRENT_TIMESTAMP),
+    (26, 29, 2, 'commission', CURRENT_TIMESTAMP);

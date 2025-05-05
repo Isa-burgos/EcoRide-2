@@ -21,6 +21,7 @@ class UserModel extends Model{
     private string $pseudo;
     private string $photo;
     private string $gender;
+    private int $creditBalance = 20;
 
     public function getUserId(): int{
         return $this->user_id;
@@ -125,4 +126,24 @@ class UserModel extends Model{
         $this->gender = $gender;
     }
 
+
+    /**
+     * Get the value of creditBalance
+     */ 
+    public function getCreditBalance()
+    {
+        return $this->creditBalance;
+    }
+
+    /**
+     * Set the value of creditBalance
+     *
+     * @return  self
+     */ 
+    public function setCreditBalance($creditBalance)
+    {
+        $this->creditBalance = $creditBalance;
+
+        return $this;
+    }
 }

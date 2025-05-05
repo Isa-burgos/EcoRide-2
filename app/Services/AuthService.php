@@ -17,6 +17,7 @@ class AuthService{
             'email' => $user->getEmail(),
             'pseudo' => $user->getPseudo(),
             'photo' => $user->getPhoto() ?? '/public/assets/img/default-ptofilr.png',
+            'credit_balance' => $user->getCreditBalance()
         ];
 
         session_write_close();
