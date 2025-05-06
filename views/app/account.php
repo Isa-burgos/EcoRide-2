@@ -1,8 +1,4 @@
 <?php
-
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-
     $statuts = $statuts ?? [];
     $vehicles = $vehicles ?? [];
     $user = $user ?? null;

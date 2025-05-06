@@ -102,7 +102,11 @@
                                             <p class="m-0"><?= htmlspecialchars($carshare->getPricePerson()) ?> <span>crédits</span></p>
                                         </div>
                                         <div class="trip-passenger">
-                                            <p class="m-0"><?= htmlspecialchars($carshare->getNbPlace()) ?><span> passager</span></p>
+                                            <?php if($carshare->getAvailablePlaces() > 0) : ?>
+                                                <p class="m-0"><?= htmlspecialchars($carshare->getAvailablePlaces()) ?><span> passager</span></p>
+                                            <?php else : ?>
+                                                <p class="m-0">COMPLET</p>
+                                            <?php endif ?>
                                         </div>
                                     </div>
                                 </div>

@@ -28,11 +28,11 @@ class CarshareModel extends Model{
     private ?int $energy = null;
     private ?string $energyIcon = null;
 
-
-
     public string $smoking_icon;
     public string $pets_icon;
     public string $custom_preferences;
+
+    private int $availablePlaces = 0;
 
 
 
@@ -434,6 +434,26 @@ class CarshareModel extends Model{
     public function setEnergyIcon($energy_icon)
     {
         $this->energyIcon = $energy_icon;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of availablePlaces
+     */ 
+    public function getAvailablePlaces(): int
+    {
+        return $this->availablePlaces;
+    }
+
+    /**
+     * Set the value of availablePlaces
+     *
+     * @return  self
+     */ 
+    public function setAvailablePlaces($availablePlaces): self
+    {
+        $this->availablePlaces = $availablePlaces;
 
         return $this;
     }

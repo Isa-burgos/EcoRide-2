@@ -187,3 +187,16 @@ VALUES
     (22, 29, 20, 'payment', CURRENT_TIMESTAMP),
     (23, 29, 16, 'revenue', CURRENT_TIMESTAMP),
     (26, 29, 2, 'commission', CURRENT_TIMESTAMP);
+
+CREATE TABLE reservations (
+    reservation_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    carshare_id INT(11) NOT NULL,
+    reservation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
+    FOREIGN KEY (carshare_id) REFERENCES carshare(carshare_id),
+    UNIQUE (user_id, carshare_id)
+);
+
+ALTER TABLE reservations
+ADD COLUMN reserved_places INT NOT NULL DEFAULT 1;

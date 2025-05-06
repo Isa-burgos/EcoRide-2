@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = selector.querySelector(".quantity-input");
     const decreaseBtn = selector.querySelector(".decrease");
     const increaseBtn = selector.querySelector(".increase");
-    const hiddenPassengerCount = document.getElementById("passengerCountInput");
+    const hiddenPassengerCount = document.getElementById("passengerCountInputHidden");
     const pricePerson = document.getElementById("pricePerPerson");
     const totalPriceDisplay = document.getElementById("totalPrice");
 

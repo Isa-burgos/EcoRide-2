@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\middleware\AuthMiddleware;
 use App\Repositories\CarshareRepository;
+use App\Repositories\ReservationRepository;
 use App\Repositories\VehicleRepository;
 use App\Services\AuthService;
 use App\Services\PreferenceService;
@@ -257,8 +258,13 @@ class CarshareController extends Controller{
                 'depart_date' => $date,
                 'nb_place' => $passenger
             ]) ;
-
             header('location: ' . ROUTE_CARSHARE_RESULTS . '?' . $query);
+            exit();
+        }
+
+        if($date && $date < date('Y-m-d')){
+            $_SESSION['errors'] = "Vous ne pouvez pas choisir une date antérieure à la date du jour";
+            header('location: ' . ROUTE_CARSHARE_SEARCH);
             exit();
         }
 
@@ -286,6 +292,13 @@ class CarshareController extends Controller{
         $carshareRepo = new CarshareRepository($this->getDB());
         $results = $carshareRepo->searchCarshares($depart, $arrival, $date, $passenger);
 
+        $reservationRepo = new ReservationRepository($this->getDB());
+
+        foreach($results as $carshare){
+            $reserved = $reservationRepo->countReservedSeats($carshare->getCarshareId());
+            $carshare->setNbPlace($carshare->getNbPlace() - $reserved);
+        }
+
         return $this->view('carshare.results', [
             'results' => $results,
             'depart_adress' => $depart,
@@ -295,8 +308,10 @@ class CarshareController extends Controller{
         ]);
     }
 
-    public function details(int $carshareId)
+    public function details(string|int $carshareId)
     {
+        $carshareId = (int) $carshareId;
+
         $carshareRepo = new CarshareRepository($this->getDB());
 
         $trip = $carshareRepo->getCarshareDetails($carshareId);

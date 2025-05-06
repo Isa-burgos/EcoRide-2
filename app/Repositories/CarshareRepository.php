@@ -223,8 +223,8 @@ class CarshareRepository extends Repository{
         ]);
 
         $carshares = [];
-
         $userRepo = new UserRepository($this->db);
+        $reservationRepo = new ReservationRepository($this->db);
 
         foreach ($data as $row) {
             $carshare = new \App\Models\CarshareModel();
@@ -238,7 +238,13 @@ class CarshareRepository extends Repository{
                 }
             }
 
-            $carshares[] = $carshare;
+            $reserved = $reservationRepo->countReservedSeats($carshare->getCarshareId());
+            $remaining = (int) $carshare->getNbPlace() - $reserved;
+            $carshare->setAvailablePlaces(max(0, $remaining));
+
+            if($remaining >= $passenger){
+                $carshares[] = $carshare;
+            }
         }
 
         return $carshares;

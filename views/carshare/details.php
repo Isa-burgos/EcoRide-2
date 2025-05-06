@@ -16,8 +16,10 @@
             <div class="recap-search">
                 <div class="recap-search-date">
                     <h2><?= htmlspecialchars(formatDateFr($trip->getDepartDate())) ?></h2>
+                    <?php renderPartial('alert'); ?>
                 </div>
             </div>
+
     
             <div class="dashboard-result">
                 <div class="trip-card p-0">
@@ -136,14 +138,14 @@
                             <button class="btn-quantity increase">+</button>
                         </div>
                         <input type="hidden" id="pricePerPerson" value="<?= $trip->getPricePerson() ?>">
-                        <input type="hidden" name="passengerCount" id="passengerCountInput" value="1">
+                        <input type="hidden" id="displayPassengerCount" value="1">
                         <div class="trip-price">
                             <p class="m-0 text-dark"><span id="totalPrice"><?= htmlspecialchars($trip->getPricePerson()) ?></span> Crédits</p>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#confirmationModal">Réserver</button>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmationModal">Réserver</button>
                 </div>
             </div>
             </div>
@@ -163,7 +165,11 @@
                         <p>Voulez-vous vraiment réserver ce trajet ?</p>
                         <div class="container d-flex justify-content-center">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
-                            <button type="submit" class="btn btn-secondary">Confirmer la réservation</button>
+                            <form action="/carshare/<?= $trip->getCarshareId() ?>/reserve" method="POST">
+                                <input type="hidden" name="carshare_id" value="<?= $trip->getCarshareId() ?>">
+                                <input type="hidden" name="number_of_passengers" id="passengerCountInputHidden" value="1">
+                                <button type="submit" class="btn btn-secondary">Confirmer la réservation</button>
+                            </form>
                         </div>
                     </div>
                 </div>

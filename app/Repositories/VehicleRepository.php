@@ -117,4 +117,10 @@ class VehicleRepository extends Repository{
         return $stmt->fetchColumn() > 0;
     }
 
+    public function verifyAvailablePlacesInCarshare($vehicleId)
+    {
+        $sql = "SELECT nb_place FROM vehicle WHERE vehicle_id = :vehicle_id";
+        return $this->fetch($sql, ['vehicle_id' => $vehicleId], true, VehicleModel::class);
+    }
+
 }
