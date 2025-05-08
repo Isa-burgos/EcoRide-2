@@ -29,8 +29,6 @@ class CarshareRepository extends Repository{
     {
         $sql = "SELECT * FROM {$this->table}";
         return $this->fetch($sql, [], false, CarshareModel::class);
-
-
     }
 
     public function createCarshare(array $data): CarshareModel|false
@@ -78,10 +76,9 @@ class CarshareRepository extends Repository{
     {
         $sql = "SELECT cs.*, v.nb_place, v.energy_icon, v.brand
                 FROM {$this->table} cs
-                INNER JOIN user_carshare uc ON cs.carshare_id = uc.carshare_id
+                INNER JOIN reservations r ON cs.carshare_id = r.carshare_id
                 INNER JOIN vehicle v ON cs.used_vehicle = v.vehicle_id
-                WHERE uc.user_id = :user_id
-                AND uc.role = 'passager'
+                WHERE r.user_id = :user_id
                 ORDER BY cs.depart_date DESC, cs.depart_time DESC
         ";
 
@@ -150,10 +147,9 @@ class CarshareRepository extends Repository{
     public function getPassengers(int $carshareId): array
     {
         $sql = "SELECT u.*
-                FROM user_carshare uc
-                INNER JOIN user u ON uc.user_id = u.user_id
-                WHERE uc.carshare_id = :carshare_id
-                AND uc.role = 'passager'
+                FROM reservations r
+                JOIN user u ON u.user_id = r.user_id
+                WHERE r.carshare_id = :carshare_id
         ";
 
         return $this->fetch($sql, [

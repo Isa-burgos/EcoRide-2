@@ -136,7 +136,7 @@ use App\Services\AuthService;
                                     <div>
                                         <div>
                                             <label for="depart_date">Jour</label>
-                                            <input class="input form-control" name="depart_date" id="depart_date" type="date" value="" required>
+                                            <input class="input form-control" name="depart_date" id="depart_date" type="date" value="" required min="<?= date('Y-m-d') ?>" >
                                         </div>
                                         <div>
                                             <fieldset>

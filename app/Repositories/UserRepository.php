@@ -42,7 +42,8 @@ class UserRepository extends Repository{
 
     }
 
-    public function emailExists(string $email): bool{
+    public function emailExists(string $email): bool
+    {
         $stmt = $this->getPDO()->prepare("SELECT user_id FROM {$this->table} WHERE email = :email");
         $stmt->bindValue(':email', $email);
         $stmt->execute();
@@ -106,7 +107,8 @@ class UserRepository extends Repository{
         ]);
     }
 
-    public function getStatuts(int $userId): array{
+    public function getStatuts(int $userId): array
+    {
         $stmt = $this->getPDO()->prepare("
             SELECT s.name
             FROM statut s
@@ -160,6 +162,32 @@ class UserRepository extends Repository{
                 ]);
             }
         }
+    }
+
+    public function debitCredits($userId, $amount): void
+    {
+        $sql = "UPDATE {$this->table} SET credit_balance = credit_balance - :amount WHERE user_id = :user_id";
+        $this->execute($sql, [
+            'user_id' => $userId,
+            'amount' => $amount
+        ]);
+    }
+
+    public function creditCredits($userId, $amount): void
+    {
+        $sql = "UPDATE {$this->table} SET credit_balance = credit_balance + :amount WHERE user_id = :user_id";
+        $this->execute($sql, [
+            'user_id' => $userId,
+            'amount' => $amount
+        ]);
+    }
+
+    public function getAdminId(): ?int
+    {
+        $sql = "SELECT user_id FROM {$this->table} WHERE role = 'admin' LIMIT 1";
+        $admin = $this->fetch($sql, [], true);
+
+        return $admin ? $admin['user_id'] : null;
     }
     
 }

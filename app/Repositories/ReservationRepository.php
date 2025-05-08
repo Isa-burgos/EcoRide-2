@@ -57,6 +57,10 @@ class ReservationRepository extends Repository{
         return (int) $stmt->fetchColumn() ?? 0;
     }
 
-    
+    public function getReservationsByCarshare(int $carshareId): array
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE carshare_id = :carshare_id";
+        return $this->fetch($sql, ['carshare_id' => $carshareId], false, ReservationModel::class);
+    }
 
 }

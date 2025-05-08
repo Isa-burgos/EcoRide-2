@@ -64,7 +64,7 @@ class ReservationController extends Controller{
             exit();
         }
 
-        if($reservationRepo->reserve($userId, $carshareId)){
+        if($reservationRepo->reserve($userId, $carshareId, $requestedPlaces)){
             $_SESSION['success'] = "Réservation confirmée";
             header('Location: /carshare/' . $carshareId . '/details');
             exit();

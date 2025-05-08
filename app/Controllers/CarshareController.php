@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\middleware\AuthMiddleware;
 use App\Repositories\CarshareRepository;
+use App\Repositories\PaymentRepository;
 use App\Repositories\ReservationRepository;
+use App\Repositories\UserRepository;
 use App\Repositories\VehicleRepository;
 use App\Services\AuthService;
 use App\Services\PreferenceService;
@@ -62,6 +64,12 @@ class CarshareController extends Controller{
         ){
             $_SESSION['error'] = "Veuillez remplir tous les champs";
             header('location: ' . ROUTE_CARSHARE);
+            exit();
+        }
+
+        if($_POST['depart_date'] && $_POST['depart_date'] < date('Y-m-d')){
+            $_SESSION['errors'] = "Vous ne pouvez pas choisir une date antérieure à la date du jour";
+            header('location: ' . ROUTE_CARSHARE_SEARCH);
             exit();
         }
 
@@ -141,6 +149,45 @@ class CarshareController extends Controller{
     public function end(int $carshareId)
     {
         $carshareRepo = new CarshareRepository($this->getDb());
+        $reservationRepo = new ReservationRepository($this->getDB());
+        $userRepo = new UserRepository($this->getDB());
+        $paymentRepo = new PaymentRepository($this->getDB());
+
+        $carshare = $carshareRepo->getCarshare($carshareId);
+
+        if(!$carshare){
+            $_SESSION['errors'] = "Trajet introuvable";
+            header('location: /carshare/' . $carshareId);
+            exit();
+        }
+
+        $pricePerPerson = $carshare->getPricePerson();
+        $driverId = $carshare->getConducteurId();
+
+        $reservations = $reservationRepo->getReservationsByCarshare($carshareId);
+        $totalCreditsForDriver = 0;
+
+        foreach($reservations as $reservation){
+            $passengerId = $reservation->getUserId();
+            $reservedPlaces = $reservation->getReservedPlaces();
+            $amountToPay = $reservedPlaces * $pricePerPerson;
+
+            $userRepo->debitCredits($passengerId, $amountToPay);
+            $paymentRepo->log($passengerId, $carshareId, $amountToPay, 'payment');
+
+            $totalCreditsForDriver += $amountToPay;
+        }
+
+        $userRepo->creditCredits($driverId, $totalCreditsForDriver - 2);
+        $paymentRepo->log($driverId, $carshareId, $totalCreditsForDriver - 2, 'revenue');
+
+        $adminId = $userRepo->getAdminId();
+
+        if($adminId){
+            $userRepo->creditCredits($adminId, 2);
+            $paymentRepo->log($adminId, $carshareId, 2, 'commission');
+        }
+
         $carshareRepo->updateStatut($carshareId, 'terminé');
 
         $_SESSION['success'] = "Le trajet est terminé";
