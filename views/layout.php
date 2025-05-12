@@ -75,7 +75,7 @@
                         </div>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/dashboard">Mon compte</a></li>
-                            <li><a class="dropdown-item" href="/history/index">Mon historique</a></li>
+                            <li><a class="dropdown-item" href="/history">Mon historique</a></li>
                             <li><a class="dropdown-item" href="#">Mes avis</a></li>
                             <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
                         </ul>

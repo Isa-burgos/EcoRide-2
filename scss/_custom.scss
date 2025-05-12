@@ -30,3 +30,11 @@ input.form-control {
     border-color: map-get($theme-colors, "primary") !important;
     background-image: none !important;
 }
+
+.alert-success li{
+    color: $success;
+}
+
+.alert-danger li{
+    color: $danger;
+}

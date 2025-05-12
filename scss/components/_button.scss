@@ -5,9 +5,11 @@
     border-radius: 3px;
     padding: 0.5rem 1rem;
     margin: 2rem auto 2rem auto;
+    transition: all 0.3s ease-in-out;
     &:hover{
         background-color: darken($primary, 10%);
         border: 1px solid darken($primary, 20%);
+        transform: scale(1.2);
     }
     &:active {
         transform: scale(0.95);
@@ -32,7 +34,7 @@
     color: $danger;
     border: 1px solid $danger;
     border-radius: 3px;
-    padding: 1rem 2rem;
+    padding: 0.5rem 1rem;
     margin: 2rem auto 2rem auto;
     &:hover{
         background-color: $danger;
@@ -67,7 +69,7 @@
     align-items: center;
     font-size: 1.5rem;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease-in-out;
 
     &:hover {
         background-color: darken(map-get($theme-colors, "primary"), 10%);
@@ -90,5 +92,23 @@
     &:focus {
         outline: none;
         box-shadow: none;
+    }
+}
+
+.btn-edit {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+        color: darken(map-get($theme-colors, "primary"), 20%);
+        transform: scale(1.2);
+    }
+}
+
+.btn-delete {
+    color: $danger;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+        color: darken(map-get($theme-colors, "danger"), 10%);
+        transform: scale(1.2);
     }
 }

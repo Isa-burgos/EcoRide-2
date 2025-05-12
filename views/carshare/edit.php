@@ -19,7 +19,7 @@ use App\Services\AuthService;
 <main>
     <section class="big-hero text-center">
         <div class="big-hero-content">
-            <h1>Proposer un trajet</h1>
+            <h1>Modifier un trajet</h1>
         </div>
     </section>
 

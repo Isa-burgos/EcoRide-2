@@ -1,0 +1,28 @@
+.card{
+    border: none;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    background-color: $light;
+    box-shadow: 5px 5px 5px $dark;
+    .card-header{
+        color: $dark;
+        font-weight: 600;
+        margin: 0;
+        border: none;
+        text-align: center;
+        .card-subtitle{
+            text-transform: lowercase;
+        }
+    }
+    .card-body{
+        p{
+            color: $dark;
+        }
+    }
+    .card-footer{
+        border: none;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+    }
+}

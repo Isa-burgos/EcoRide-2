@@ -9,7 +9,7 @@
     <section class="conteneur">
         <form class="conteneur-content" method="post" action="/login">
             <div>
-                <input class="input form-control" type="email" name="email" id="emailInput" placeholder="Email">
+                <input class="input form-control" type="email" name="email" id="emailInput" placeholder="Email" required>
                 <?php if(!empty($_SESSION['errors']['email'])): ?>
                     <div class="alert alert-danger">
                         <?= htmlspecialchars($_SESSION['errors']['email'][0]) ?>
@@ -17,7 +17,7 @@
                 <?php endif; ?>
             </div>
             <div>
-                <input class="input password form-control" type="password" name="password" id="passwordInput" placeholder="Mot de passe">
+                <input class="input password form-control" type="password" name="password" id="passwordInput" placeholder="Mot de passe" required>
                     <?php if(!empty($_SESSION['errors']['password'])): ?>
                         <div class="alert alert-danger">
                             <?= htmlspecialchars($_SESSION['errors']['password'][0]) ?>

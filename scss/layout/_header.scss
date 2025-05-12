@@ -1,7 +1,32 @@
-.nav{
-    background-color: $dark;
+header{
+    height: 5rem;
+    .header-nav{
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0px;
+        .bi-list{
+            color: $primary;
+            width: 2rem;
+            height: 2rem;
+        }
+        .navbar-brand{
+            margin: auto;
+        }
+        .nav-item{
+            padding: 0 1.5rem;
+            .nav-link{
+                color: $primary;
+            }
+        }
+    }
 }
 
-.nav-link{
-    color: $primary;
+@media screen and (min-width: 768px){
+    .header-nav{
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0px;
+    }
 }
