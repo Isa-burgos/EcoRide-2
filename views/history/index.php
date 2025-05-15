@@ -12,7 +12,7 @@
 
             <?php if(!empty($myTrips)) : ?>
                 <?php foreach($myTrips as $trip) : ?>
-                    <div class="col-sm-6">
+                    <div class="col-md-6">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <h3 class="card-title text-center">

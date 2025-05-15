@@ -3,8 +3,17 @@
 namespace App\Services;
 
 use App\Models\UserModel;
+use App\Repositories\UserRepository;
+use Config\DbConnect;
 
 class AuthService{
+
+    private $db;
+
+    public function __construct(DbConnect $db)
+    {
+        $this->db = $db;
+    }
 
     /**
      * Store user info in session
@@ -40,6 +49,24 @@ class AuthService{
     public function getCurrentUserId(): ?int
     {
         return $_SESSION['user']['user_id'] ?? null;
+    }
+
+    public function getCurrentUser(): ?UserModel
+    {
+        if (!isset($_SESSION['user']['user_id'])) {
+            return null;
+        }
+
+        if (isset($_SESSION['current_user']) && $_SESSION['current_user'] instanceof UserModel) {
+            return $_SESSION['current_user'];
+        }
+
+        $userRepo = new UserRepository($this->db);
+        $user = $userRepo->getById($_SESSION['user']['user_id']);
+
+        $_SESSION['current_user'] = $user;
+
+        return $user;
     }
 
     /**

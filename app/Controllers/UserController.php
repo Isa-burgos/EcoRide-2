@@ -16,7 +16,6 @@ class UserController extends Controller{
 
     public function loginPost()
     {
-        
         $validator = new Validator($_POST);
         $errors = $validator->validate([
             'email' => ['required'],
@@ -32,10 +31,8 @@ class UserController extends Controller{
         $userRepo = new UserRepository($this->getDB());
         $user = $userRepo->findByEmail($_POST['email']);
 
-
-
         if($user && password_verify($_POST['password'], $user->getPassword())){
-            (new AuthService())->login($user);
+            (new AuthService($this->db))->login($user);
 
             $redirectTo = $_SESSION['redirect_after_login']?? ROUTE_DASHBOARD;
             unset($_SESSION['redirect_after_login']);
@@ -51,7 +48,7 @@ class UserController extends Controller{
 
     public function logout(): void
     {
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $auth->logout();
 
         header('location: ' . ROUTE_HOME);
@@ -118,7 +115,7 @@ class UserController extends Controller{
         $createdUser = $userRepo->findByEmail($user->getEmail());
 
         // Connexion automatique
-        (new AuthService())->login($createdUser);
+        (new AuthService($this->db))->login($createdUser);
 
         // Message d'information
         $_SESSION['info'] = "Veuillez compléter votre profil";

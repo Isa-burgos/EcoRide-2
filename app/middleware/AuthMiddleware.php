@@ -2,7 +2,17 @@
 
 namespace App\middleware;
 
+use App\Services\AuthService;
+use Config\DbConnect;
+
 class AuthMiddleware{
+
+    private $db;
+
+    public function __construct(DbConnect $db)
+    {
+        $this->db = $db;
+    }
 
     public static function requireAuth(): void
     {
@@ -22,5 +32,18 @@ class AuthMiddleware{
         }
     }
 
+    public static function requireAdmin(): void
+    {
+        self::requireAuth();
+
+        $auth = new AuthService(new DbConnect());
+        $user = $auth->getCurrentUser();
+
+        if($user->getRole() !== 'admin'){
+            $_SESSION['errors'] = "Accès réservé à l'administrateur";
+            header('location: ' . ROUTE_HOME);
+            exit();
+        }
+    }
 
 }

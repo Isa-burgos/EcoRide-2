@@ -56,6 +56,8 @@ $router->get('/history', 'App\Controllers\HistoryController@index', 'historique'
 
 $router->post('/carshare/:id/reserve', 'App\Controllers\ReservationController@reserve', 'réservation d\'un trajet');
 
+$router->get('admin/dashboard', 'App\Controllers\AdminController@dashboard', 'tableau de bord admin');
+
 
 $router->run();
 

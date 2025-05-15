@@ -19,7 +19,7 @@ class UserModel extends Model{
     private string $email;
     private string $password;
     private string $pseudo;
-    private string $photo;
+    private ?string $photo = null;
     private string $gender;
     private int $creditBalance = 20;
 

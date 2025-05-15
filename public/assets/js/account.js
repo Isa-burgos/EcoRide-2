@@ -30,35 +30,35 @@ brandSelect.addEventListener("change", ()=>{
     const encodedBrand = encodeURIComponent(selectedBrand);
     const url = `https://public.opendatasoft.com/api/records/1.0/search/?dataset=vehicules-commercialises&refine.marque=${encodedBrand}`;
 
-fetch(url)
-.then(response => response.json())
-.then(data => {
-    if (!data.records || data.records.length === 0) {
-        modelSelect.innerHTML = '<option value="">Aucun modèle disponible</option>';
-        modelSelect.disabled = true;
-        return;
-    }
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        if (!data.records || data.records.length === 0) {
+            modelSelect.innerHTML = '<option value="">Aucun modèle disponible</option>';
+            modelSelect.disabled = true;
+            return;
+        }
 
-            modelSelect.innerHTML = '<option value="">Sélectionnez un modèle</option>';
+        modelSelect.innerHTML = '<option value="">Sélectionnez un modèle</option>';
 
-            const uniqueModels = new Set();
+        const uniqueModels = new Set();
 
-            data.records.forEach(record => {
-                if(record.fields && record.fields.modele_dossier && !uniqueModels.has(record.fields.modele_dossier)){
-                    uniqueModels.add(record.fields.modele_dossier);
-                    let option = document.createElement("option");
-                    option.value = record.fields.modele_dossier;
-                    option.textContent = record.fields.modele_dossier;
-                    modelSelect.appendChild(option);
-                }
-            });
+        data.records.forEach(record => {
+            if(record.fields && record.fields.modele_dossier && !uniqueModels.has(record.fields.modele_dossier)){
+                uniqueModels.add(record.fields.modele_dossier);
+                let option = document.createElement("option");
+                option.value = record.fields.modele_dossier;
+                option.textContent = record.fields.modele_dossier;
+                modelSelect.appendChild(option);
+            }
+        });
 
-            modelSelect.disabled = uniqueModels.size === 0;
-        })
-        .catch(error =>{
-            console.error("Erreur lors du chargement des modèles :", error);
-            modelSelect.innerHTML = '<option value="">Erreur de chargement</option>';
-        })
+        modelSelect.disabled = uniqueModels.size === 0;
+    })
+    .catch(error =>{
+        console.error("Erreur lors du chargement des modèles :", error);
+        modelSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+    })
 })
 
 // hidden-content

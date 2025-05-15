@@ -1,0 +1,39 @@
+body-admin {
+    min-height: 100vh;
+    display: flex;
+}
+.navbar {
+    height: 100vh;
+    min-width: 50px;
+    max-width: 50px;
+    background-color: $dark;
+    color: white;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.offcanvas{
+    background-color: $dark;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+}
+.sidebar a:hover {
+    background-color: $primary;
+}
+
+.nav{
+    width: 100%;
+}
+
+.nav-link{
+    display: flex;
+    justify-content: start;
+}
+
+main-admin {
+    flex-grow: 1;
+    padding: 20px;
+}

@@ -19,7 +19,7 @@ class VehicleController extends Controller{
         $userId = $auth->getCurrentUserId();
 
         if (!$userId) {
-            $_SESSION['error'] = "Veuillez vous reconnecter";
+            $_SESSION['errors'] = "Veuillez vous reconnecter";
             header('location: ' . ROUTE_LOGIN);
             exit();
         }
@@ -33,7 +33,7 @@ class VehicleController extends Controller{
             empty($_POST['color']) ||
             !isset($_POST['energy'])
         ) {
-            $_SESSION['error'] = "Tous les champs du véhicule sont requis";
+            $_SESSION['errors'] = "Tous les champs du véhicule sont requis";
             header('location: ' . ROUTE_ACCOUNT);
             exit();
         }
@@ -56,7 +56,7 @@ class VehicleController extends Controller{
         $vehicleId = $vehicleRepo->createVehicle($vehicleData);
 
         if (!$vehicleId) {
-            $_SESSION['error'] = "Erreur lors de l'ajout du véhicule";
+            $_SESSION['errors'] = "Erreur lors de l'ajout du véhicule";
             header('location:' . ROUTE_ACCOUNT);
             exit();
         }
@@ -105,7 +105,7 @@ class VehicleController extends Controller{
             empty($_POST['color']) ||
             !isset($_POST['energy'])
         ) {
-            $_SESSION['error'] = ["Tous les champs sont requis."];
+            $_SESSION['errors'] = ["Tous les champs sont requis."];
             header('Location: /vehicle/' . $vehicleId . '/edit');
             exit();
         }
@@ -140,9 +140,7 @@ class VehicleController extends Controller{
             header('location:' . ROUTE_ACCOUNT);
             exit();
         }
-            
     }
-
 
     public function delete(int $vehicleId)
     {
@@ -163,7 +161,7 @@ class VehicleController extends Controller{
         if ($deleted) {
             $_SESSION['success'] = ["Véhicule supprimé avec succès."];
         } else {
-            $_SESSION['error'] = ["Erreur lors de la suppression du véhicule."];
+            $_SESSION['errors'] = ["Erreur lors de la suppression du véhicule."];
         }
 
         header('location: ' . ROUTE_ACCOUNT);

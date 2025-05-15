@@ -13,7 +13,7 @@ abstract class Controller{
         $this->db = $db;
     }
 
-    protected function view(string $path, ?array $params = null)
+    protected function view(string $path, ?array $params = null, string $layout = 'layout/user')
     {
         ob_start();
         if($params){
@@ -23,7 +23,7 @@ abstract class Controller{
         require_once VIEWS . $path . '.php';
         $pageContent = ob_get_clean();
         extract(['content'=> $pageContent]);
-        require VIEWS . 'layout.php';
+        require VIEWS . $layout . '.php';
     }
 
     protected function getDB()
