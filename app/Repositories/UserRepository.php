@@ -42,8 +42,10 @@ class UserRepository extends Repository{
 
     public function getAllUsers(): array
     {
-        $sql = "SELECT user_id, name, firstname, email, is_active FROM {$this->table} WHERE role = 'user'";
-        return $this->fetch($sql, [], false, UserModel::class);
+        $sql = "SELECT * FROM {$this->table} WHERE role = 'user'";
+        $users = $this->fetch($sql, [], false, UserModel::class);
+
+        return $users;
     }
 
     public function emailExists(string $email): bool
@@ -207,8 +209,11 @@ class UserRepository extends Repository{
     }
 
     public function deleteUser(int $userId){
-        $sql = "DELETE FROM {$this->table} WHERE user_id = :user_id";
-        return $this->execute($sql, ['user_id' => $userId]);
+        $sql1 = "DELETE FROM user_statut WHERE user_id = :user_id";
+        return $this->execute($sql1, ['user_id' => $userId]);
+
+        $sql2 = "DELETE FROM {$this->table} WHERE user_id = :user_id";
+        return $this->execute($sql2, ['user_id' => $userId]);
     }
     
 }

@@ -1,6 +1,9 @@
 <main>
     <section class="big-hero text-center">
         <div class="big-hero-content">
+            <div class="container">
+                <?php renderPartial('alert') ?>
+            </div>
             <h1>Se connecter</h1>
             <p>Vous n’avez pas de compte? <a href="/register">Créez un compte</a></p>
         </div>

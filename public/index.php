@@ -63,8 +63,11 @@ $router->post('/admin/employes', 'App\Controllers\AdminController@store', 'créa
 $router->post('/admin/employes/:id/update', 'App\Controllers\AdminController@update', 'Mise à jour des informations des employés');
 $router->post('/admin/employes/:id/suspend', 'App\Controllers\AdminController@suspend', 'suspension d\'un employé');
 $router->post('/admin/employes/:id/reactivate', 'App\Controllers\AdminController@reactivate', 'réactivation d\'un employé');
-$router->post('/admin/employes/:id/delete', 'App\Controllers\AdminController@delete', 'supprimer des employés');
+$router->post('/admin/employes/:id/delete', 'App\Controllers\AdminController@deleteEmploye', 'supprimer des employés');
 $router->get('/admin/users', 'App\Controllers\AdminController@indexUsers', 'gestion des utilisateurs');
+$router->post('/admin/users/:id/suspend', 'App\Controllers\AdminController@suspend', 'suspendre un utilisateur');
+$router->post('/admin/users/:id/reactivate', 'App\Controllers\AdminController@reactivate', 'réactiver un utilisateur');
+$router->post('/admin/users/:id/delete', 'App\Controllers\AdminController@deleteUser', 'supprimer un utilisateur');
 
 
 $router->run();

@@ -119,8 +119,9 @@ class UserModel extends Model{
         $this->pseudo = $pseudo;
     }
 
-    public function setPhoto(string $photo): void{
-        $this->photo = $photo;
+    public function setPhoto(?string $photo){
+        $this->photo = $photo ?? '/public/assets/img/default-profile.svg';
+        return $this;
     }
 
     public function setGender(string $gender): void{

@@ -46,4 +46,10 @@ class AdminRepository extends Repository
             'user_id' => $userId
         ]);
     }
+
+    public function deleteEmploye(int $userId)
+    {
+        $sql = "DELETE FROM {$this->table} WHERE user_id = :user_id";
+        return $this->execute($sql, ['user_id' => $userId]);
+    }
 }

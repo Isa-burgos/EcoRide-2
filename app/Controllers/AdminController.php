@@ -150,9 +150,12 @@ class AdminController extends Controller
         $userRepo = new UserRepository($this->getDB());
         $userRepo->suspendUser($userId);
 
+        $referer = $_SERVER['HTTP_REFERER'] ?? '/admin/dashboard';
+
         $_SESSION['success'] = "Utilisateur suspendu avec succès";
-        header('location: ' . ROUTE_DASHBOARD_EMPLOYES);
+        header('Location: ' . $referer);
         exit();
+
     }
 
     public function reactivate(int $userId)
@@ -162,12 +165,31 @@ class AdminController extends Controller
         $userRepo = new UserRepository($this->getDB());
         $userRepo->reactivateUser($userId);
 
+        $referer = $_SERVER['HTTP_REFERER'] ?? '/admin/dashboard';
+
         $_SESSION['success'] = "Utilisateur réactivé avec succès";
-        header('location: ' . ROUTE_DASHBOARD_EMPLOYES);
+        header('Location: ' . $referer);
         exit();
     }
 
-    public function delete(int $userId)
+    public function deleteEmploye(int $userId)
+    {
+        AuthMiddleware::requireAdmin();
+
+        $adminRepo = new AdminRepository($this->getDB());
+        $deleted = $adminRepo->deleteEmploye($userId);
+
+        if($deleted){
+            $_SESSION['success'] = "Employé supprimé avec succès";
+        } else {
+            $_SESSION['error'] = "Un problème est survenu lors de la suppression de cet employé";
+        }
+
+        header('location: '. ROUTE_DASHBOARD_EMPLOYES);
+        exit();
+    }
+
+    public function deleteUser(int $userId)
     {
         AuthMiddleware::requireAdmin();
 
@@ -175,9 +197,9 @@ class AdminController extends Controller
         $deleted = $userRepo->deleteUser($userId);
 
         if($deleted){
-            $_SESSION['success'] = "Employé supprimé avec succès";
+            $_SESSION['success'] = "Utilisateur supprimé avec succès";
         } else {
-            $_SESSION['error'] = "Un problème est survenu lors de la suppression de cet employé";
+            $_SESSION['error'] = "Un problème est survenu lors de la suppression de cet utilisateur";
         }
 
         header('location: '. ROUTE_DASHBOARD_EMPLOYES);
