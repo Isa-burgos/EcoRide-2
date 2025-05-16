@@ -56,7 +56,15 @@ $router->get('/history', 'App\Controllers\HistoryController@index', 'historique'
 
 $router->post('/carshare/:id/reserve', 'App\Controllers\ReservationController@reserve', 'réservation d\'un trajet');
 
-$router->get('admin/dashboard', 'App\Controllers\AdminController@dashboard', 'tableau de bord admin');
+$router->get('/admin/dashboard', 'App\Controllers\AdminController@dashboard', 'tableau de bord admin');
+$router->get('/admin/employes', 'App\Controllers\AdminController@indexEmployes', 'gestion des employés');
+$router->get('/admin/employes/:id/edit', 'App\Controllers\AdminController@edit', 'modifier des employés');
+$router->post('/admin/employes', 'App\Controllers\AdminController@store', 'création des employés');
+$router->post('/admin/employes/:id/update', 'App\Controllers\AdminController@update', 'Mise à jour des informations des employés');
+$router->post('/admin/employes/:id/suspend', 'App\Controllers\AdminController@suspend', 'suspension d\'un employé');
+$router->post('/admin/employes/:id/reactivate', 'App\Controllers\AdminController@reactivate', 'réactivation d\'un employé');
+$router->post('/admin/employes/:id/delete', 'App\Controllers\AdminController@delete', 'supprimer des employés');
+$router->get('/admin/users', 'App\Controllers\AdminController@indexUsers', 'gestion des utilisateurs');
 
 
 $router->run();

@@ -23,6 +23,7 @@ abstract class Controller{
         require_once VIEWS . $path . '.php';
         $pageContent = ob_get_clean();
         extract(['content'=> $pageContent]);
+        
         require VIEWS . $layout . '.php';
     }
 

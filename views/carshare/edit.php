@@ -2,7 +2,7 @@
 
 use App\Services\AuthService;
 
-    $auth = new AuthService();
+    $auth = new AuthService($this->db);
     $userId = $auth->getCurrentUserId();
 
     if (!$userId) {

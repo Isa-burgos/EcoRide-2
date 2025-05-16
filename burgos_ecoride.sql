@@ -200,3 +200,6 @@ CREATE TABLE reservations (
 
 ALTER TABLE reservations
 ADD COLUMN reserved_places INT NOT NULL DEFAULT 1;
+
+ALTER TABLE user
+ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1;

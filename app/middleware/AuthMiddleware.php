@@ -39,7 +39,7 @@ class AuthMiddleware{
         $auth = new AuthService(new DbConnect());
         $user = $auth->getCurrentUser();
 
-        if($user->getRole() !== 'admin'){
+        if(!$user || $user->getRole() !== 'admin'){
             $_SESSION['errors'] = "Accès réservé à l'administrateur";
             header('location: ' . ROUTE_HOME);
             exit();

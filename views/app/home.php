@@ -10,6 +10,9 @@ $pageDescription = 'Site de covoiturage écoresponsable';
 <main class="mb-5">
     <section class="big-hero text-center">
     <div class="big-hero-content">
+        <div class="container">
+            <?php renderPartial('alert'); ?>
+        </div>
         <h1>Trouvez <br><strong>un covoiturage</strong></h1>
         <h2>La solution accessible et durable pour tous</h2>
         <div class="search container w-100">

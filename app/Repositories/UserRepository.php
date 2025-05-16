@@ -30,7 +30,6 @@ class UserRepository extends Repository{
 
     public function getById(int $user_id): ?UserModel
     {
-
         $data = $this->fetch("SELECT * FROM {$this->table} WHERE user_id = :user_id", [":user_id" => $user_id], true);
 
         if(!$data){
@@ -39,7 +38,12 @@ class UserRepository extends Repository{
 
         $user = new UserModel();
         return $user->hydrate($data);
+    }
 
+    public function getAllUsers(): array
+    {
+        $sql = "SELECT user_id, name, firstname, email, is_active FROM {$this->table} WHERE role = 'user'";
+        return $this->fetch($sql, [], false, UserModel::class);
     }
 
     public function emailExists(string $email): bool
@@ -188,6 +192,23 @@ class UserRepository extends Repository{
         $admin = $this->fetch($sql, [], true);
 
         return $admin ? $admin['user_id'] : null;
+    }
+
+    public function suspendUser(int $userId): bool
+    {
+        $sql = "UPDATE {$this->table} SET is_active = 0 WHERE user_id = :user_id";
+        return $this->execute($sql, ['user_id' => $userId]);
+    }
+
+    public function reactivateUser(int $userId): bool
+    {
+        $sql = "UPDATE {$this->table} SET is_active = 1 WHERE user_id = :user_id";
+        return $this->execute($sql, ['user_id' => $userId]);
+    }
+
+    public function deleteUser(int $userId){
+        $sql = "DELETE FROM {$this->table} WHERE user_id = :user_id";
+        return $this->execute($sql, ['user_id' => $userId]);
     }
     
 }

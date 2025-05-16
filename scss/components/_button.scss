@@ -112,3 +112,21 @@
         transform: scale(1.2);
     }
 }
+
+.btn-suspend {
+    color: $dark;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+        color: darken(map-get($theme-colors, "dark"), 10%);
+        transform: scale(1.2);
+    }
+}
+
+.btn-reactivate {
+    color: $success;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+        color: darken(map-get($theme-colors, "success"), 10%);
+        transform: scale(1.2);
+    }
+}

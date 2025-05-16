@@ -11,3 +11,5 @@ define('ROUTE_CARSHARE', '/carshare/create');
 define('ROUTE_HISTORY', '/history');
 define('ROUTE_CARSHARE_RESULTS', '/carshare/results');
 define('ROUTE_CARSHARE_SEARCH', '/carshare/search');
+define('ROUTE_DASHBOARD_ADMIN', '/admin/dashboard');
+define('ROUTE_DASHBOARD_EMPLOYES', '/admin/employes');

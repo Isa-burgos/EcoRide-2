@@ -15,7 +15,7 @@ class VehicleController extends Controller{
 
     public function store()
     {
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
 
         if (!$userId) {
@@ -144,7 +144,7 @@ class VehicleController extends Controller{
 
     public function delete(int $vehicleId)
     {
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
         
         $vehicleRepo = new VehicleRepository($this->getDB());

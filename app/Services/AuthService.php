@@ -21,12 +21,19 @@ class AuthService{
 
     public function login(UserModel $user): void
     {
+        if ($user->getIsActive() === 0) {
+            $_SESSION['errors'] = "Votre compte est suspendu. Veuillez contacter un administrateur.";
+            header('Location: ' . ROUTE_LOGIN);
+            exit();
+        }
+        
         $_SESSION['user'] = [
             'user_id' => $user->getUserId(),
             'email' => $user->getEmail(),
             'pseudo' => $user->getPseudo(),
             'photo' => $user->getPhoto() ?? '/public/assets/img/default-ptofilr.png',
-            'credit_balance' => $user->getCreditBalance()
+            'credit_balance' => $user->getCreditBalance(),
+            'role' => $user->getRole()
         ];
 
         session_write_close();

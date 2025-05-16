@@ -34,8 +34,12 @@ class UserController extends Controller{
         if($user && password_verify($_POST['password'], $user->getPassword())){
             (new AuthService($this->db))->login($user);
 
-            $redirectTo = $_SESSION['redirect_after_login']?? ROUTE_DASHBOARD;
-            unset($_SESSION['redirect_after_login']);
+            if($user->getRole() === 'admin'){
+                $redirectTo = ROUTE_DASHBOARD_ADMIN;
+            } else {
+                $redirectTo = $_SESSION['redirect_after_login']?? ROUTE_DASHBOARD;
+                unset($_SESSION['redirect_after_login']);
+            }
 
             header('location: ' . $redirectTo);
             exit();
@@ -104,7 +108,7 @@ class UserController extends Controller{
         $user->setAdress($_POST['adress'] ?? '');
         $user->setBirthDate($_POST['birth_date']);
         $user->setPhoto('/public/assets/img/default-profile.svg');
-        $user->setGender($_POST['gender']);
+        $user->setGender($_POST['gender'] ?? null);
         $user->setRole($_POST['role'] ?? 'user');
         $user->setCreditBalance(20);
         

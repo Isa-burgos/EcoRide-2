@@ -17,7 +17,7 @@ class CarshareController extends Controller{
     {
         AuthMiddleware::requireAuth();
         
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
         
         if(!$userId){
@@ -44,7 +44,7 @@ class CarshareController extends Controller{
 
     public function store()
     {
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
 
         if(!$userId){
@@ -116,7 +116,7 @@ class CarshareController extends Controller{
     public function show(int $carshareId)
     {
         AuthMiddleware::requireAuth();
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
 
         $carshareRepo = new CarshareRepository($this->getDB());
@@ -209,7 +209,7 @@ class CarshareController extends Controller{
     {
         AuthMiddleware::requireAuth();
 
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
         
         $carshareRepo = new CarshareRepository($this->getDB());
@@ -274,7 +274,7 @@ class CarshareController extends Controller{
 
     public function delete(int $carshareId)
     {
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
 
         $carshareRepo = new CarshareRepository($this->getDB());

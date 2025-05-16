@@ -12,16 +12,17 @@ class UserModel extends Model{
     private int $user_id;
     private string $name;
     private string $firstname;
-    private string $birth_date;
+    private ?string $birth_date = null;
     private string $adress;
     private string $phone;
     private string $role;
     private string $email;
     private string $password;
-    private string $pseudo;
+    private ?string $pseudo = null;
     private ?string $photo = null;
-    private string $gender;
+    private ?string $gender = null;
     private int $creditBalance = 20;
+    private int $isActive;
 
     public function getUserId(): int{
         return $this->user_id;
@@ -35,7 +36,7 @@ class UserModel extends Model{
         return $this->firstname;
     }
 
-    public function getBirthDate(): string{
+    public function getBirthDate(): ?string{
         return $this->birth_date;
     }
 
@@ -59,15 +60,15 @@ class UserModel extends Model{
         return $this->password;
     }
 
-    public function getPseudo(): string{
+    public function getPseudo(): ?string{
         return $this->pseudo;
     }
 
-    public function getPhoto(): string{
+    public function getPhoto(): ?string{
         return $this->photo;
     }
 
-    public function getGender(): string{
+    public function getGender(): ?string{
         return $this->gender;
     }
 
@@ -143,6 +144,25 @@ class UserModel extends Model{
     public function setCreditBalance($creditBalance)
     {
         $this->creditBalance = $creditBalance;
+
+        return $this;
+    }
+    /**
+     * Get the value of isActive
+     */ 
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set the value of isActive
+     *
+     * @return  self
+     */ 
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
