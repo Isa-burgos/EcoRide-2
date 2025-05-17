@@ -31,6 +31,17 @@ class CarshareRepository extends Repository{
         return $this->fetch($sql, [], false, CarshareModel::class);
     }
 
+    public function getRidesPerDay(): array
+    {
+        $sql = "SELECT depart_date as date, COUNT(*) as count
+                FROM {$this->table}
+                GROUP BY depart_date
+                ORDER BY depart_date ASC
+                ";
+
+                return $this->fetch($sql);
+    }
+
     public function createCarshare(array $data): CarshareModel|false
     {
         $sql = "INSERT INTO {$this->table}

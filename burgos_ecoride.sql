@@ -203,3 +203,30 @@ ADD COLUMN reserved_places INT NOT NULL DEFAULT 1;
 
 ALTER TABLE user
 ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1;
+
+INSERT INTO carshare (carshare_id, depart_adress, arrival_adress, depart_date, depart_time, price_person, used_vehicle, statut)
+VALUES
+(1, 'Lyon', 'Paris',    '2025-05-17', '08:00:00', 10, 1, 'terminé'),
+(2, 'Lyon', 'Paris',    '2025-05-14', '14:00:00', 10, 1, 'terminé'),
+(3, 'Lyon', 'Paris',    '2025-05-16', '09:00:00', 10, 1, 'terminé'),
+(4, 'Lyon', 'Marseille','2025-05-15', '11:00:00', 15, 1, 'terminé'),
+(5, 'Lyon', 'Grenoble', '2025-05-17', '08:30:00',  8, 1, 'terminé'),
+(6, 'Lyon', 'Nice',     '2025-05-14', '07:30:00', 20, 1, 'créé'),
+(7, 'Paris', 'Lyon',    '2025-05-13', '19:00:00', 10, 1, 'terminé'),
+(8, 'Paris', 'Lyon',    '2025-05-13', '21:00:00', 10, 1, 'terminé');
+
+INSERT INTO payment (amount, type, created_at, user_id, carshare_id)
+VALUES
+(2, 'commission', '2025-05-13', 26, 35),
+(2, 'commission', '2025-05-13', 26, 36),
+(2, 'commission', '2025-05-14', 26, 2),
+(2, 'commission', '2025-05-15', 26, 4),
+(2, 'commission', '2025-05-16', 26, 3),
+(2, 'commission', '2025-05-17', 26, 1),
+(2, 'commission', '2025-05-17', 26, 5),
+(2, 'commission', '2025-05-14', 26, 10),
+(2, 'commission', '2025-05-16', 26, 11),
+(2, 'commission', '2025-05-15', 26, 12),
+(2, 'commission', '2025-05-17', 26, 9),
+(2, 'commission', '2025-05-17', 26, 13);
+

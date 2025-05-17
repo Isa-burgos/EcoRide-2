@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="/assets/css/main.min.css">
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/chart.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-light">
     <div class="d-flex">

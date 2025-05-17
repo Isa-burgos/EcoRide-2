@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Models\PaymentModel;
+
 class PaymentRepository extends Repository{
 
     private string $table = 'payment';
@@ -25,6 +27,18 @@ class PaymentRepository extends Repository{
             'user_id' => $userId,
             'carshare_id' => $carshareId
         ]);
+    }
+
+    public function getCreditsPerDay(): array
+    {
+        $sql = "SELECT DATE(created_at) as date, SUM(amount) as total
+                FROM {$this->table}
+                WHERE type = 'commission'
+                GROUP BY DATE(created_at)
+                ORDER BY DATE(created_at) ASC"
+                ;
+
+        return $this->fetch($sql);
     }
 
 }

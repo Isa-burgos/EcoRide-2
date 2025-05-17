@@ -6,15 +6,26 @@ use App\Models\UserModel;
 use App\Validation\Validator;
 use App\middleware\AuthMiddleware;
 use App\Repositories\AdminRepository;
+use App\Repositories\CarshareRepository;
+use App\Repositories\PaymentRepository;
 use App\Repositories\UserRepository;
-use App\Services\AuthService;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
         AuthMiddleware::requireAdmin();
-        return $this->view('admin.dashboard', [], 'layout/admin');
+        
+        $carshareRepo = new CarshareRepository($this->getDB());
+        $paymentRepo = new PaymentRepository($this->getDB());
+        
+        $ridesPerDay = $carshareRepo->getRidesPerDay();
+        $creditsPerDay= $paymentRepo->getCreditsPerDay();
+        
+        return $this->view('admin.dashboard', [
+            'ridesPerDay' => $ridesPerDay,
+            'creditsPerDay' => $creditsPerDay
+        ], 'layout/admin');
     }
 
     public function createEmploye()
