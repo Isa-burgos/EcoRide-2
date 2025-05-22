@@ -25,6 +25,7 @@ use App\Services\PreferenceService;
                 <div class="conteneur-content">
                     <div>
                         <form method="POST" action="/vehicle/<?= $vehicle->getVehicleId() ?>/update" class="mb-5 px-3 bg-secondary pt-3">
+                        <?= csrfField(); ?>
                             <?php if (!empty($_GET['redirect'])): ?>
                                 <input type="hidden" name="redirect" value="<?= htmlspecialchars($_GET['redirect']) ?>">
                             <?php endif; ?>

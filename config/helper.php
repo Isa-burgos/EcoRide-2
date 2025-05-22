@@ -1,5 +1,7 @@
 <?php
 
+use App\middleware\CsrfMiddleware;
+
 function renderPartial(string $name): void
 {
     $path = __DIR__ . '/../views/partials/' . $name . '.php';
@@ -39,5 +41,10 @@ function formatHeureFr(string $timeStr): string {
 
     $time = new DateTime($timeStr);
     return $formatter->format($time);
+}
+
+function csrfField(): string
+{
+    return '<input type="hidden" name="csrf_token" value="' . CsrfMiddleware::generate() . '">';
 }
 

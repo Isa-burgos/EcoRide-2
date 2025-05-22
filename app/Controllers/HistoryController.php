@@ -12,7 +12,7 @@ class HistoryController extends Controller{
 
     public function index()
     {
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
 
         if(!$userId){

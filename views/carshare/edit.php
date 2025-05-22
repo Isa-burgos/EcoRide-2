@@ -26,6 +26,7 @@ use App\Services\AuthService;
     <?php if ($userId) : ?>
     <section class="conteneur">
         <form class="conteneur-content" method="POST" action="/carshare/<?= $carshare->getCarshareId() ?>/update">
+        <?= csrfField(); ?>
 
             <!-- START STEP 1 -->
                 <div id="step1" class="step active">

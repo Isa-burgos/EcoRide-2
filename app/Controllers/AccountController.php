@@ -21,7 +21,7 @@ class AccountController extends Controller{
     {
         AuthMiddleware::requireAuth();
 
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
 
         $userRepo = new UserRepository($this->getDB());
@@ -57,7 +57,7 @@ class AccountController extends Controller{
         $userRepo = new UserRepository($this->getDB());
         $vehicleRepo = new VehicleRepository($this->getDB());
 
-        $auth = new AuthService();
+        $auth = new AuthService($this->db);
         $userId = $auth->getCurrentUserId();
 
         if (!$userId) {

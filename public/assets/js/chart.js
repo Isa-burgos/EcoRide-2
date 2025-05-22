@@ -1,7 +1,3 @@
-console.log("🎯 JS - ridesData:", ridesData);
-console.log("🎯 JS - creditsData:", creditsData);
-
-
 const ridesLabels = ridesData.map(item => item.date);
 const ridesCounts = ridesData.map(item => item.count);
 
@@ -22,7 +18,6 @@ new Chart(ridesCtx, {
         }]
     }
 });
-console.log("📈 Rides chart initialisé");
 
 const creditsCtx = document.getElementById('creditsChart').getContext('2d');
 new Chart(creditsCtx, {
@@ -38,4 +33,3 @@ new Chart(creditsCtx, {
         }]
     }
 });
-console.log("💰 Credits chart initialisé");

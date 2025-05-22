@@ -7,6 +7,7 @@
 
     <?php if($employe->getUserId()): ?>
     <form action="/admin/employes/<?= $employe->getUserId() ?>/update" method="post">
+    <?= csrfField(); ?>
     <?php endif ?>
         <div class="container row g-3">
             <div class="col-md-6">

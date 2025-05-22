@@ -11,24 +11,24 @@
                     <div class="search-trip-direction">
                         <div>
                             <p class="m-0 text-start">
-                                <span><?= htmlspecialchars($depart_adress) ?></span>
+                                <span class="text-dark me-2"><?= htmlspecialchars($depart_adress) ?></span>
                                 <span>
                                     <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_41_993)">
-                                        <path d="M16.9699 11.0892C17.1261 10.9329 17.2139 10.721 17.2139 10.5C17.2139 10.279 17.1261 10.0671 16.9699 9.91083L12.2557 5.19667C12.1788 5.11708 12.0869 5.05359 11.9852 5.00992C11.8835 4.96624 11.7742 4.94325 11.6635 4.94229C11.5529 4.94133 11.4432 4.96242 11.3408 5.00432C11.2383 5.04622 11.1453 5.10809 11.067 5.18634C10.9888 5.26458 10.9269 5.35763 10.885 5.46004C10.8431 5.56245 10.822 5.67219 10.823 5.78284C10.824 5.89348 10.847 6.00283 10.8906 6.1045C10.9343 6.20617 10.9978 6.29813 11.0774 6.375L14.369 9.66667H3.33321C3.1122 9.66667 2.90024 9.75447 2.74396 9.91075C2.58768 10.067 2.49988 10.279 2.49988 10.5C2.49988 10.721 2.58768 10.933 2.74396 11.0893C2.90024 11.2455 3.1122 11.3333 3.33321 11.3333H14.369L11.0774 14.625C10.9256 14.7822 10.8416 14.9927 10.8435 15.2112C10.8454 15.4297 10.933 15.6387 11.0875 15.7932C11.242 15.9477 11.451 16.0353 11.6695 16.0372C11.888 16.0391 12.0985 15.9551 12.2557 15.8033L16.9699 11.0892Z" fill="black"/>
+                                            <path d="M16.9699 11.0892C17.1261 10.9329 17.2139 10.721 17.2139 10.5C17.2139 10.279 17.1261 10.0671 16.9699 9.91083L12.2557 5.19667C12.1788 5.11708 12.0869 5.05359 11.9852 5.00992C11.8835 4.96624 11.7742 4.94325 11.6635 4.94229C11.5529 4.94133 11.4432 4.96242 11.3408 5.00432C11.2383 5.04622 11.1453 5.10809 11.067 5.18634C10.9888 5.26458 10.9269 5.35763 10.885 5.46004C10.8431 5.56245 10.822 5.67219 10.823 5.78284C10.824 5.89348 10.847 6.00283 10.8906 6.1045C10.9343 6.20617 10.9978 6.29813 11.0774 6.375L14.369 9.66667H3.33321C3.1122 9.66667 2.90024 9.75447 2.74396 9.91075C2.58768 10.067 2.49988 10.279 2.49988 10.5C2.49988 10.721 2.58768 10.933 2.74396 11.0893C2.90024 11.2455 3.1122 11.3333 3.33321 11.3333H14.369L11.0774 14.625C10.9256 14.7822 10.8416 14.9927 10.8435 15.2112C10.8454 15.4297 10.933 15.6387 11.0875 15.7932C11.242 15.9477 11.451 16.0353 11.6695 16.0372C11.888 16.0391 12.0985 15.9551 12.2557 15.8033L16.9699 11.0892Z" fill="black"/>
                                         </g>
                                         <defs>
-                                        <clipPath id="clip0_41_993">
-                                        <rect width="20" height="20" fill="white" transform="matrix(0 1 -1 0 20 0.5)"/>
-                                        </clipPath>
+                                            <clipPath id="clip0_41_993">
+                                                <rect width="20" height="20" fill="white" transform="matrix(0 1 -1 0 20 0.5)"/>
+                                            </clipPath>
                                         </defs>
-                                        </svg>
+                                    </svg>
                                 </span>
-                                <span><?= htmlspecialchars($arrival_adress) ?></span>
+                                <span class="text-dark me-2"><?= htmlspecialchars($arrival_adress) ?></span>
                             </p>
                         </div>
                         <div>
-                            <p class="m-0 text-secondary text-start"><?= htmlspecialchars(formatDateFr($depart_date)) ?>, <?= htmlspecialchars($nb_place) ?> passager</p>
+                            <p class="m-0 text-secondary text-start me-2"><?= htmlspecialchars(formatDateFr($depart_date)) ?>, <?= htmlspecialchars($nb_place) ?> passager<?= $nb_place > 1 ? 's' : '' ?></p>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     <span><?= htmlspecialchars($arrival_adress) ?></span>
                     <span>:</span><br>
                     
-                    <span><?= count($results) ?> trajets disponibles</span>
+                    <span><?= count($results) ?> trajet<?= count($results) > 1 ? 's' : '' ?> disponible<?= count($results) > 1 ? 's' : '' ?></span>
 
                 </p>
                 </div>
@@ -103,7 +103,7 @@
                                         </div>
                                         <div class="trip-passenger">
                                             <?php if($carshare->getAvailablePlaces() > 0) : ?>
-                                                <p class="m-0"><?= htmlspecialchars($carshare->getAvailablePlaces()) ?><span> passager</span></p>
+                                                <p class="m-0"><?= htmlspecialchars($carshare->getAvailablePlaces()) ?><span> passager<?= ($carshare->getAvailablePlaces()) > 1 ? 's' : '' ?></span></p>
                                             <?php else : ?>
                                                 <p class="m-0">COMPLET</p>
                                             <?php endif ?>
@@ -131,6 +131,11 @@
                                                 <p class="text-secondary">5,0</p>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div>
+                                        <!--<span class="badge rounded-pill text-bg-primary">
+                                            <img src="<?= htmlspecialchars($carshare->getEnergyIcon()) ?>" alt="énergie" width="20">
+                                        </span> -->
                                     </div>
                                     <?php endif ?>
                                 </div>
@@ -184,6 +189,10 @@
             <h3>Services</h3>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox">
+                <label class="form-check-label" for="">Véhicule électrique</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox">
                 <label class="form-check-label" for="">Cigarette autorisée</label>
             </div>
             <div class="form-check">
@@ -191,16 +200,16 @@
                 <label class="form-check-label" for="">Animaux de compagnie autorisés</label>
             </div>
         </div>
-    </aside>    
+    </aside>
 </main>
 
 <!-- Modal -->
 <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content bg-secondary">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="filterModalLabel">Filtrer</h1>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content bg-secondary">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="filterModalLabel">Filtrer</h1>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="container mt-3">
@@ -241,6 +250,10 @@
             <hr>
             <div class="container mb-3">
                 <h3>Services</h3>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="">Véhicule électrique</label>
+                </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox">
                     <label class="form-check-label" for="">Cigarette autorisée</label>

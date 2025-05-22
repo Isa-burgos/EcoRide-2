@@ -1,9 +1,9 @@
-body-admin {
+html-admin, body-admin {
     min-height: 100vh;
     display: flex;
 }
 .navbar-admin {
-    height: 100vh;
+    min-height: 100vh;
     min-width: 50px;
     max-width: 50px;
     background-color: $dark;
@@ -14,6 +14,7 @@ body-admin {
 
 .offcanvas{
     background-color: $dark;
+    min-height: 100vh;
 }
 
 .sidebar a {
@@ -33,7 +34,8 @@ body-admin {
     justify-content: start;
 }
 
-main-admin {
+.main-admin {
     flex-grow: 1;
     padding: 20px;
+    width: 100%;
 }

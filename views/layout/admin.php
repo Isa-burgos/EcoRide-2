@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html class="html-admin" lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
     <script src="/assets/js/chart.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-light">
+<body class="body-admin bg-light">
     <div class="d-flex">
         <nav class="navbar navbar-admin nav-pills d-flex flex-column position-fixed">
             <div class="container-fluid mx-auto p-0">
@@ -23,7 +23,7 @@
             </div>
         </nav>
 
-        <div class="offcanvas offcanvas-start d-lg-block show sidebar d-flex flex-column justify-content-center align-items-stretch py-3 position-fixed" tabindex="-1" id="adminSidebar" aria-labelledby="adminSidebarLabel">
+        <div class="offcanvas offcanvas-start d-lg-block sidebar d-flex flex-column justify-content-center align-items-stretch py-3 position-fixed" tabindex="-1" id="adminSidebar" aria-labelledby="adminSidebarLabel">
             <div class="offcanvas-header">
                 <h3 class="offcanvas-title" id="adminSidebarLabel">Espace administrateur</h3>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>

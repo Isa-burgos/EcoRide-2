@@ -2,6 +2,8 @@
 
 namespace Router;
 
+use App\middleware\CsrfMiddleware;
+
 class Router{
 
     public $url;
@@ -37,12 +39,16 @@ class Router{
 
         foreach ($this->routes[$method] as $route) {
             if ($route->matches($this->url)) {
-                file_put_contents('/tmp/route_matched.txt', "Route matchée : " . $this->url . "\n", FILE_APPEND);
+
+                if ($method === 'POST'){
+                    CsrfMiddleware::verify();
+                }
+
                 $route->execute();
                 return;
             }
         }
-        file_put_contents('/tmp/route_matched.txt', "Aucune route matchée pour : " . $this->url . "\n", FILE_APPEND);
+        echo "404 not found";
         
     }
 

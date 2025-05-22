@@ -20,6 +20,7 @@
     <?php endif; ?>
 
         <form class="conteneur-content" method="post" action="register">
+        <?= csrfField(); ?>
             <div class="d-flex pt-2">
                 <div class="me-2">
                     <input type="radio" name="gender" value="homme" checked>

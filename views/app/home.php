@@ -31,8 +31,8 @@ $pageDescription = 'Site de covoiturage écoresponsable';
                 <div class="input-container gx-1 mb-2">
                     <input class="passenger input" type="number" name="nb_place" placeholder="Passager">
                 </div>
+                <button class="btn" type="submit">Lancer ma recherche</button>
             </form>
-            <button class="btn" type="submit">Lancer ma recherche</button>
         </div>
     </div>
 </section>

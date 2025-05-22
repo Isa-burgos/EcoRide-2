@@ -121,6 +121,9 @@ class UserController extends Controller{
         // Connexion automatique
         (new AuthService($this->db))->login($createdUser);
 
+        // Régénérer un nouveau token pour la page suivante
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
         // Message d'information
         $_SESSION['info'] = "Veuillez compléter votre profil";
 

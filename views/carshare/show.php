@@ -33,9 +33,11 @@
                     Modifier le trajet
                 </a>
                     <form method="POST" action="/carshare/<?= $trip->getCarshareId() ?>/start">
+                    <?= csrfField(); ?>
                         <button class="btn btn-warning me-3">Démarrer le trajet</button>
                     </form>
                     <form method="POST" action="/carshare/<?= $trip->getCarshareId() ?>/cancel">
+                    <?= csrfField(); ?>
                         <button class="btn bg-danger text-white border-danger me-3">Annuler le trajet</button>
                     </form>
                     <div>
@@ -44,6 +46,7 @@
                 </div>
             <?php elseif ($trip->getStatut() === 'en cours'): ?>
                 <form method="POST" action="/carshare/<?= $trip->getCarshareId() ?>/end">
+                <?= csrfField(); ?>
                     <button class="btn btn-success">Terminer le trajet</button>
                 </form>
             <?php endif; ?>
@@ -76,6 +79,7 @@
                     <div class="container d-flex justify-content-center">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
                         <form method="POST" action="/carshare/<?= $trip->getCarshareId() ?>/delete">
+                        <?= csrfField(); ?>
                             <button type="submit" class="btn btn-secondary">Confirmer la suppression</button>
                         </form>
                     </div>
@@ -84,3 +88,4 @@
         </div>
         </div>
     </div>
+</main>

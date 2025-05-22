@@ -11,6 +11,7 @@
 
     <section class="conteneur">
         <form class="conteneur-content" method="post" action="/login">
+        <?= csrfField(); ?>
             <div>
                 <input class="input form-control" type="email" name="email" id="emailInput" placeholder="Email" required>
                 <?php if(!empty($_SESSION['errors']['email'])): ?>

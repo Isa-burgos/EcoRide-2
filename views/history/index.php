@@ -103,6 +103,7 @@
                                                             <div class="container d-flex justify-content-center">
                                                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
                                                                 <form method="POST" action="/carshare/<?= $trip->getCarshareId() ?>/delete">
+                                                                <?= csrfField(); ?>
                                                                     <button type="submit" class="btn btn-secondary">Confirmer la suppression</button>
                                                                 </form>
                                                             </div>

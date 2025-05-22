@@ -166,6 +166,7 @@
                         <div class="container d-flex justify-content-center">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
                             <form action="/carshare/<?= $trip->getCarshareId() ?>/reserve" method="POST">
+                            <?= csrfField(); ?>
                                 <input type="hidden" name="carshare_id" value="<?= $trip->getCarshareId() ?>">
                                 <input type="hidden" name="number_of_passengers" id="passengerCountInputHidden" value="1">
                                 <button type="submit" class="btn btn-secondary">Confirmer la réservation</button>

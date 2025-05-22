@@ -2,7 +2,7 @@
 
 use App\Services\AuthService;
 
-    $auth = new AuthService();
+    $auth = new AuthService($this->db);
     $userId = $auth->getCurrentUserId();
 
     if (!$userId) {
@@ -26,6 +26,7 @@ use App\Services\AuthService;
     <?php if ($userId) : ?>
     <section class="conteneur">
         <form class="conteneur-content" method="POST" action="/carshare/create">
+        <?= csrfField(); ?>
 
             <!-- START STEP 1 -->
                 <div id="step1" class="step active">
