@@ -42,6 +42,10 @@
     <section class="covoiturages-dashboard">
         <div class="covoiturages-dashboard-content">
             <div class="recap-search">
+            <?php if (!empty($error)) : ?>
+                <div class="alert alert-warning"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+
                 <div class="recap-search-date">
                     <h2><?= htmlspecialchars(formatDateFr($depart_date)) ?></h2>
                 </div>
@@ -149,57 +153,56 @@
     </section>
     
     <aside class="filter">
-        <div class="container mt-3">
-            <h3>Trier par</h3>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="tri">
-                <label class="form-check-label" for="">Départ le plus tôt</label>
+        <form action="/carshare/results" method="get">
+            <input type="hidden" name="depart_adress" value="<?= htmlspecialchars($_GET['depart_adress'] ?? '') ?>">
+            <input type="hidden" name="arrival_adress" value="<?= htmlspecialchars($_GET['arrival_adress'] ?? '') ?>">
+            <input type="hidden" name="depart_date" value="<?= htmlspecialchars($_GET['depart_date'] ?? '') ?>">
+            <input type="hidden" name="nb_place" value="<?= htmlspecialchars($_GET['nb_place'] ?? 1) ?>">
+
+            <div class="container mt-3">
+                <h3>Trier par</h3>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sort" value="depart_asc">
+                    <label class="form-check-label" for="sort">Départ le plus tôt</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sort" value="price_asc">
+                    <label class="form-check-label" for="sort">Prix le plus bas</label>
+                </div>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="tri">
-                <label class="form-check-label" for="">Prix le plus bas</label>
+            <hr>
+            <div class="container">
+                <h3>Heure de départ</h3>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="time[]" value="morning">
+                    <label class="form-check-label" for="">06:00 - 12:00</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="time[]" value="afternoon">
+                    <label class="form-check-label" for="">12:01 - 18:00</label>
+                </div>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="tri">
-                <label class="form-check-label" for="">Proche du point de départ</label>
+            <hr>
+            <div class="container mb-3">
+                <h3>Services</h3>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="services[]" value="electric">
+                    <label class="form-check-label" for="">Véhicule électrique</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="services[]" value="smoking">
+                    <label class="form-check-label" for="">Cigarette autorisée</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="services[]" value="pets">
+                    <label class="form-check-label" for="">Animaux de compagnie autorisés</label>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Voir les trajets</button>
+                </div>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="tri">
-                <label class="form-check-label" for="">Proche du point d'arrivée</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="tri">
-                <label class="form-check-label" for="">Trajet le plus court</label>
-            </div>
-        </div>
-        <hr>
-        <div class="container">
-            <h3>Heure de départ</h3>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label" for="">06:00 - 12:00</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label" for="">12:01 - 18:00</label>
-            </div>
-        </div>
-        <hr>
-        <div class="container mb-3">
-            <h3>Services</h3>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label" for="">Véhicule électrique</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label" for="">Cigarette autorisée</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label" for="">Animaux de compagnie autorisés</label>
-            </div>
-        </div>
+        </form>
     </aside>
 </main>
 
@@ -208,66 +211,61 @@
     <div class="modal-dialog">
         <div class="modal-content bg-secondary">
             <div class="modal-header">
-            <h1 class="modal-title fs-5" id="filterModalLabel">Filtrer</h1>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="container mt-3">
-                <h3>Trier par</h3>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tri">
-                    <label class="form-check-label" for="">Départ le plus tôt</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tri">
-                    <label class="form-check-label" for="">Prix le plus bas</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tri">
-                    <label class="form-check-label" for="">Proche du point de départ</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tri">
-                    <label class="form-check-label" for="">Proche du point d'arrivée</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tri">
-                    <label class="form-check-label" for="">Trajet le plus court</label>
-                </div>
+                <h1 class="modal-title fs-5" id="filterModalLabel">Filtrer</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <hr>
-            <div class="container">
-                <h3>Heure de départ</h3>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label" for="">06:00 - 12:00</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label" for="">12:01 - 18:00</label>
-                </div>
-            </div>
-            <hr>
-            <div class="container mb-3">
-                <h3>Services</h3>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label" for="">Véhicule électrique</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label" for="">Cigarette autorisée</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label" for="">Animaux de compagnie autorisés</label>
-                </div>
-                <div class="container d-flex justify-content-center">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-secondary">Voir les trajets</button>
-                </div>
+            <div class="modal-body">
+                <form action="/carshare/results" method="get">
+                <input type="hidden" name="depart_adress" value="<?= htmlspecialchars($_GET['depart_adress'] ?? '') ?>">
+                <input type="hidden" name="arrival_adress" value="<?= htmlspecialchars($_GET['arrival_adress'] ?? '') ?>">
+                <input type="hidden" name="depart_date" value="<?= htmlspecialchars($_GET['depart_date'] ?? '') ?>">
+                <input type="hidden" name="nb_place" value="<?= htmlspecialchars($_GET['nb_place'] ?? 1) ?>">
+                
+                    <div class="container mt-3">
+                        <h3>Trier par</h3>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort" value="depart_asc">
+                            <label class="form-check-label" for="sort">Départ le plus tôt</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort" value="price_asc">
+                            <label class="form-check-label" for="sort">Prix le plus bas</label>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="container">
+                        <h3>Heure de départ</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="time[]" value="morning">
+                            <label class="form-check-label" for="">06:00 - 12:00</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="time[]" value="afternoon">
+                            <label class="form-check-label" for="">12:01 - 18:00</label>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="container mb-3">
+                        <h3>Services</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="services[]" value="electric">
+                            <label class="form-check-label" for="">Véhicule électrique</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="services[]" value="smoking">
+                            <label class="form-check-label" for="">Cigarette autorisée</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="services[]" value="pets">
+                            <label class="form-check-label" for="">Animaux de compagnie autorisés</label>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Voir les trajets</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>

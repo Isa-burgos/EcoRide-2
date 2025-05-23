@@ -33,6 +33,9 @@
             </div>
             <div>
                 <input class="input form-control" name="name" id="nameInput" type="text" placeholder="Nom" required value="<?= isset($_SESSION['old']['name']) ? htmlspecialchars($_SESSION['old']['name']) : '' ?>">
+                <div class="invalid-feedback">
+                    Le nom doit comporter au moins 3 lettres
+                </div>
                 <?php if(!empty($_SESSION['errors']['name'])) : ?>
                 <div class="alert alert-danger">
                     <?= htmlspecialchars($_SESSION['errors']['name']) ?>
@@ -42,6 +45,9 @@
             <div>
                 <label for="firstnameInput"></label>
                 <input class="input form-control" name="firstname" type="text" id="firstnameInput" placeholder="Prénom" required value="<?= isset($_SESSION['old']['firstname']) ? htmlspecialchars($_SESSION['old']['firstname']) : '' ?>">
+                <div class="invalid-feedback">
+                    Le prénom doit comporter au moins 3 lettres
+                </div>
                 <?php if(!empty($_SESSION['errors']['firstname'])) : ?>
                     <div class="alert alert-danger">
                         <?= htmlspecialchars($_SESSION['errors']['firstname']) ?>
@@ -51,6 +57,9 @@
             <div>
                 <label for="birth_date">Date de naissance</label>
                 <input type="date" class="form-control input" aria-label="select annee de naissance" name="birth_date" required value="<?= htmlspecialchars($_POST['birth_date'] ?? '') ?>">
+                <div class="invalid-feedback">
+                    Veuillez entrer une date de naissance
+                </div>
                 <?php if(!empty($_SESSION['errors']['birth_date'])) : ?>
                     <div class="alert alert-danger">
                         <?= htmlspecialchars($_SESSION['errors']['birth-date']) ?>
@@ -59,6 +68,9 @@
             <div>
                 <label for="emailInput"></label>
                 <input class="input form-control" type="email" name="email" id="emailInput" placeholder="Email" value="<?= isset($_SESSION['old']['email']) ? htmlspecialchars($_SESSION['old']['email']) : '' ?>" required>
+                <div class="invalid-feedback">
+                    L'e-mail n'est pas au bon format
+                </div>
                 <?php if(!empty($_SESSION['errors']['email'])) : ?>
                     <div class="alert alert-danger">
                         <?= htmlspecialchars($_SESSION['errors']['email']) ?>
@@ -68,6 +80,9 @@
             <div>
                 <label for="passwordInput"></label>
                 <input class="input form-control password" type="password" name="password" id="passwordInput" placeholder="Mot de passe" required>
+                <div class="invalid-feedback">
+                    Votre mot de passe doit contenir au minimum 12 caractères dont 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial
+                </div>
                 <?php if(!empty($_SESSION['errors']['password'])) : ?>
                     <div class="alert alert-danger">
                         <?= htmlspecialchars($_SESSION['errors']['password']) ?>
@@ -77,6 +92,9 @@
             <div>
                 <label for="passwordValidateInput"></label>
                 <input class="input form-control password" type="password" name="passwordValidate" id="passwordValidateInput" placeholder="Confirmer le mot de passe" value="">
+                <div class="invalid-feedback">
+                    La confirmation n'est pas identique au mot de passe
+                </div>
                 <?php if(!empty($_SESSION['errors']['passwordValidate'])) : ?>
                     <div class="alert alert-danger">
                         <?= htmlspecialchars($_SESSION['errors']['passwordValidate']) ?>

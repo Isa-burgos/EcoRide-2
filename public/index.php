@@ -15,6 +15,8 @@ require_once __DIR__ . '/../config/helper.php';
 use Dotenv\Dotenv;
 use Router\Router;
 
+date_default_timezone_set('Europe/Paris');
+
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 

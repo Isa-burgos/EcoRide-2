@@ -120,7 +120,7 @@ class UserModel extends Model{
     }
 
     public function setPhoto(?string $photo){
-        $this->photo = $photo ?? '/public/assets/img/default-profile.svg';
+        $this->photo = $photo ?? 'assets/img/default-profile.jpg';
         return $this;
     }
 

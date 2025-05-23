@@ -329,15 +329,23 @@ class CarshareController extends Controller{
         $arrival = $_GET['arrival_adress'] ?? null;
         $date = $_GET['depart_date'] ?? null;
         $passenger = (int)($_GET['nb_place'] ?? 1);
+        $sort = $_GET['sort'] ?? null;
+        $time = $_GET['time'] ?? [];
+        $services = $_GET['services'] ?? [];
         
         if(!$depart || !$arrival || !$date){
-            $_SESSION['error'] = "Aucun trajet correspondant à votre recherche";
-            header('location: ' . ROUTE_CARSHARE_SEARCH);
-            exit();
+            return $this->view('carshare.results', [
+                'results' => [],
+                'depart_adress' => '',
+                'arrival_adress' => '',
+                'depart_date' => '',
+                'nb_place' => 1,
+                'error' => "Veuillez remplir tous les champs obligatoires."
+            ]);
         }
         
         $carshareRepo = new CarshareRepository($this->getDB());
-        $results = $carshareRepo->searchCarshares($depart, $arrival, $date, $passenger);
+        $results = $carshareRepo->searchCarshares($depart, $arrival, $date, $passenger, $time, $services, $sort);
 
         $reservationRepo = new ReservationRepository($this->getDB());
 

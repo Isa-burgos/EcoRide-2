@@ -107,7 +107,7 @@ class UserController extends Controller{
         $user->setPhone($_POST['phone'] ?? '');
         $user->setAdress($_POST['adress'] ?? '');
         $user->setBirthDate($_POST['birth_date']);
-        $user->setPhoto('/public/assets/img/default-profile.svg');
+        $user->setPhoto('assets/img/default-profile.jpg');
         $user->setGender($_POST['gender'] ?? null);
         $user->setRole($_POST['role'] ?? 'user');
         $user->setCreditBalance(20);

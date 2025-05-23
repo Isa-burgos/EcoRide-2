@@ -8,7 +8,6 @@ class CsrfMiddleware
     {
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $token = $_POST['csrf_token'] ?? null;
-            $sessionToken = $_SESSION['csrf_token'] ?? null;
 
             if(!self::isValid($token)){
                 http_response_code(403);

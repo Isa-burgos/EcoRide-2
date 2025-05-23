@@ -4,7 +4,7 @@
     $user = $user ?? null;
 
     $birthDate = ($user && method_exists($user, 'getBirthDate')) ? substr($user->getBirthDate(), 0, 10) : '';
-    $photo = ($user && method_exists($user, 'getPhoto')) ? '/' . htmlspecialchars($user->getPhoto()) : '/public/assets/img/default-profile.svg';
+    $photo = ($user && method_exists($user, 'getPhoto')) ? '/' . htmlspecialchars($user->getPhoto()) : 'assets/img/default-profile.jpg';
 
 ?>
 <main>

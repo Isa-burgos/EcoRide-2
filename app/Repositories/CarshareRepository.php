@@ -209,7 +209,7 @@ class CarshareRepository extends Repository{
         ]);
     }
 
-    public function searchCarshares(string $depart, string $arrival, string $date, int $passenger): array
+    public function searchCarshares(string $depart, string $arrival, string $date, int $passenger, ?array $time = [], ?array $services = [], ?string $sort = null): array
     {
         $sql = "SELECT cs.*,
                         v.nb_place, v.brand, v.model, v.color, v.energy, v.vehicle_id, v.belong AS driver_id
@@ -222,21 +222,55 @@ class CarshareRepository extends Repository{
                 AND v.nb_place >= :passenger
                 ";
 
-        $data = $this->fetch($sql, [
+        $params = [
             ':depart' => '%' . $depart . '%',
             ':arrival' => '%' . $arrival . '%',
             ':date' => $date,
             ':passenger' => $passenger
-        ]);
+        ];
+        
+        if(in_array('electric', $services)){
+            $sql .= " AND v.energy = 1";
+        }
+
+        if(!empty($time)){
+            $timeConditions = [];
+            
+            if(in_array('morning', $time)){
+                $timeConditions[] = "(TIME(cs.depart_time) BETWEEN '06:00:00' AND '12:00:00')";
+            }
+
+            if(in_array('afternoon', $time)){
+                $timeConditions[] = "(TIME(cs.depart_time) BETWEEN '12:01:00' AND '19:00:00')";
+            }
+
+            if(!empty($timeConditions)){
+                $sql .= ' AND (' . implode(' OR ', $timeConditions) . ')';
+            }
+        }
+
+        switch ($sort){
+            case 'depart_asc':
+                $sql .= " ORDER BY cs.depart_date ASC, cs.depart_time ASC";
+                break;
+            case 'price_asc':
+                $sql .= " ORDER BY cs.price_person ASC";
+                break;
+            default:
+                $sql .= " ORDER BY cs.depart_date ASC";
+                break;
+        }
+
+        $data = $this->fetch($sql, $params);
 
         $carshares = [];
         $userRepo = new UserRepository($this->db);
         $reservationRepo = new ReservationRepository($this->db);
+        $preferenceService = new PreferenceService();
 
         foreach ($data as $row) {
-            $carshare = new \App\Models\CarshareModel();
+            $carshare = new CarshareModel();
             $carshare->hydrate($row);
-
 
             if (isset($row['driver_id'])) {
                 $driver = $userRepo->getById($row['driver_id']);
@@ -249,9 +283,14 @@ class CarshareRepository extends Repository{
             $remaining = (int) $carshare->getNbPlace() - $reserved;
             $carshare->setAvailablePlaces(max(0, $remaining));
 
-            if($remaining >= $passenger){
+            if($remaining < $passenger) continue;
+                
+                $prefs = $preferenceService->getPreferencesByVehicle($carshare->getUsedVehicle());
+                
+                if (in_array('smoking', $services) && empty($prefs['smoking'])) continue;
+                if (in_array('pets', $services) && empty($prefs['pets'])) continue;
+
                 $carshares[] = $carshare;
-            }
         }
 
         return $carshares;
