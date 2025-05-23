@@ -61,7 +61,7 @@
                         <a class="nav-link" href="/carshare/search">Covoiturages</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/contact.php">Contact</a>
+                        <a class="nav-link" href="/contact">Contact</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link required-connexion-btn" href="/carshare/create">Proposer un trajet</a>
@@ -71,7 +71,7 @@
                         <a class="nav-link dropdown-toggle d-flex align-items-center py-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= htmlspecialchars($_SESSION['user']['pseudo']) ?>
                             <?php if (!empty($_SESSION['user']['photo'])): ?>
-                                <img src="/<?= htmlspecialchars($_SESSION['user']['photo']) ?>" alt="avatar" class="rounded-circle ms-2" width="32" height="32">
+                                <img src="/<?= htmlspecialchars($_SESSION['user']['photo']) ?>" alt="avatar" class="header-photo-profile ms-2">
                             <?php else: ?>
                                 <img src="assets/img/default-profile.jpg" alt="Profil" class="rounded-circle ms-2" width="32" height="32">
                             <?php endif; ?>
@@ -80,7 +80,8 @@
                             <?= $_SESSION['user']['credit_balance'] ?> crédits
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/dashboard">Mon compte</a></li>
+                            <li><a class="dropdown-item" href="/dashboard">Mon tableau de bord</a></li>
+                            <li><a class="dropdown-item" href="/account">Mon compte</a></li>
                             <li><a class="dropdown-item" href="/history">Mon historique</a></li>
                             <li><a class="dropdown-item" href="#">Mes avis</a></li>
                             <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
@@ -113,7 +114,7 @@
                 <p class="text-primary">contact@ecoride.com</p>
             </div>
             <div class="contact col-12 col-md-8 d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-end">
-                <a href="#" class="mb-2 mb-md-0">Mentions légales</a>
+                <a href="/mentions-legales" class="mb-2 mb-md-0">Mentions légales</a>
                 <div class="contact col-sm-6 col-lg-4 text-center mb-3 mb-md-0">
                     <a href="#" class="me-2"><img src="/assets/icons/facebook.svg" alt="Logo facebook"></a>
                     <a href="#" class="me-2"><img src="/assets/icons/instagram.svg" alt="Logo instagram"></a>

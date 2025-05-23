@@ -44,4 +44,14 @@ class AppController extends Controller{
         return $this->view('app.show', compact('id'));
     }
 
+    public function contact()
+    {
+        return $this->view('app.contact');
+    }
+
+    public function mentionsLegales()
+    {
+        return $this->view('app.mentions-legales');
+    }
+
 }

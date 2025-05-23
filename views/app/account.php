@@ -23,7 +23,7 @@
         <form class="conteneur-content" method="POST" action="/update-account" enctype="multipart/form-data">
         <?= csrfField(); ?>
             <div class="mb-4 text-center">
-                <img src="<?= $photo ?>" alt="profil" class="rounded-circle" width="120" height="120">
+                <img src="<?= $photo ?>" alt="profil" class="profile-picture">
             </div>
             <div class="mb-3">
                 <label for="photo" class="form-label">Changer la photo de profil</label>

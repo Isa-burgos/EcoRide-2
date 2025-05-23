@@ -26,6 +26,8 @@ $router = new Router($uri);
 
 $router->get('/', 'App\Controllers\AppController@home');
 $router->get('/dashboard', 'App\Controllers\AppController@dashboard', 'tableau de bord');
+$router->get('/contact', 'App\Controllers\AppController@contact', 'page contact');
+$router->get('/mentions-legales', 'App\Controllers\AppController@mentionsLegales', 'page mentions légales');
 
 $router->get('/login', 'App\Controllers\UserController@login', 'connexion');
 $router->post('/login', 'App\Controllers\UserController@loginPost', 'connexion');

@@ -74,7 +74,6 @@ class AccountController extends Controller{
             exit;
         }
 
-
         $user->setName($_POST['name']);
         $user->setFirstname($_POST['firstname']);
         $user->setPseudo($_POST['pseudo'] ?? '');
@@ -83,13 +82,44 @@ class AccountController extends Controller{
         $user->setPhone($_POST['phone'] ?? '');
         $user->setGender($_POST['gender']);
 
+        $uploadDir = "upload/profile_pictures/";
+        $photoPath = $_SESSION['user']['photo'] ?? 'assets/img/default-profile.jpg';
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0775, true);
+        }
+
+        if(isset($_FILES['photo']) && !empty($_FILES['photo']['name'])){
+            $photoTmpPath = $_FILES['photo']['tmp_name'];
+            $photoName = basename($_FILES['photo']['name']);
+            $photoSize = $_FILES['photo']['size'];
+            $photoError = $_FILES['photo']['error'];
+            $photoExt = strtolower(pathinfo($photoName, PATHINFO_EXTENSION));
+        
+            $allowedExts = ["jpg", "jpeg", "png"];
+        
+            if($photoError === 0 && in_array($photoExt, $allowedExts) && $photoSize <= 2 * 1024 * 1024){
+                $newFileName = "profile_" . $userId . "." . $photoExt;
+                $photoPath = $uploadDir . $newFileName;
+        
+                if(!move_uploaded_file($photoTmpPath, $photoPath)){
+                    $_SESSION['errors'] = "Le téléchargement de la photo a échoué";
+                    header("Location: " . ROUTE_ACCOUNT);
+                    exit();
+                }
+                
+                $user->setPhoto($photoPath);
+                
+            } else {
+                $_SESSION['errors'] = "Photo invalide";
+                header('location: ' . ROUTE_ACCOUNT);
+                exit();
+            }
+        }
+
         $userRepo->updateUser($user);
         
         $userRepo->updateUserStatuts($userId, $_POST['statuts'] ?? []);
-        
-        $_SESSION['success'] = "Votre profil a bien été mis à jour.";
-        header('Location: ' . ROUTE_ACCOUNT . '#alerts');
-        exit();
 
         $isDriver = in_array('Conducteur', $_POST['statuts'] ?? []);
         $hasVehicle = count($vehicleRepo->getAllByUser($userId)) > 0;

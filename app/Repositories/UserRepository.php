@@ -97,7 +97,8 @@ class UserRepository extends Repository{
                     birth_date = :birth_date,
                     email = :email,
                     phone = :phone,
-                    gender = :gender
+                    gender = :gender,
+                    photo = :photo
                 WHERE user_id = :user_id
         ";
 
@@ -109,6 +110,7 @@ class UserRepository extends Repository{
             ':email' => $user->getEmail(),
             ':phone' => $user->getPhone(),
             ':gender' => $user->getGender(),
+            ':photo' => $user->getPhoto(),
             ':user_id' => $user->getUserId(),
         ]);
     }
