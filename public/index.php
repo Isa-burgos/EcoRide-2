@@ -17,8 +17,10 @@ use Router\Router;
 
 date_default_timezone_set('Europe/Paris');
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+if (file_exists(__DIR__ . '/../.env')) {
+    $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv->load();
+}
 
 $uri = explode('?', $_SERVER['REQUEST_URI'])[0];
 $uri = rtrim($uri, '/'); // supprime slash final s’il existe
