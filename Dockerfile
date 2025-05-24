@@ -7,6 +7,9 @@ RUN pecl install mongodb || true && docker-php-ext-enable mongodb
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+COPY start-apache.sh /usr/local/bin/start-apache.sh
+RUN chmod +x /usr/local/bin/start-apache.sh
+
 COPY ecoride.conf /etc/apache2/sites-available/000-default.conf
 COPY . /var/www/html/
 
@@ -15,3 +18,5 @@ WORKDIR /var/www/html
 RUN if [ -f composer.json ]; then composer install --no-dev --optimize-autoloader; fi
 
 EXPOSE 80
+
+CMD ["/usr/local/bin/start-apache.sh"]
