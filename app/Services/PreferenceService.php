@@ -2,21 +2,20 @@
 
 namespace App\Services;
 
-use Exception;
-use MongoDB\Client;
-use MongoDB\Collection;
+use MongoDB\Driver\Manager;
+use MongoDB\Driver\Query;
+use MongoDB\Operation\BulkWrite;
 use MongoDB\BSON\UTCDateTime;
 
 class PreferenceService{
     
-    private Collection $collection;
+    private Manager $manager;
+    private string $namespace = "ecoride.preferences";
 
     public function __construct()
 {
     $uri = $_ENV['MONGO_URI'] ?? 'mongodb://localhost:27017';
-    $client = new Client($uri);
-    $db = $client->ecoride;
-    $this->collection = $db->preferences;
+    $this->manager = new Manager($uri);
 }
 
     /**
@@ -25,44 +24,48 @@ class PreferenceService{
 
     public function getPreferencesByVehicle(int $vehicleId): ?array
     {
-        $document = $this->collection->findOne(['vehicle_id' => $vehicleId]);
+        $filter = ['vehicle_id' => $vehicleId];
+        $query = new Query($filter);
 
-        if(!$document){
+        $cursor = $this->manager->executeQuery($this->namespace, $query);
+        $results = iterator_to_array($cursor);
+
+        if (empty($results)) {
             return null;
         }
 
-        if (isset($document['preferences'])) {
-            return (array) $document['preferences'];
-        }
-
-        return [];
+        $doc = $results[0];
+        return isset($doc->preferences) ? (array) $doc->preferences : [];
     }
 
     /**
      * Save preferences in MongoDB
      */
-
     public function savePreferences(int $vehicleId, array $prefs): void
     {
-        $existing = $this->collection->findOne(['vehicle_id' => $vehicleId]);
+        // Vérifie si le document existe
+        $existing = $this->getPreferencesByVehicle($vehicleId);
 
-        if($existing){
-            $this->collection->updateOne(
+        $bulk = new BulkWrite();
+
+        if ($existing) {
+            $bulk->update(
                 ['vehicle_id' => $vehicleId],
-                [
-                    '$set' => [
-                        'preferences' => $prefs,
-                        'updated_at' => new UTCDateTime()
-                    ]
-                ]
+                ['$set' => [
+                    'preferences' => $prefs,
+                    'updated_at' => new UTCDateTime()
+                ]],
+                ['multi' => false, 'upsert' => false]
             );
         } else {
-            $this->collection->insertOne([
+            $bulk->insert([
                 'vehicle_id' => $vehicleId,
                 'preferences' => $prefs,
                 'created_at' => new UTCDateTime()
             ]);
         }
+
+        $this->manager->executeBulkWrite($this->namespace, $bulk);
     }
 
 }
