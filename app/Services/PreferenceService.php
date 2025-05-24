@@ -4,7 +4,7 @@ namespace App\Services;
 
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\Query;
-use MongoDB\Operation\BulkWrite;
+use MongoDB\Driver\BulkWrite;
 use MongoDB\BSON\UTCDateTime;
 
 class PreferenceService{
