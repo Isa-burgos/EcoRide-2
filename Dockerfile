@@ -15,8 +15,10 @@ COPY . /var/www/html/
 
 WORKDIR /var/www/html
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 RUN composer --version && \
-     if [ -f composer.json ]; then composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --verbose; fi
+     if [ -f composer.json ]; then composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --verbose --ignore-platform-req=ext-mongodb; fi
 
 RUN chown -R www-data:www-data /var/www/html
 
