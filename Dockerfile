@@ -15,8 +15,11 @@ COPY . /var/www/html/
 
 WORKDIR /var/www/html
 
-RUN if [ -f composer.json ]; then composer install --no-dev --optimize-autoloader; fi
+RUN composer --version && \
+     if [ -f composer.json ]; then composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --verbose; fi
+
+RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
 
-CMD ["/usr/local/bin/start-apache.sh"]
+CMD ["start-apache.sh"]
