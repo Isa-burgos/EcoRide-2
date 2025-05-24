@@ -17,9 +17,9 @@ use Router\Router;
 
 date_default_timezone_set('Europe/Paris');
 
-if (file_exists(__DIR__ . '/../.env')) {
-    $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-    $dotenv->load();
+$envPath = dirname(__DIR__) . '/.env';
+if (file_exists($envPath)) {
+    Dotenv::createImmutable(dirname(__DIR__))->load();
 }
 
 $uri = explode('?', $_SERVER['REQUEST_URI'])[0];

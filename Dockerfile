@@ -10,7 +10,6 @@ RUN apt-get update && apt-get upgrade -y && \
 
 COPY ecoride.conf /etc/apache2/sites-available/000-default.conf
 COPY . /var/www/html/
-COPY .env /var/www/html/.env
 
 WORKDIR /var/www/html
 

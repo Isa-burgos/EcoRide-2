@@ -12,12 +12,13 @@ class DbConnect{
     {
 
         if(!isset($this->pdo)){
-            $host = $_ENV['DB_HOST'];
-            $db = $_ENV['DB_DATABASE'];
-            $user = $_ENV['DB_USER'];
-            $pass = $_ENV['DB_PASSWORD'];
+            $host = $_ENV['DB_HOST'] ?? 'localhost';
+            $port = $_ENV['DB_PORT'] ?? '3306';
+            $db = $_ENV['DB_DATABASE'] ?? 'test';
+            $user = $_ENV['DB_USER'] ?? 'root';
+            $pass = $_ENV['DB_PASSWORD'] ?? '';
 
-            $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
+            $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
             $this->pdo = new PDO($dsn, $user, $pass, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
