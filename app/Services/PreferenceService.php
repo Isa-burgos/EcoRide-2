@@ -12,23 +12,12 @@ class PreferenceService{
     private Collection $collection;
 
     public function __construct()
-    {
-        $host = $_ENV['MONGO_HOST'] ?? 'localhost';
-        $port = $_ENV['MONGO_PORT'] ?? '27017';
-        $user = $_ENV['MONGO_USER']?? '';
-        $pass = urlencode($_ENV['MONGO_PASS'] ?? '');
-        $auth = $_ENV['MONGO_AUTH_SOURCE'] ?? 'admin';
-        $db = $_ENV['MONGO_DB'] ?? 'test';
-
-        $uri = "mongodb://$user:$pass@$host:$port/?authSource=$auth";
-
-        try {
-            $client = new Client($uri);
-            $this->collection = $client->$db->preferences;
-        } catch (Exception $e) {
-            die('Connexion MongoDB échouée : ' . $e->getMessage());
-        }
-    }
+{
+    $uri = $_ENV['MONGO_URI'] ?? 'mongodb://localhost:27017';
+    $client = new Client($uri);
+    $db = $client->ecoride;
+    $this->collection = $db->preferences;
+}
 
     /**
      * Get preferences by vehicle ID
