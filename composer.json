@@ -14,9 +14,14 @@
         }
     ],
     "require": {
-        "mongodb/mongodb": "^1.20.2",
+        "mongodb/mongodb": "v1.x-dev",
         "vlucas/phpdotenv": "^5.6"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "ext-mongodb": "2.1.0"
+        }
+    }
 }
