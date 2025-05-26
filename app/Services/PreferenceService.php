@@ -14,7 +14,7 @@ class PreferenceService{
 
     public function __construct()
 {
-    $uri = $_ENV['MONGO_URI'] ?? 'mongodb://localhost:27017';
+    $uri = $_ENV['MONGO_URI'] ?? 'mongodb://ecoride-2-mongodb-1:27017';
     $this->manager = new Manager($uri);
 }
 

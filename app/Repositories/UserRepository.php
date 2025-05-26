@@ -64,9 +64,9 @@ class UserRepository extends Repository{
     public function createUser(UserModel $user): bool
     {
         $sql = "INSERT INTO {$this->table}
-                (name, firstname, pseudo, email, password, phone, adress, birth_date, photo, gender, role)
+                (name, firstname, pseudo, email, password, phone, adress, birth_date, photo, gender, role, credit_balance)
                 VALUES
-                (:name, :firstname, :pseudo, :email, :password, :phone, :adress, :birth_date, :photo, :gender, :role)";
+                (:name, :firstname, :pseudo, :email, :password, :phone, :adress, :birth_date, :photo, :gender, :role, :credit_balance)";
 
         return $this->execute($sql,[
             ':name' => $user->getName(),
@@ -80,6 +80,7 @@ class UserRepository extends Repository{
             ':photo' => $user->getPhoto(),
             ':gender' => $user->getGender(),
             ':role' => $user->getRole(),
+            ':credit_balance' => $user->getCreditBalance(),
         ]);
     }
 

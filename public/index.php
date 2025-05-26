@@ -75,6 +75,8 @@ $router->post('/admin/users/:id/suspend', 'App\Controllers\AdminController@suspe
 $router->post('/admin/users/:id/reactivate', 'App\Controllers\AdminController@reactivate', 'réactiver un utilisateur');
 $router->post('/admin/users/:id/delete', 'App\Controllers\AdminController@deleteUser', 'supprimer un utilisateur');
 
+$router->get('/test-mongo', 'App\Controllers\TestController@test');
+
 
 $router->run();
 
