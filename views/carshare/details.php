@@ -74,7 +74,7 @@
                             <div class="col">
                                 <div class="trip-services">
                                     <h3>Places disponibles</h3>
-                                    <p><?= htmlspecialchars($trip->getNbPlace()) ?></p>
+                                    <p><?= htmlspecialchars($trip->getAvailablePlaces()) ?></p>
                                 </div>
                             </div>
                             <?php
@@ -103,7 +103,7 @@
                             <div class="col-12 col-lg-6 mb-4">
                                 <div class="trip-services">
                                     <h3><?= htmlspecialchars($trip->getBrand()) ?> - <?= htmlspecialchars($trip->getModel()) ?> - <?= htmlspecialchars($trip->getColor()) ?></h3>
-                                    <span class="trip-picto"></span>
+                                    <span class="trip-picto"><img class="picto-car" src="/assets/icons/car.svg" alt="icône voiture"></span>
                                 </div>
                             </div>
                             <?php if ($trip->custom_preferences) : ?>

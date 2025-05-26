@@ -127,6 +127,13 @@ class CarshareRepository extends Repository{
         
             $trip->setVehicle($vehicle);
 
+            $reservationRepo = new ReservationRepository($this->db);
+
+            $reserved = $reservationRepo->countReservedSeats($trip->getCarshareId());
+
+            $trip->setAvailablePlaces($trip->getNbPlace() - $reserved);
+
+
             $userRepo = new UserRepository($this->db);
             $driver = $userRepo->getById($trip->getUserId());
 
@@ -139,7 +146,7 @@ class CarshareRepository extends Repository{
 
             $trip->smoking_icon = $preferences['smoking_icon'] ?? 'non_fumeur';
             $trip->pets_icon = $preferences['pets_icon'] ?? 'no';
-            $trip->custom_preferences = $preferences['custom'];
+            $trip->custom_preferences = $preferences['custom'] ?? '';
         }
         
         return $trip;

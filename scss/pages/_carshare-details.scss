@@ -3,16 +3,21 @@
 }
 
 .trip-services {
-    min-width: 9rem;
-    height: 6rem;
+    min-width: 7rem;
+    height: 7rem;
     @include border;
     background-color: $dark;
     color: $white;
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    h3{
+        margin: 0;
+        padding: 0.5rem;
+        font-size: 20px;
+    }
 }
 
 .reservation{
@@ -49,6 +54,17 @@
 }
 
 @media screen and (min-width: 768px){
+    .trip-services{
+        h3{
+            font-size: 24px;
+        }
+        span{
+            .picto-car{
+                width: 2rem;
+                height: 2rem;
+            }
+        }
+    }
     .covoiturages-dashboard{
         width: 80%;
         margin: 2rem auto;
