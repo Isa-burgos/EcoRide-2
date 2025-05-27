@@ -1,18 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-    initQuantitySelector(".quantity-selector", ".passengerCount", "nbPlaceInput", 1, 4);
+    initQuantitySelector(".btn-quantity-selector", ".passengerCount", "passengerCountInputHidden", 1, 4);
     initQuantitySelector(".quantity-credit-selector", ".creditCount", "creditInput", 1, 100);
 });
 
 function initQuantitySelector(selectorClass, inputClass, hiddenInputId, minValue, maxValue) {
+    
     document.querySelectorAll(selectorClass).forEach(selector => {
         const input = selector.querySelector(inputClass);
         const decreaseBtn = selector.querySelector(".decrease");
         const increaseBtn = selector.querySelector(".increase");
         const hiddenInput = document.getElementById(hiddenInputId);
 
+        const dynamicMin = selector.hasAttribute('data-min') ? parseInt(selector.getAttribute('data-min')) : minValue;
+        const dynamicMax = selector.hasAttribute('data-max') ? parseInt(selector.getAttribute('data-max')) : maxValue;
+
         if (!input.value || isNaN(parseInt(input.value))) {
-            input.value = minValue;
-            hiddenInput.value = minValue;
+            input.value = dynamicMin;
+            hiddenInput.value = dynamicMin;
         }
 
         const updateRecap = () =>{
@@ -23,7 +27,7 @@ function initQuantitySelector(selectorClass, inputClass, hiddenInputId, minValue
         decreaseBtn.addEventListener("click", () => {
             let currentValue = parseInt(input.value);
 
-            if (currentValue > minValue) {
+            if (currentValue > dynamicMin) {
                 input.value = currentValue - 1;
                 updateRecap();
             }
@@ -32,10 +36,12 @@ function initQuantitySelector(selectorClass, inputClass, hiddenInputId, minValue
         increaseBtn.addEventListener("click", () => {
             let currentValue = parseInt(input.value);
 
-            if (currentValue < maxValue) {
+            if (currentValue < dynamicMax) {
                 input.value = currentValue + 1;
-                updateRecap();
+            } else {
+                input.value = dynamicMax;
             }
+            updateRecap();
         });
     });
 }

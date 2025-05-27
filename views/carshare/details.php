@@ -132,7 +132,7 @@
                         </div>
                     </div>
                     <div class="passenger-quantity-and-price p-2">
-                        <div class="btn-quantity-selector">
+                        <div class="btn-quantity-selector" data-min="1" data-max="<?= htmlspecialchars($trip->getAvailablePlaces()) ?>">
                             <button class="btn-quantity decrease">-</button>
                             <input type="text" class="quantity-input" value="1" readonly>
                             <button class="btn-quantity increase">+</button>
@@ -180,5 +180,5 @@
 </main>
 
 <script>
-    const maxPassengers = <?= $trip->getNbPlace() ?>;
+    const maxPassengers = <?= $trip->getAvailablePlaces() ?>;
 </script>

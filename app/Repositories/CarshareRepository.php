@@ -128,10 +128,9 @@ class CarshareRepository extends Repository{
             $trip->setVehicle($vehicle);
 
             $reservationRepo = new ReservationRepository($this->db);
-
             $reserved = $reservationRepo->countReservedSeats($trip->getCarshareId());
-
-            $trip->setAvailablePlaces($trip->getNbPlace() - $reserved);
+            $available = max(0, $trip->getNbPlace() - $reserved);
+            $trip->setAvailablePlaces($available);
 
 
             $userRepo = new UserRepository($this->db);
