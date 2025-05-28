@@ -1,5 +1,11 @@
 
-.search-trip{
+.recap-search-date{
+    h2{
+        font-size: 28px;
+    }
+}
+
+.search-trip-mobile{
     display: flex;
     width: 90%;
     height: auto;
@@ -28,6 +34,10 @@
         background-color: transparent;
         color: $success;
     }
+}
+
+.search-trip-desktop{
+    display: none;
 }
 
 .form-check {
@@ -102,7 +112,7 @@
                         flex-direction: column;
                         justify-content: space-between;
                         margin: auto 0;
-                        height: 4.5rem;
+                        min-height: 4.5rem;
                         .trip-depart, .trip-arrival{
                             font-weight: 700;
                         }
@@ -146,6 +156,7 @@
             .trip-details-bottom{
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
                 gap: 1rem;
                 padding: 0.5rem;
                 .profile-photo{
@@ -169,7 +180,7 @@
 }
 
 .filter{
-    visibility: hidden;
+    display: none;
     background-color: $secondary;
     width: 30%;
     margin: 2rem auto;
@@ -179,6 +190,31 @@
 }
 
 @media screen and (min-width: 768px){
+    .recap-search-date{
+        h2{
+            font-size: 36px;
+        }
+    }
+    .search-trip-mobile{
+        display: none;
+    }
+    .search-trip-desktop{
+        display: block;
+        width: 100%;
+        margin: 0;
+        .search-trip-btn{
+            width: 100%;
+            .search-trip-container{
+                width: 100%;
+                .line {
+                    border-left: 1px solid $dark;
+                    height: 3rem;
+                    margin: 0;
+                    opacity: 0.3;
+                }
+            }
+        }
+    }
     .search-trip-direction{
         display: flex;
         flex-direction: row;
@@ -195,7 +231,7 @@
             margin: 2rem auto;
         }
         .filter{
-            visibility: visible; 
+            display: block;
         }
     }
 }

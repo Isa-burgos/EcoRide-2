@@ -18,6 +18,12 @@ function formatDateFr(string $dateStr): string
     if(empty($dateStr)) return'--';
 
     $date = new DateTime(($dateStr));
+
+    try{
+        $date = new DateTime($dateStr);
+    } catch (Exception $e){
+        return $dateStr;
+    }
     $formatter = new IntlDateFormatter(
         'fr-FR',
         IntlDateFormatter::FULL,

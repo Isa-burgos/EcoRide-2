@@ -218,7 +218,7 @@ class CarshareRepository extends Repository{
     public function searchCarshares(string $depart, string $arrival, string $date, int $passenger, ?array $time = [], ?array $services = [], ?string $sort = null): array
     {
         $sql = "SELECT cs.*,
-                        v.nb_place, v.brand, v.model, v.color, v.energy, v.vehicle_id, v.belong AS driver_id
+                        v.nb_place, v.brand, v.model, v.color, v.energy, v.energy_icon, v.vehicle_id, v.belong AS driver_id
                 FROM {$this->table} cs
                 JOIN vehicle v ON cs.used_vehicle = v.vehicle_id
                 WHERE cs.depart_adress LIKE CONCAT('%',:depart, '%')

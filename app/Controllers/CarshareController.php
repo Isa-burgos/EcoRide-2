@@ -348,10 +348,30 @@ class CarshareController extends Controller{
         $results = $carshareRepo->searchCarshares($depart, $arrival, $date, $passenger, $time, $services, $sort);
 
         $reservationRepo = new ReservationRepository($this->getDB());
+        $vehicleRepo = new VehicleRepository($this->getDB());
+        $prefService = new PreferenceService();
 
         foreach($results as $carshare){
-            $reserved = $reservationRepo->countReservedSeats($carshare->getCarshareId());
-            $carshare->setNbPlace($carshare->getNbPlace() - $reserved);
+            if(is_object($carshare)){
+                $reserved = $reservationRepo->countReservedSeats($carshare->getCarshareId());
+                $carshare->setNbPlace($carshare->getNbPlace() - $reserved);
+                $vehicle = $vehicleRepo->getVehicle($carshare->getUsedVehicle());
+                if($vehicle){
+                    $preferences = $prefService->getPreferencesByVehicle($vehicle->getVehicleId());
+                }
+
+                $smoking = $preferences['smoking'] ?? false;
+                $pets = $preferences['pets'] ?? false;
+
+                $carshare->smoking_icon = $smoking
+                    ? '/assets/icons/smoke.svg'
+                    : '/assets/icons/no-smoking.svg';
+    
+                $carshare->pets_icon = $pets
+                    ? '/assets/icons/pets.svg'
+                    : '/assets/icons/no-pets.svg';
+
+            }
         }
 
         return $this->view('carshare.results', [
