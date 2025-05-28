@@ -45,8 +45,8 @@
                 <div class="trip-card p-0">
                     <div class="d-flex justify-content-between">
                         <div class="trip-details-bottom">
-                            <div class="profile-photo">
-                            <img src="/<?= htmlspecialchars($trip->getDriver()->getPhoto()) ?>" alt="Photo de profil">
+                            <div>
+                            <img class="profile-picture" src="/<?= htmlspecialchars($trip->getDriver()->getPhoto()) ?>" alt="Photo de profil">
                             </div>
                             <div class="name-container">
                                 <div>
