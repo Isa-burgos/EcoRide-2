@@ -63,4 +63,38 @@ class ReservationRepository extends Repository{
         return $this->fetch($sql, ['carshare_id' => $carshareId], false, ReservationModel::class);
     }
 
+    public function getReservationByUserAndCarshare(int $userId, $carshareId): ?int
+    {
+        $sql = "SELECT reservation_id FROM {$this->table} WHERE user_id = :user_id AND carshare_id = :carshare_id LIMIT 1";
+        $stmt = $this->db->getPDO()->prepare($sql);
+        $stmt->execute([
+            'user_id' => $userId,
+            'carshare_id' => $carshareId
+        ]);
+
+        return $stmt->fetchColumn();
+    }
+
+    public function getReservedPlacesByUser(int $userId, int $carshareId): int
+    {
+        $sql = "SELECT reserved_places FROM {$this->table} WHERE user_id = :user_id AND carshare_id = :carshare_id";
+
+        $stmt = $this->db->getPDO()->prepare($sql); 
+        $stmt->execute([
+            'user_id' => $userId,
+            'carshare_id' => $carshareId
+        ]);
+
+        return (int) $stmt->fetchColumn() ?? 0;
+    }
+
+    public function deleteReservation($reservationId, $userId): bool
+    {
+        $sql = "DELETE FROM {$this->table} WHERE reservation_id = :reservation_id AND user_id = :user_id";
+        return $this->execute($sql, [
+            'reservation_id' => $reservationId,
+            'user_id' => $userId
+        ]);
+    }
+
 }

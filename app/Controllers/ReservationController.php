@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Repositories\CarshareRepository;
 use App\Repositories\ReservationRepository;
 use App\Repositories\VehicleRepository;
+use App\Services\AuthService;
 
 class ReservationController extends Controller{
 
@@ -73,6 +74,31 @@ class ReservationController extends Controller{
             header('Location: /carshare/' . $carshareId . '/details');
             exit();
         }
+    }
+
+    public function cancelReservation(int $reservationId)
+    {
+        $auth = new AuthService($this->getDB());
+        $user = $auth->getCurrentUser();
+        $userId = $user->getUserId();
+
+        if(!$userId){
+            $_SESSION['errors'] = "Vous devez être connecté(e) pour annuler une réservation";
+            header('location: ' . ROUTE_LOGIN);
+            exit();
+        }
+
+        $reservationRepo = new ReservationRepository($this->getDB());
+        $success = $reservationRepo->deleteReservation($reservationId, $userId);
+
+        if($success){
+            $_SESSION['success'] = "Votre réservation a été annulée";
+        } else {
+            $_SESSION['errors'] = "Impossible d'annuler la réservation";
+        }
+
+        header('location: ' . ROUTE_HISTORY);
+        exit();
     }
 
 }

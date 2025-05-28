@@ -54,11 +54,19 @@
             <hr>
             <h3>Passagers</h3>
             <?php if(!empty($passengers)): ?>
-                <ul>
+                <div class="row">
                     <?php foreach($passengers as $passenger): ?>
-                        <li><?= htmlspecialchars($passenger->getFirstName()) ?> <?= htmlspecialchars($passenger->getName()) ?> (<?= htmlspecialchars($passenger->getEmail()) ?>)</li>
+                    <div class="col-12 col-md-6">
+                        <div class="card">
+                            <div class="d-flex align-items-center">
+                                <img src="/<?= htmlspecialchars($passenger->getPhoto()) ?>" alt="" class="profile-picture-mini m-2">
+                                <p class="text-dark"><?= htmlspecialchars($passenger->getFirstName()) ?> <?= htmlspecialchars($passenger->getName()) ?> (<?= htmlspecialchars($passenger->getEmail()) ?>)</p>
+
+                            </div>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
-                </ul>
+                </div>
                 <?php else :?>
                     <p>Personne n'a réservé de trajet</p>
             <?php endif ?>

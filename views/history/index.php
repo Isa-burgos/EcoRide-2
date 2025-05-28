@@ -3,6 +3,9 @@
         <div class="big-hero-content">
             <h1>Mon historique</h1>
         </div>
+        <div class="container">
+            <?php renderPartial('alert') ?>
+        </div>
     </section>
 
     <section class="conteneur w-100">
@@ -135,34 +138,45 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-text">
-                                    Départ : <?= ($trip->getDepartDate()) ?> - Arrivée : <?= ($trip->getDepartTime()) ?>
+                                    Départ : <strong> Le <?= date('d/m/Y', strtotime($trip->getDepartDate())) ?> à <?= substr($trip->getDepartTime(), 0, 5) ?>h</strong>
                                 </p>
                                 <p class="card-text">
-                                    Places disponibles : <?= $trip->getVehicle() !== null
-                                    ? htmlspecialchars($trip->getVehicle()->getNbPlace())
-                                    : 'Non renseigné'; ?>
+                                    Places réservées : <?= $trip->getReservedPlaces(); ?> place<?= $trip->getReservedPlaces() > 1 ? 's' : '' ?>
                                 </p>
                                 <p class="card-text">
                                     Prix par passagers : <?= ($trip->getPricePerson()) ?> crédits
                                 </p>
-                                <div class="d-flex align-items-start">
+                                <p class="card-text">
+                                    Prix total payé pour ce trajet : <?= ($trip->getPricePerson() * ($trip->getReservedPlaces())) ?> crédits
+                                </p>
+                                <div>
+                                    <h3 class="text-dark ms-0">Conducteur</h3>
+                                    <div class="d-flex align-items-center justify-content-between w-50">
+                                        <?php if($trip->getDriver()) : ?>
+                                            <img class="profile-picture-mini" src="<?= $trip->getDriver()->getPhoto() ?>" alt="Photo du conducteur">
+                                            <p class="text-dark"><?= $trip->getDriver()->getFirstname() ?> <?= $trip->getDriver()->getName() ?></p>
+                                        <?php else : ?>
+                                            <p>Conducteur inconnu</p>
+                                        <?php endif ?>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-start justify-content-between w-50 my-2">
                                     <span class="badge rounded-pill text-white text-bg-primary">
-                                    <img src="<?= htmlspecialchars(
-                                        $trip->getVehicle() !== null
-                                            ? $trip->getVehicle()->getEnergyIcon()
-                                            : '/assets/icons/default-energy.svg'
-                                    ) ?>" alt="Énergie">
+                                        <img src="<?= $trip->getVehicle()->getEnergyIcon() ?>" alt="Énergie">
                                     </span>
                                     <span class="badge rounded-pill text-white text-bg-primary">
-                                        <img src="/assets/icons/<?=htmlspecialchars($trip->smoking_icon); ?>" alt="">
+                                        <img src="<?=htmlspecialchars($trip->smoking_icon); ?>" alt="">
                                     </span>
                                     <span class="badge rounded-pill text-white text-bg-primary">
-                                        <img src="/assets/icons/<?=htmlspecialchars($trip->pets_icon); ?>" alt="">
+                                        <img src="<?=htmlspecialchars($trip->pets_icon); ?>" alt="">
                                     </span>
 
                                 </div>
                                 <div class="d-flex justify-content-between align-items-end mt-3">
-                                    <a href="#" class="btn btn-primary m-0">Voir le voyage</a>
+                                    <form method="POST" action="/reservation/<?= $trip->getReservationId() ?>/cancel" onsubmit="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+                                        <?= csrfField(); ?>
+                                        <button type="submit" class="btn btn-danger">Annuler ma réservation</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

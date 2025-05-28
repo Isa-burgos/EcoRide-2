@@ -13,13 +13,13 @@ class CarshareModel extends Model{
     private string $arrivalTime;
     private string $statut;
     private int $usedVehicle;
-    protected int $conducteurId;
+    protected int $conducteurId = 0;
     private int $nbPlace;
     protected ?UserModel $driver = null;
 
     protected ?VehicleModel $vehicle = null;
 
-    private int $userId;
+    private int $userId = 0;
 
     private ?string $brand = null;
     private ?string $model = null;
@@ -33,6 +33,8 @@ class CarshareModel extends Model{
     public string $custom_preferences;
 
     private int $availablePlaces = 0;
+    private int $reservedPlaces = 0;
+    private int $reservationId = 0;
 
 
 
@@ -454,6 +456,46 @@ class CarshareModel extends Model{
     public function setAvailablePlaces($availablePlaces): self
     {
         $this->availablePlaces = $availablePlaces;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of reservedPlaces
+     */ 
+    public function getReservedPlaces()
+    {
+        return $this->reservedPlaces;
+    }
+
+    /**
+     * Set the value of reservedPlaces
+     *
+     * @return  self
+     */ 
+    public function setReservedPlaces($reservedPlaces)
+    {
+        $this->reservedPlaces = $reservedPlaces;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of reservationId
+     */ 
+    public function getReservationId()
+    {
+        return $this->reservationId;
+    }
+
+    /**
+     * Set the value of reservationId
+     *
+     * @return  self
+     */ 
+    public function setReservationId($reservationId)
+    {
+        $this->reservationId = $reservationId;
 
         return $this;
     }

@@ -62,6 +62,9 @@ $router->get('/history', 'App\Controllers\HistoryController@index', 'historique'
 
 $router->post('/carshare/:id/reserve', 'App\Controllers\ReservationController@reserve', 'réservation d\'un trajet');
 
+$router->post('/reservation/:id/cancel', 'App\Controllers\ReservationController@cancelReservation', "Annulation d'une réservation par le passager");
+
+
 $router->get('/admin/dashboard', 'App\Controllers\AdminController@dashboard', 'tableau de bord admin');
 $router->get('/admin/employes', 'App\Controllers\AdminController@indexEmployes', 'gestion des employés');
 $router->get('/admin/employes/:id/edit', 'App\Controllers\AdminController@edit', 'modifier des employés');
@@ -74,8 +77,6 @@ $router->get('/admin/users', 'App\Controllers\AdminController@indexUsers', 'gest
 $router->post('/admin/users/:id/suspend', 'App\Controllers\AdminController@suspend', 'suspendre un utilisateur');
 $router->post('/admin/users/:id/reactivate', 'App\Controllers\AdminController@reactivate', 'réactiver un utilisateur');
 $router->post('/admin/users/:id/delete', 'App\Controllers\AdminController@deleteUser', 'supprimer un utilisateur');
-
-$router->get('/test-mongo', 'App\Controllers\TestController@test');
 
 
 $router->run();

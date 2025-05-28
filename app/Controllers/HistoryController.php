@@ -4,8 +4,11 @@ namespace App\Controllers;
 
 use App\Services\AuthService;
 use App\middleware\AuthMiddleware;
+use App\Models\CarshareModel;
 use App\Services\PreferenceService;
 use App\Repositories\CarshareRepository;
+use App\Repositories\ReservationRepository;
+use App\Repositories\UserRepository;
 use App\Repositories\VehicleRepository;
 
 class HistoryController extends Controller{
@@ -23,11 +26,13 @@ class HistoryController extends Controller{
 
         $carshareRepo = new CarshareRepository($this->getDB());
         $vehicleRepo = new VehicleRepository($this->getDb());
+        $userRepo = new UserRepository($this->getDB());
 
         $myTrips = $carshareRepo->getByDriver($userId);
         $joinedTrips = $carshareRepo->getByPassenger($userId);
 
         $prefService = new PreferenceService();
+        $reservationRepo = new ReservationRepository($this->getDB());
 
         foreach($myTrips as &$trip){
             if (is_object($trip)){
@@ -53,8 +58,23 @@ class HistoryController extends Controller{
             }
         }
 
+        $currentUserId = $_SESSION['user']['user_id'];
+
         foreach($joinedTrips as &$trip){
             if (is_object($trip)){
+                $vehicle = $vehicleRepo->getVehicle($trip->getUsedVehicle());
+                $trip->setVehicle($vehicle);
+                $trip->setReservedPlaces($reservationRepo->getReservedPlacesByUser($currentUserId, $trip->getCarshareId()));
+
+                $trip->setConducteurId($trip->getUserId());
+                $driver = $userRepo->getById($trip->getConducteurId());
+                if($driver){
+                    $trip->setDriver($driver);
+                }
+
+                $reservationId = $reservationRepo->getReservationByUserAndCarshare($currentUserId, $trip->getCarshareId());
+                $trip->setReservationId($reservationId);
+
                 $preferences = $prefService->getPreferencesByVehicle($trip->getUsedVehicle());
     
                 $smoking = $preferences['smoking'] ?? false;

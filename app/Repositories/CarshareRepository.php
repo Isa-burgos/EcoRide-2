@@ -85,7 +85,7 @@ class CarshareRepository extends Repository{
 
     public function getByPassenger($userId): array
     {
-        $sql = "SELECT cs.*, v.nb_place, v.energy_icon, v.brand
+        $sql = "SELECT cs.*, v.nb_place, v.energy_icon, v.brand, v.belong AS user_id
                 FROM {$this->table} cs
                 INNER JOIN reservations r ON cs.carshare_id = r.carshare_id
                 INNER JOIN vehicle v ON cs.used_vehicle = v.vehicle_id
