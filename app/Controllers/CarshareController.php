@@ -108,7 +108,7 @@ class CarshareController extends Controller{
             ':role' => 'conducteur'
         ]);
 
-        $_SESSION['success'] = "Trajet trouvé avec succès";
+        $_SESSION['success'] = "Trajet créé avec succès";
         header('location:' . ROUTE_HISTORY);
         exit();
     }

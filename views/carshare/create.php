@@ -91,7 +91,7 @@ use App\Services\AuthService;
                                                 $selectedVehicleId = $_POST['used_vehicle'] ?? null;
                                             ?>
                                             <div class="card bg-light text-dark mb-3">
-                                                <div class="form-check">
+                                                <div class="form-check m-2">
                                                     <input class="form-check-input" type="radio"
                                                             name="used_vehicle"
                                                             value="<?= $v->getVehicleId()?>"
@@ -101,7 +101,7 @@ use App\Services\AuthService;
                                                             data-smoking="<?= $smoking ?>"
                                                             data-pets="<?= $pets ?>"
                                                             data-custom="<?= htmlspecialchars($custom) ?>">
-                                                            <?=count($userVehicles) === 1 ? 'checked' : '' ?>>
+                                                            <?=count($userVehicles) === 1 ? 'checked' : '' ?>
                                                     <label class="form-check-label text-dark" for="vehicle_<?= $v->getVehicleId(); ?>">
                                                     <?= htmlspecialchars($v->getBrand() . " " . $v->getModel()); ?>
                                                     </label>
@@ -195,11 +195,11 @@ use App\Services\AuthService;
                                     <div class="passenger-quantity p-0">
                                         <div class="passenger-icon p-2">
                                             <div class="trip-passenger">
-                                                <p class="m-0">Prix par passager (crédit)</p>
+                                                <p class="m-0 text-dark">Prix par passager (crédit)</p>
                                             </div>
                                         </div>
                                         <div class="passenger-quantity-and-price p-2">
-                                            <div class="quantity-credit-selector btn-quantity-selector">
+                                            <div class="quantity-credit-selector btn-quantity-container">
                                                 <button type="button" class="btn-quantity decrease">-</button>
                                                 <input type="text" class="creditCount quantity-input" value="<?= isset($carshare) ? $carshare->getPricePerson() : 2 ?>" readonly>
                                                 <button type="button" class="btn-quantity increase">+</button>
@@ -298,7 +298,6 @@ use App\Services\AuthService;
                         <p class="w-100 text-center mb-2">Durée estimée : <strong id="tripDurationModal">-- min</strong></p>
                         <div>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <button type="button" class="btn btn-primary">Valider ce trajet</button>
                         </div>
                     </div>
                 </div>

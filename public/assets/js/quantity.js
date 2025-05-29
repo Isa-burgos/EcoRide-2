@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    initQuantitySelector(".btn-quantity-selector", ".passengerCount", "passengerCountInputHidden", 1, 4);
+    initQuantitySelector(".quantity-selector", ".passengerCount", "passengerCountInputHidden", 1, 4);
     initQuantitySelector(".quantity-credit-selector", ".creditCount", "creditInput", 1, 100);
 });
 
@@ -47,7 +47,7 @@ function initQuantitySelector(selectorClass, inputClass, hiddenInputId, minValue
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const selector = document.querySelector(".btn-quantity-selector");
+    const selector = document.querySelector(".quantity-selector");
     const input = selector.querySelector(".quantity-input");
     const decreaseBtn = selector.querySelector(".decrease");
     const increaseBtn = selector.querySelector(".increase");

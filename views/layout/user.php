@@ -31,7 +31,6 @@
     <script src="/assets/js/quantity.js" defer></script>
     <script src="/assets/js/addTrip.js" defer></script>
     <script src="/assets/js/register.js" defer></script>
-    <script src="/assets/js/login.js" defer></script>
     <script src="/assets/js/recapTrip.js" defer></script>
     <title>EcoRide v2</title>
 </head>

@@ -7,12 +7,12 @@
     
     <section class="conteneur">
         <form class="conteneur-content py-3" method="GET" action="/carshare/search">
-            <div class="champ gx-1">
-                <input class="startAdress form-control input" type="text" id="departAdress" name="depart_adress" placeholder="Adresse de départ" required>
+            <div class="input-container champ gx-1">
+                <input class="startAdress form-control input" type="text" id="search_depart_adress" name="depart_adress" placeholder="Adresse de départ" required>
                 <div class="suggestions-container"></div>
             </div>
-            <div class="champ gx-1">
-                <input class="endAdress form-control input" type="text" id="arrivalAdress" name="arrival_adress" placeholder="Adresse d'arrivée" required>
+            <div class="input-container champ gx-1">
+                <input class="endAdress form-control input" type="text" id="search_arrival_adress" name="arrival_adress" placeholder="Adresse d'arrivée" required>
                 <div class="suggestions-container"></div>
             </div>
             <div class="champ gx-1">

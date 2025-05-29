@@ -46,91 +46,110 @@ async function getGeolocation(inputField) {
     );
 }
 
-document.getElementById("geolocDepart").addEventListener("click", ()=>{
-    getGeolocation(document.getElementById("depart_adress"));
-});
+const btnGeoDepart = document.getElementById('geolocDepart');
+const inputDepart = document.getElementById('depart_adress');
+const btnGeoArrival = document.getElementById('geolocArrival');
+const inputArrival = document.getElementById('arrival_adress');
 
-document.getElementById("geolocArrival").addEventListener("click", ()=>{
-    getGeolocation(document.getElementById("arrival_adress"));
-})
+if(btnGeoDepart && inputDepart){
+    btnGeoDepart.addEventListener('click', () => {
+        getGeolocation(inputDepart);
+    });
+}
+
+if(btnGeoArrival && inputArrival){
+    btnGeoArrival.addEventListener('click', () => {
+        getGeolocation(inputArrival);
+    });
+}
 
 // Autocomplétion
-let debounceTimer = null;
+document.addEventListener("DOMContentLoaded", () => {
 
-async function getAdressSuggestions(query, inputElement) {
-    if(query.length < 3) return;
-
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(async() =>{
-        const url = `https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(query)}&boundary.country=FR&size=5`;
-
-        try{
-            const response = await fetch(url);
-            const data = await response.json();
-        
-            const container = inputElement.closest('.input-container').querySelector('.suggestions-container');
-            container.innerHTML = "";
-            container.style.display = "block";
-        
-            if (!data.features || data.features.length === 0) {
-                container.style.display = "none";
-                console.warn("Aucun résultat trouvé !");
-                return;
-            }
-        
-            data.features.forEach(place =>{
-                let div = document.createElement("div");
-                div.classList.add("suggestion-item");
-                div.textContent = place.properties.label;
-                div.addEventListener("click", () =>{
-                    inputElement.value = place.properties.label;
-                    container.innerHTML = "";
+    let debounceTimer = null;
+    
+    async function getAdressSuggestions(query, inputElement) {
+        if(query.length < 3) return;
+    
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(async() =>{
+            const url = `https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(query)}&boundary.country=FR&size=5`;
+    
+            try{
+                const response = await fetch(url);
+                const data = await response.json();
+            
+                const container = inputElement.closest('.input-container').querySelector('.suggestions-container');
+                container.innerHTML = "";
+                container.style.display = "block";
+            
+                if (!data.features || data.features.length === 0) {
                     container.style.display = "none";
-                    getSelectedAdress();
-                })
-                container.appendChild(div);
+                    console.warn("Aucun résultat trouvé !");
+                    return;
+                }
+            
+                data.features.forEach(place =>{
+                    let div = document.createElement("div");
+                    div.classList.add("suggestion-item");
+                    div.textContent = place.properties.label;
+                    div.addEventListener("click", () =>{
+                        inputElement.value = place.properties.label;
+                        container.innerHTML = "";
+                        container.style.display = "none";
+                        getSelectedAdress();
+                    })
+                    container.appendChild(div);
+                });
+                }catch (error) {
+                    console.error("Erreur lors de la récupération des adresses :", error);
+                }
+            }, 300);
+        }
+    
+        document.querySelectorAll(".input-container .input").forEach(input => {
+            input.addEventListener("input", (e) => {
+                getAdressSuggestions(e.target.value, e.target);
             });
-            }catch (error) {
-                console.error("Erreur lors de la récupération des adresses :", error);
-            }
-        }, 300);
-    }
-
-    document.querySelectorAll(".input-container .input").forEach(input => {
-        input.addEventListener("input", (e) => {
-            getAdressSuggestions(e.target.value, e.target);
         });
+    
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".input-container")) {
+            document.querySelectorAll(".suggestions-container").forEach(container => {
+                container.style.display = "none";
+            });
+        }
     });
-
-document.addEventListener("click", (e) => {
-    if (!e.target.closest(".input-container")) {
-        document.querySelectorAll(".suggestions-container").forEach(container => {
-            container.style.display = "none";
-        });
-    }
 });
 
 
 function getSelectedAdress(){
-    const departAdress = document.getElementById("depart_adress");
-    const arrivalAdress = document.getElementById("arrival_adress");
-    const selectedAdressDepart = document.getElementById("selectedAdressDepart");
-    const selectedAdressArrival = document.getElementById("selectedAdressArrival");
+    document.querySelectorAll(".startAdress").forEach(input => {
+        const container = input.closest(".input-container");
+        const output = container?.querySelector("#selectedAdressDepart");
+        if(output){
+            output.textContent = input.value.trim() || "Aucune adresse sélectionnée";
+        }
+    });
 
-    if(departAdress.value.trim() !==""){
-        selectedAdressDepart.textContent = departAdress.value;
-    } else{
-        selectedAdressDepart.textContent = "Aucune adresse sélectionnée";
-    }
-    if(arrivalAdress.value.trim() !==""){
-        selectedAdressArrival.textContent = arrivalAdress.value;
-    } else{
-        selectedAdressArrival.textContent = "Aucune adresse sélectionnée";
-    }
+    document.querySelectorAll(".endAdress").forEach(input => {
+        const wrapper = inputElement.closest(".input-container");
+        if(!wrapper) return;
+        const container = wrapper.querySelector(".suggestions-container");
+        if(!container) return;
+        const output = container?.querySelector("#selectedAdressArrival");
+        if(output){
+            output.textContent = input.value.trim() || "Aucune adresse sélectionnée";
+        }
+    });
 }
+document.querySelectorAll(".startAdress").forEach(input => {
+    input.addEventListener("input", getSelectedAdress);
+});
+document.querySelectorAll(".endAdress").forEach(input => {
+    input.addEventListener("input", getSelectedAdress);
+});
 
-document.getElementById("depart_adress").addEventListener("input", getSelectedAdress);
-document.getElementById("arrival_adress").addEventListener("input", getSelectedAdress);
 
 // Distance entre 2 points
 async function getCoordinates(query) {

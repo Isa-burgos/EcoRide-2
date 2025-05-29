@@ -258,11 +258,11 @@
             </div>
             <div class="modal-body">
                 <form action="/carshare/search" method="get">
-                    <div class="champ gx-1">
+                    <div class="input-container champ gx-1">
                         <input class="startAdress form-control input" type="text" id="departAdress" name="depart_adress" placeholder="Adresse de départ" value="<?= htmlspecialchars($depart_adress) ?>" required>
                         <div class="suggestions-container"></div>
                     </div>
-                    <div class="champ gx-1">
+                    <div class="input-container champ gx-1">
                         <input class="endAdress form-control input" type="text" id="arrivalAdress" name="arrival_adress" placeholder="Adresse d'arrivée" value="<?= htmlspecialchars($arrival_adress) ?>" required>
                         <div class="suggestions-container"></div>
                     </div>
