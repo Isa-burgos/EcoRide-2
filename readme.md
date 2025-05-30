@@ -1,92 +1,77 @@
-# 🚗 EcoRide – Plateforme de covoiturage écologique
+# EcoRide
 
-Bienvenue sur **EcoRide**, une application web en PHP orientée objet permettant aux utilisateurs de proposer ou réserver des trajets en covoiturage avec un système de crédits, de rôles, et de gestion de véhicules 🚙⚡
+## A propos
 
----
+EcoRide est une application fictive de covoiturage qui prône des valeurs écologiques.
 
-## 🧱 Stack technique
+## Prérequis
 
-- **Langage** : PHP (POO)
-- **Architecture** : MVC (Models, Views, Controllers)
-- **Base de données** : MySQL / MariaDB
-- **Front-end** : Bootstrap 5, CSS personnalisé, JavaScript vanilla
-- **Gestion des routes** : Router personnalisé (type mini-framework)
-- **Images & Uploads** : Upload photo profil dans `upload/`
-- **Données externes** : API OpenDataSoft (marques et modèles de véhicules)
+Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur votre machine :
+- Docker version 27.4.0 installé sur votre machine
+- [Node.js](https://nodejs.org/fr) (pour les paquets npm si nécessaire),
+- un SGBD comme [phpMyAdmin](https://www.phpmyadmin.net/) pour gérer votre base de données (optionnel),
+- une version récente de [PHP](https://www.php.net/)
+- un éditeur de code
 
----
+## Technologies utilisées
 
-## 🔐 Authentification
+- **HTML5** : structure du contenu
+- **CSS3** : stylisation et mise en page
+- **Bootstrap 5** : mise en page responsive
+- **JavaScript** : intéractivité
+- **PHP 8.2.12** : langage de programmation serveur
+- **MySQL** : base de données relationnelles
+- **MongoDB** : base de données non relationnelle
+- **Alwaysdata** hébergeur de bases de données
+- **Docker et docker-compose** : environnement de développement web
+- **VScode** : éditeur de code source
+- **Render** : pour l'hébergement de l'application web
 
-- Création de compte avec mot de passe sécurisé (`password_hash`)
-- Connexion avec vérification via `password_verify`
-- Session utilisateur contenant : `id`, `email`, `pseudo`, `photo`
-- Affichage conditionnel dans la navbar (pseudo + photo)
+## Installation
 
----
+### Télécharger et extraire le projet
 
-## 👤 Utilisateurs
+- sur le repository du projet EcoRide, cliquez sur le bouton "code" puis télécharger le zip
+- extraire le fichier ZIP dans un répertoire de votre machine
 
-- Ont un rôle via une table `statut` :
-  - `Passager`
-  - `Conducteur`
-  - ou les deux
-- Rôle enregistré dans table pivot `user_statut`
-- Reçoivent 20 crédits à la création du compte
+### Importer la base de données
 
----
+- Ouvrez votre outil de gestion de base de données (comme phpMyAdmin)
+- Créez une nouvelle base de données pour EcoRide
+- Importez la base de données en exécutant le script SQL situé dans le répertoire du projet (burgos_ecoride.sql)
 
-## 🚗 Véhicules
+### Configurer les variables d'environnement
 
-- Liés à l’utilisateur via `belong` dans la table `vehicle`
-- Un conducteur peut avoir **plusieurs véhicules**
-- Champs à renseigner :
-  - Marque / Modèle (chargés dynamiquement via API)
-  - Couleur
-  - Énergie (électrique ou non)
-  - Plaque d’immatriculation
-  - Date de 1ère immatriculation
-- Icône spéciale si véhicule électrique ✅
+- Créez un fichier .env à la racine de votre projet :
 
----
+DB_HOST=nom-du-host-alwaysdata
+DB_NAME=nom-de-la-bdd
+DB_USER=utilisateur
+DB_PASS=motdepasse
+MONGO_URI=mongodb://mongodb:27017
 
-## 📝 Formulaire compte utilisateur
+### Lancez les containers
 
-- Modification des infos perso
-- Gestion des statuts (passager / conducteur)
-- Section véhicule visible uniquement si "conducteur" coché
-- Permet d’ajouter un nouveau véhicule si souhaité
-- Validation côté PHP et JS
+docker-compose up -d --build
 
----
+### Accédez à l'application
 
-## ✅ Comportements gérés
+- Interface web : http://localhost/8000 (ou le port que vous aurez configuré dans votre Docker-Compose)
+- Base MongoDB (si utilisée) : connectée via le service mongodb
+- MySQL accessible via Alwaysdata
 
-- Si "conducteur" est coché → au moins un véhicule requis
-- Si un véhicule existe déjà → pas d’obligation d’en ajouter un nouveau
-- Formulaire dynamique avec apparition progressive des champs véhicule
-- Affichage d’un message de confirmation ou d’erreur après mise à jour
-- Upload image de profil avec fallback vers image par défaut
+## Déploiement
 
----
+- Accès en ligne : https://ecoride-2-bl8z.onrender.com
+- Redirection HTTPS activée automatiquement
+- Les variables d'environnement sont configurées directement via le dashboard Render
 
-## 💡 Astuces dev
+## Fonctionnalités principales
 
-- ⚠️ Le champ `required` ne fonctionne pas si le champ est masqué (`display: none`) → on utilise JS pour ajouter/enlever dynamiquement l’attribut `required`.
-- `renderPartial('alert')` permet de centraliser l’affichage des erreurs ou messages (partials réutilisables)
-- Les routes sont toutes déclarées dans `index.php` via une classe `Router`
-
----
-
-## 🔜 Fonctionnalités à venir
-
-- Participation à un covoiturage
-- Validation des trajets terminés
-- Avis utilisateurs
-- Tableau de bord administrateur & employé
-- Statistiques admin (crédits / trajets / utilisateurs)
-
----
-
-
-
+- Création de compte et authentification
+- Création et réservation de trajets
+- Système de crédits
+- Connexion à l'espace administrateur avec création de compte employé et gestion des employés et des utilisateurs (suspension, suppression)
+- Suggestions d’adresses avec l’API OpenRouteService
+- Géolocalisation et calcul d'itinéraire
+- Interface responsive
