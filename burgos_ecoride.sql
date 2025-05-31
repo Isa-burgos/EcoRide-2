@@ -67,58 +67,6 @@ CREATE TABLE user_statut(
     PRIMARY KEY (user_id, statut_id)
 );
 
-INSERT INTO role (name) VALUE ('utilisateur');
-
-INSERT INTO user (name, firstname, email, password, possess) 
-    VALUES ('Doe', 'John', 'test@test.fr', '123', 1);
-
-ALTER TABLE user MODIFY COLUMN password VARCHAR(255) NOT NULL;
-
-UPDATE user 
-SET pseudo = 'JohnD',
-    phone = '0606060606',
-    adress = '20 rue de la ville, 07200 Aubenas',
-    birth_date = '1980-01-01',
-    photo = 'photo',
-    gender = 'homme'
-WHERE user_id = 3; 
-
-INSERT INTO carshare (price_person, depart_adress, arrival_adress, depart_date, arrival_date, depart_time, arrival_time, statut, nb_place, used_vehicle) 
-VALUES ('3', 'Aubenas', 'Montélimar', '2023-02-02', '2023-02-02', '08-00', '08-45', 'terminé', '2', 1);
-
-INSERT INTO vehicle (registration, first_registration_date, brand, model, color, energy, belong)
-VALUES ('XX-000-XX', '2020-01-01', 'Renault', 'Captur', 'gris', 'thermique', 3)
-
-ALTER TABLE vehicle ADD COLUMN energy_icon VARCHAR(255) NOT NULL;
-
-UPDATE vehicle SET energy_icon = 'electric-icon.svg' WHERE energy = '1';
-UPDATE vehicle SET energy_icon = 'thermal-icon.svg' WHERE energy = '0';
-
-ALTER TABLE user 
-MODIFY COLUMN photo VARCHAR(255) NULL;
-
-SELECT vehicle_id, brand, model, energy FROM vehicle;
-
-ALTER TABLE preferences
-DROP FOREIGN KEY preferences_ibfk_1,
-DROP COLUMN user_id,
-ADD COLUMN vehicle_id INT NOT NULL,
-ADD CONSTRAINT preferences_vehicle FOREIGN KEY (vehicle_id) REFERENCES vehicle(vehicle_id) ON DELETE CASCADE;
-
-SELECT password FROM user;
-
-DESCRIBE user;
-
-SELECT * FROM role;
-
-ALTER TABLE carshare DROP COLUMN nb_place;
-
-ALTER TABLE vehicle ADD nb_place INT NOT NULL DEFAULT 1;
-
-ALTER TABLE user_carshare
-ADD COLUMN role ENUM('conducteur', 'passager') NOT NULL DEFAULT 'passager';
-DESCRIBE user_carshare;
-
 CREATE TABLE payment(
     payment_id INT(11) AUTO_INCREMENT PRIMARY KEY,
     amount FLOAT NOT NULL,
@@ -129,9 +77,6 @@ CREATE TABLE payment(
     FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (carshare_id) REFERENCES carshare(carshare_id)
 );
-
-ALTER TABLE payment DROP COLUMN credit_balance;
-ALTER TABLE user ADD COLUMN credit_balance INT(11) NOT NULL;
 
 INSERT INTO user (name, firstname, pseudo, email, password, gender, role, credit_balance)
 VALUES

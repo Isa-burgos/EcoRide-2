@@ -38,3 +38,8 @@ input.form-control {
 .alert-danger li{
     color: $danger;
 }
+
+.invalid-feedback{
+    color: map-get($theme-colors, "white");
+    margin-bottom: 1rem;
+}
